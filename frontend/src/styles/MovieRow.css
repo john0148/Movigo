@@ -1,0 +1,198 @@
+/**
+ * MovieRow Component Styles
+ * 
+ * Định nghĩa các kiểu CSS cho component MovieRow.
+ * Bao gồm hiệu ứng hover, animation khi cuộn, và responsive layout.
+ */
+
+/* Container chính cho toàn bộ hàng phim */
+.movie-row {
+  margin-bottom: 40px;
+  position: relative;
+  color: white;
+}
+
+/* Tiêu đề hàng phim */
+.row-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 16px 4%;
+  color: #e5e5e5;
+}
+
+/* Container cho danh sách phim và nút cuộn */
+.row-container {
+  position: relative;
+  width: 100%;
+  padding: 0 4%;
+}
+
+/* Danh sách phim có thể cuộn ngang */
+.movies-container {
+  display: flex;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  padding: 10px 0;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;  /* Ẩn thanh cuộn trên IE/Edge */
+  scrollbar-width: none;     /* Ẩn thanh cuộn trên Firefox */
+}
+
+/* Ẩn thanh cuộn trên Chrome, Safari */
+.movies-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Style cho mỗi item phim */
+.movie-item {
+  min-width: 16.66%; /* 6 phim trên mỗi hàng */
+  padding: 0 4px;
+  transition: transform 0.3s ease;
+}
+
+/* Container cho poster phim */
+.movie-poster-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 150%; /* Aspect ratio 2:3 cho poster phim */
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+/* Ảnh poster phim */
+.movie-poster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+/* Overlay hiển thị khi hover */
+.movie-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 60px 10px 10px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Tiêu đề phim trong overlay */
+.movie-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Nút xem phim */
+.watch-button {
+  padding: 6px 12px;
+  background-color: #e50914;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.watch-button:hover {
+  background-color: #f40612;
+}
+
+/* Hiệu ứng hover cho item phim */
+.movie-item:hover {
+  transform: scale(1.1);
+  z-index: 10;
+}
+
+.movie-item:hover .movie-overlay {
+  opacity: 1;
+}
+
+/* Nút cuộn trái/phải */
+.scroll-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  z-index: 5;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.scroll-button.left {
+  left: 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.scroll-button.right {
+  right: 0;
+  border-radius: 4px 0 0 4px;
+}
+
+/* Icon cho nút cuộn */
+.scroll-icon {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Responsive styles */
+@media (max-width: 1400px) {
+  .movie-item {
+    min-width: 20%; /* 5 phim trên mỗi hàng */
+  }
+}
+
+@media (max-width: 1100px) {
+  .movie-item {
+    min-width: 25%; /* 4 phim trên mỗi hàng */
+  }
+}
+
+@media (max-width: 800px) {
+  .movie-item {
+    min-width: 33.33%; /* 3 phim trên mỗi hàng */
+  }
+}
+
+@media (max-width: 600px) {
+  .movie-item {
+    min-width: 50%; /* 2 phim trên mỗi hàng */
+  }
+  
+  .row-title {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .movie-item {
+    min-width: 70%; /* 1.5 phim trên mỗi hàng */
+  }
+} 

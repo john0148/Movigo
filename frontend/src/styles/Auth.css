@@ -1,0 +1,338 @@
+/**
+ * Authentication Pages Styles
+ * 
+ * Định nghĩa các kiểu CSS cho các trang xác thực (đăng nhập, đăng ký).
+ * Thiết kế theo phong cách của Netflix.
+ */
+
+/* Container chính cho các trang xác thực */
+.auth-page {
+  min-height: 100vh;
+  width: 100%;
+  background-image: url('/assets/auth-background.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  position: relative;
+}
+
+/* Lớp overlay tối */
+.auth-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+/* Header chứa logo */
+.auth-header {
+  padding: 24px 48px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Logo Movigo */
+.auth-logo {
+  color: #e50914;
+  font-size: 2rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Container chính cho form */
+.auth-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Box chứa form */
+.auth-form-container {
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 4px;
+  padding: 60px 68px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Tiêu đề form */
+.auth-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 28px;
+  color: white;
+}
+
+/* Form đăng nhập/đăng ký */
+.auth-form {
+  width: 100%;
+}
+
+/* Nhóm input */
+.form-group {
+  margin-bottom: 16px;
+}
+
+/* Label cho input */
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+/* Input text, email, password */
+.form-group input:not([type="checkbox"]),
+.form-group select {
+  width: 100%;
+  padding: 16px;
+  border-radius: 4px;
+  border: none;
+  background-color: #333;
+  color: white;
+  font-size: 1rem;
+}
+
+/* Focus state cho input */
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  background-color: #454545;
+}
+
+/* Input với lỗi */
+.form-group input.error {
+  border: 2px solid #e87c03;
+}
+
+/* Thông báo lỗi */
+.error-message {
+  color: #e87c03;
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
+
+/* Thông báo thành công */
+.success-message {
+  background-color: rgba(30, 159, 83, 0.8);
+  color: white;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+/* Nhóm checkbox (ghi nhớ đăng nhập) */
+.checkbox-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+/* Label cho checkbox */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Input checkbox */
+.checkbox-label input[type="checkbox"] {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* Text cho checkbox */
+.checkbox-text {
+  font-size: 0.85rem;
+  color: #b3b3b3;
+}
+
+/* Link quên mật khẩu */
+.forgot-password {
+  font-size: 0.85rem;
+  color: #b3b3b3;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* Nút đăng nhập/đăng ký */
+.auth-button {
+  width: 100%;
+  padding: 16px;
+  background-color: #e50914;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 24px 0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.auth-button:hover {
+  background-color: #f40612;
+}
+
+.auth-button:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+/* Phần chia cách giữa nút đăng nhập và nút Google */
+.auth-separator {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.auth-separator::before,
+.auth-separator::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: #737373;
+}
+
+.auth-separator span {
+  padding: 0 10px;
+  color: #737373;
+  font-size: 0.85rem;
+}
+
+/* Nút đăng nhập bằng Google */
+.google-button {
+  width: 100%;
+  padding: 12px;
+  background-color: white;
+  color: #454545;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.google-button:hover {
+  background-color: #f5f5f5;
+}
+
+.google-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Icon Google */
+.google-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+}
+
+/* Footer của form với link đăng ký */
+.auth-footer {
+  margin-top: 16px;
+  font-size: 0.95rem;
+  color: #737373;
+}
+
+/* Link trong footer */
+.auth-link {
+  color: white;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* Container cho 2 nút (quay lại/tiếp tục) */
+.form-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* Nút quay lại */
+.back-button {
+  flex: 1;
+  padding: 16px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid #737373;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.back-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.back-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .auth-header {
+    padding: 16px 24px;
+  }
+  
+  .auth-logo {
+    font-size: 1.5rem;
+  }
+  
+  .auth-form-container {
+    padding: 40px 24px;
+    max-width: 100%;
+  }
+  
+  .auth-title {
+    font-size: 1.5rem;
+  }
+  
+  .form-group input:not([type="checkbox"]),
+  .form-group select,
+  .auth-button,
+  .back-button {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-form-container {
+    padding: 30px 16px;
+  }
+  
+  .auth-title {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+  
+  .form-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+} 
