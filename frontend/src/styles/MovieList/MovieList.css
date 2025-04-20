@@ -1,0 +1,104 @@
+/**
+ * Movie List Component Styles
+ * 
+ * Styles for MovieList component supporting both grid and list view modes.
+ */
+
+/* Base container for the movie list */
+.movie-list {
+  margin-bottom: 40px;
+}
+
+/* Title for the movie list */
+.list-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #e5e5e5;
+}
+
+/* Container for movie items */
+.movie-list-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Grid view mode */
+.grid-view .movie-list-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* List view mode */
+.list-view .movie-list-items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Empty list message display */
+.empty-list {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.empty-message {
+  color: #b3b3b3;
+  font-size: 1rem;
+  margin-top: 16px;
+}
+
+/* Loading progress bar */
+.loading-progress {
+  width: 100%;
+  height: 4px;
+  background-color: #3d3d3d;
+  margin-bottom: 20px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #e50914;
+  transition: width 0.3s ease;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .grid-view .movie-item {
+    width: calc(25% - 12px);
+  }
+}
+
+@media (max-width: 992px) {
+  .grid-view .movie-item {
+    width: calc(33.33% - 12px);
+  }
+}
+
+@media (max-width: 768px) {
+  .list-title {
+    font-size: 1.3rem;
+  }
+  
+  .grid-view .movie-item {
+    width: calc(50% - 8px);
+  }
+  
+  .movie-list-items {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .list-title {
+    font-size: 1.1rem;
+  }
+  
+  .grid-view .movie-item {
+    width: 100%;
+  }
+} 

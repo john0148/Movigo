@@ -1,0 +1,94 @@
+/**
+ * Home Page Styles
+ * 
+ * Định nghĩa các kiểu CSS cho trang Home.
+ * Bao gồm layout chính và styles cho các thành phần con.
+ */
+
+/* Container chính cho trang Home */
+.home-page {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #141414;
+  color: white;
+  padding-bottom: 40px;
+}
+
+/* Container cho các hàng phim */
+.movie-rows-container {
+  position: relative;
+  margin-top: -100px; /* Di chuyển các hàng phim lên phía trên để chồng lên phần cuối của banner */
+  z-index: 4;
+  padding-top: 20px;
+}
+
+/* Styles cho thông báo lỗi */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.error-message {
+  font-size: 1.2rem;
+  color: #e5e5e5;
+  margin-bottom: 20px;
+}
+
+.retry-button {
+  padding: 10px 20px;
+  background-color: #e50914;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.retry-button:hover {
+  background-color: #f40612;
+}
+
+/* Animation fade-in cho nội dung */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home-page {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .movie-rows-container {
+    margin-top: -50px;
+  }
+  
+  .error-message {
+    font-size: 1rem;
+  }
+  
+  .retry-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-rows-container {
+    margin-top: -30px;
+  }
+} 

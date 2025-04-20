@@ -1,0 +1,109 @@
+/**
+ * Top Movies List Component Styles
+ * 
+ * Styles for the TopMoviesList component with filter controls and ranking display.
+ */
+
+/* Main container */
+.top-movies-container {
+  margin-bottom: 40px;
+}
+
+/* Header with title and filters */
+.top-movies-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Title */
+.top-movies-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #e5e5e5;
+  margin: 0;
+}
+
+/* Time period filter container */
+.time-period-filter {
+  display: flex;
+  gap: 8px;
+}
+
+/* Individual time period buttons */
+.time-period-button {
+  background-color: #333;
+  color: #b3b3b3;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.time-period-button:hover {
+  background-color: #444;
+  color: #e5e5e5;
+}
+
+.time-period-button.active {
+  background-color: #e50914;
+  color: white;
+}
+
+/* Style for list mode items to display rank */
+.list-view .movie-item.row-mode::before {
+  content: attr(data-rank);
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #e50914;
+  z-index: 2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .top-movies-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .time-period-filter {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+  
+  .time-period-button {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+  
+  .list-view .movie-item.row-mode::before {
+    left: -20px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-movies-title {
+    font-size: 1.3rem;
+  }
+  
+  .time-period-button {
+    padding: 5px 8px;
+    font-size: 0.75rem;
+  }
+  
+  .list-view .movie-item.row-mode::before {
+    display: none;
+  }
+} 
