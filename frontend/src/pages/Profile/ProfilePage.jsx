@@ -1,14 +1,13 @@
-/**
- * Profile Page Component
- * 
- * Trang hồ sơ người dùng của Netflix clone.
- * Bao gồm:
- * - Hiển thị thông tin cá nhân
- * - Chức năng upload ảnh đại diện
- * - Cập nhật thông tin cá nhân
- * - Các liên kết đến các trang con khác (VIP, lịch sử, xem sau...)
- * - Biểu đồ thời lượng xem phim
- */
+// * Profile Page Component
+//  * 
+//  * Trang hồ sơ người dùng của Netflix clone.
+//  * Bao gồm:
+//  * - Hiển thị thông tin cá nhân
+//  * - Chức năng upload ảnh đại diện
+//  * - Cập nhật thông tin cá nhân
+//  * - Các liên kết đến các trang con khác (VIP, lịch sử, xem sau...)
+//  * - Biểu đồ thời lượng xem phim
+//  */
 
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';

@@ -148,7 +148,6 @@ class UserProfileUpdate(BaseModel):
     birth_date: Optional[datetime] = None
     gender: Optional[str] = None
 
-
 class UserProfileOut(UserOut):
     """Schema response cho profile"""
     pass

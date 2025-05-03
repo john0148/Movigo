@@ -10,8 +10,9 @@ from ..crud.movie import (
     get_top_movies_by_views,
     increment_movie_view_count,
     get_related_movies
-)
+    )
 from ..schemas.movie import MovieOut, MovieList, MovieResponse
+
 from ..core.security import get_current_user
 from ..services.movie_service import MovieService
 from ..dependencies import get_movie_service
@@ -27,7 +28,7 @@ Xử lý các endpoints liên quan đến phim:
 - Lấy phim liên quan
 """
 
-router = APIRouter(prefix="/movies", tags=["movies"])
+router = APIRouter(tags=["movies"])
 logger = logging.getLogger(__name__)
 
 @router.get("/", response_model=List[MovieResponse])

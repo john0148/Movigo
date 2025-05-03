@@ -154,4 +154,4 @@ function WatchStatsChart({ data, xKey, yKey, xLabel, yLabel }) {
   );
 }
 
-export default WatchStatsChart; 
+export default WatchStatsChart;

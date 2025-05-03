@@ -2,8 +2,8 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import Home from '../pages/Home';
 import MovieDetail from '../pages/MovieDetail';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
+import Login from '../pages/Auth/Login';
+import Register from '../pages/Auth/Register';
 import ProfileMain from '../pages/Profile/ProfileMain';
 import WatchHistory from '../pages/Profile/WatchHistory';
 import WatchLater from '../pages/Profile/WatchLater';
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'movie/:id', element: <MovieDetail /> },
+      { path: 'movies/:id', element: <MovieDetail /> },
       { path: 'watch/:id', element: <MoviePlayer /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },

@@ -48,3 +48,5 @@ def initialize_crud_modules():
     # Set db reference in each CRUD module
     movie.db = db
     user.db = db
+    
+get_database = get_db
