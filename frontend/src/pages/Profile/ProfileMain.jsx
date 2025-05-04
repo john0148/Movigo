@@ -11,12 +11,18 @@ import '../../styles/Profile.css';
  * 1. Thông tin cá nhân có thể chỉnh sửa
  * 2. Biểu đồ thống kê thời lượng xem phim
  * 3. Các nút điều hướng đến các trang con
+ * 
+ * TEMPORARILY MODIFIED FOR DEVELOPMENT: Authentication check disabled
  */
 const ProfileMain = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [loading, setLoading] = useState(true);
+  // Always consider user authenticated for development
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [loading, setLoading] = useState(false); // Set to false to skip loading
 
+  /* Authentication check disabled for development
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -32,6 +38,7 @@ const ProfileMain = () => {
 
     checkAuth();
   }, [navigate]);
+  */
 
   if (loading) {
     return (
@@ -41,28 +48,27 @@ const ProfileMain = () => {
       </div>
     );
   }
-
-  if (!isAuthenticated) {
-    return null; // Will redirect in useEffect
-  }
-
+  // if (!isAuthenticated) {
+  //   return null; // Will redirect in useEffect
+  // }
+  // Always render profile page
   return (
     <div className="profile-page-container">
       <div className="profile-header">
         <h1>Hồ sơ của tôi</h1>
       </div>
-      
+
       <div className="profile-sections">
         {/* Thông tin cá nhân */}
         <section className="profile-section">
           <ProfileCard />
         </section>
-        
+
         {/* Biểu đồ thống kê */}
         <section className="profile-section stats-section">
           <WatchStats />
         </section>
-        
+
         {/* Các liên kết/hành động */}
         <section className="profile-section links-section">
           <div className="profile-links">

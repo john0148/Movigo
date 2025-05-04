@@ -31,21 +31,21 @@ const router = createBrowserRouter([
       { path: 'watch/:id', element: <MoviePlayer /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
-      { 
-        path: 'profile', 
-        element: <ProtectedRoute><ProfileMain /></ProtectedRoute> 
+      {
+        path: 'profile',
+        element: <ProtectedRoute><ProfileMain /></ProtectedRoute>
       },
-      { 
-        path: 'profile/history', 
-        element: <ProtectedRoute><WatchHistory /></ProtectedRoute> 
+      {
+        path: 'profile/history',
+        element: <ProtectedRoute><WatchHistory /></ProtectedRoute>
       },
-      { 
-        path: 'profile/watchlater', 
-        element: <ProtectedRoute><WatchLater /></ProtectedRoute> 
+      {
+        path: 'profile/watchlater',
+        element: <ProtectedRoute><WatchLater /></ProtectedRoute>
       },
-      { 
-        path: 'profile/vip', 
-        element: <ProtectedRoute><VipRegister /></ProtectedRoute> 
+      {
+        path: 'profile/vip',
+        element: <ProtectedRoute><VipRegister /></ProtectedRoute>
       },
       { path: '*', element: <NotFound /> }
     ]

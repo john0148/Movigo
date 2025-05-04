@@ -41,6 +41,14 @@ function App() {
     navigate('/login');
   };
 
+  // Function to navigate to profile page
+  // No authentication check needed as ProtectedRoute is already modified to allow direct access
+  const goToProfile = () => {
+    // Direct navigation to profile page without checking authentication
+    // Authentication is already bypassed in ProtectedRoute.jsx
+    navigate('/profile');
+  };
+
   return (
     <div className="app">
       {/* Navbar */}
@@ -63,11 +71,11 @@ function App() {
           </div>
         </div>
         <div className="navbar-right">
-          {/* Always show auth buttons for now */}
-          <div className="auth-buttons">
-            <Link to="/login" className="auth-button login">Đăng nhập</Link>
-            <Link to="/register" className="auth-button register">Đăng ký</Link>
+          {/* User profile icon */}
+          <div className="user-avatar-circle" onClick={goToProfile}>
+            <span>👤</span>
           </div>
+
           {/* 
           {!loading && (
             user ? (
