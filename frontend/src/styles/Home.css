@@ -7,7 +7,7 @@
 
 /* Container chính cho trang Home */
 .home-page {
-  width: 100%;
+  width: 100vw;
   min-height: 100vh;
   background-color: #141414;
   color: white;

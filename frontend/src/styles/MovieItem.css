@@ -82,6 +82,7 @@
   background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
+  pointer-events: none; /* Thêm dòng này */
 }
 
 .movie-overlay.always-show {

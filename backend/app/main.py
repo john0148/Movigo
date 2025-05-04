@@ -9,7 +9,7 @@ import logging
 import os
 
 from .core.config import settings
-from .api import movies, auth, profile, watch_stats
+from .api import movies, auth, profiles, watch_stats
 from .db.database import connect_to_mongodb, close_mongodb_connection, initialize_crud_modules
 
 # Configure logging
@@ -47,7 +47,7 @@ app.add_middleware(
 # Include routers
 app.include_router(auth.router, prefix=f"{settings.API_V1_PREFIX}/auth")
 app.include_router(movies.router, prefix=f"{settings.API_V1_PREFIX}/movies")
-app.include_router(profile.router, prefix=f"{settings.API_V1_PREFIX}/profile")
+app.include_router(profiles.router, prefix=f"{settings.API_V1_PREFIX}/profiles")
 app.include_router(watch_stats.router, prefix=f"{settings.API_V1_PREFIX}/watch-stats")
 
 # Kết nối MongoDB khi startup

@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { uploadAvatar } from '../../api/userApi';
-import '../styles/Profile.css';
+import '../../styles/Profile.css';
 
 /**
  * AvatarUpload Component

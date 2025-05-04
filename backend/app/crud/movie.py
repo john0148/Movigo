@@ -235,3 +235,15 @@ class MovieCRUD:
         """
         result = await self.collection.delete_one({"_id": ObjectId(movie_id)})
         return result.deleted_count > 0 
+    
+
+class get_movies():
+    pass
+class get_movie_by_id():
+    pass
+class get_top_movies_by_views():
+    pass
+class increment_movie_view_count():
+    pass
+class get_related_movies():
+    pass

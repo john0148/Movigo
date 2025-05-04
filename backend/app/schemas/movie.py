@@ -26,6 +26,10 @@ class MovieCreate(MovieBase):
     # Additional fields for creation only
     is_featured: bool = Field(default=False, description="Whether the movie is featured")
 
+class MovieOut(BaseModel):
+    pass
+class MovieList():
+    pass
 
 class MovieUpdate(BaseModel):
     """Schema for updating an existing movie (all fields optional)"""

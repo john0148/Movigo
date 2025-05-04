@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getUserProfile, updateUserProfile } from '../../api/userApi';
 import AvatarUpload from './AvatarUpload';
-import '../styles/Profile.css';
+import '../../styles/Profile.css';
 
 /**
  * ProfileCard Component

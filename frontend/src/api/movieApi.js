@@ -143,7 +143,7 @@ export const getMoviesByGenre = async (genre, limit = 10) => {
 // Lấy phim liên quan
 export const fetchRelatedMovies = async (movieId, limit = 6) => {
   try {
-    const response = await axios.get(`${API_URL}/movies/${movieId}/related`, {
+    const response = await axios.get(`${API_URL}/${movieId}/related`, {
       params: { limit }
     });
     return response.data;

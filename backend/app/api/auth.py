@@ -21,7 +21,7 @@ Xử lý các endpoints liên quan đến xác thực:
 - Refresh token
 """
 
-router = APIRouter(prefix="/auth", tags=["authentication"])
+router = APIRouter(tags=["authentication"])
 
 @router.post("/login", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):

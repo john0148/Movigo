@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchMovieDetails, fetchRelatedMovies, incrementMovieView } from '../api/movieApi';
+import { getMovieDetails, fetchRelatedMovies, incrementMovieView } from '../api/movieApi';
 import MovieList from '../components/MovieList/MovieList';
 import '../styles/MovieDetail.css';
 
@@ -25,7 +25,7 @@ const MovieDetail = () => {
       try {
         setLoading(true);
         // Lấy thông tin chi tiết phim
-        const movieData = await fetchMovieDetails(id);
+        const movieData = await getMovieDetails(id);
         setMovie(movieData);
         
         // Tăng lượt xem phim
@@ -134,7 +134,7 @@ const MovieDetail = () => {
             <div 
               key={relatedMovie.id} 
               className="related-movie-item"
-              onClick={() => navigate(`/movie/${relatedMovie.id}`)}
+              onClick={() => navigate(`/movies/${relatedMovie.id}`)}
             >
               <img 
                 src={relatedMovie.poster_url} 

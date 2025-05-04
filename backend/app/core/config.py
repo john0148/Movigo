@@ -1,4 +1,4 @@
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 import os
 from typing import Optional
 
@@ -13,8 +13,13 @@ class Settings(BaseSettings):
     Sử dụng Pydantic BaseSettings để tự động validate types
     """
     # API configs
-    API_V1_PREFIX: str = "/api"
+    API_V1_PREFIX: str = "/api/v1"
     PROJECT_NAME: str = "Movigo API"
+    LOG_LEVEL: str = "INFO"
+    APP_NAME: str = "Movigo"
+    APP_DESCRIPTION: str = ""
+    APP_VERSION: str = "0.0.0"
+    SHOW_DOCS: bool = True
     
     # MongoDB settings
     MONGODB_URL: str = os.getenv("MONGODB_URL", "mongodb://localhost:27017")

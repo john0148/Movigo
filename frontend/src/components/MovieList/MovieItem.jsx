@@ -13,7 +13,7 @@ const MovieItem = ({ movie }) => {
   const navigate = useNavigate();
 
   const handleMovieClick = () => {
-    navigate(`/movie/${movie.id}`);
+    navigate(`/movies/${movie.id}`);
   };
 
   const handleWatchClick = (e) => {

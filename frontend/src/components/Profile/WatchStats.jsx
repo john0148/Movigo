@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Chart, registerables } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { getWatchingStats } from '../../api/userApi';
-import '../styles/Profile.css';
+import '../../styles/Profile.css';
 
 // Register Chart.js components
 Chart.register(...registerables);

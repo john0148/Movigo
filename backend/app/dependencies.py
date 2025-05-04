@@ -24,25 +24,25 @@ logger = logging.getLogger(__name__)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_PREFIX}/auth/login")
 
 # Dependency to get MovieCRUD instance
-async def get_movie_crud():
+def get_movie_crud():
     """
     Dependency function to get a MovieCRUD instance with database connection.
     
     Returns:
         MovieCRUD instance
     """
-    db = await get_database()
+    db = get_database()
     return MovieCRUD(db)
 
 # Dependency to get WatchHistoryCRUD instance
-async def get_watch_history_crud():
+def get_watch_history_crud():
     """
     Dependency function to get a WatchHistoryCRUD instance with database connection.
     
     Returns:
         WatchHistoryCRUD instance
     """
-    db = await get_database()
+    db = get_database()
     return WatchHistoryCRUD(db)
 
 # Dependency to get MovieService instance

@@ -12,7 +12,7 @@
 
 import { useState, useEffect } from 'react';
 import { getMostViewedMovies } from '../../api/movieApi';
-import MovieList from './MovieList';
+import MovieList from './MovieList.jsx';
 import LoadingSpinner from '../LoadingSpinner';
 import '../../styles/MovieList/TopMoviesList.css';
 
