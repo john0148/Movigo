@@ -57,12 +57,12 @@ class UserModel(BaseModel):
     updated_at: datetime = Field(default_factory=datetime.now)
 
     class Config:
-        allow_population_by_field_name = True
+        validate_by_name = True
         arbitrary_types_allowed = True
         json_encoders = {
             ObjectId: str
         }
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "_id": "60d21b4967d0d8992e610c85",
                 "email": "user@example.com",
@@ -102,7 +102,7 @@ class WatchHistoryModel(BaseModel):
     completed: bool = Field(default=False)
 
     class Config:
-        allow_population_by_field_name = True
+        validate_by_name = True
         arbitrary_types_allowed = True
         json_encoders = {
             ObjectId: str
@@ -125,7 +125,7 @@ class WatchLaterModel(BaseModel):
     added_date: datetime = Field(default_factory=datetime.now)
 
     class Config:
-        allow_population_by_field_name = True
+        validate_by_name = True
         arbitrary_types_allowed = True
         json_encoders = {
             ObjectId: str

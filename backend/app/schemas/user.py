@@ -103,7 +103,7 @@ class UserInDB(UserBase):
 
     class Config:
         from_attributes = True
-        populate_by_name = True
+        validate_by_name = True
 
 
 class UserResponse(BaseModel):
@@ -121,7 +121,7 @@ class UserResponse(BaseModel):
     
     class Config:
         from_attributes = True
-        populate_by_name = True
+        validate_by_name = True
 
 
 class UserOut(UserBase):

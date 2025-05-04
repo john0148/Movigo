@@ -8,6 +8,8 @@
  * - Đăng xuất
  * - Lấy thông tin người dùng hiện tại
  * - Refresh token
+ * 
+ * TEMPORARILY MODIFIED FOR DEVELOPMENT: Authentication is bypassed
  */
 
 import axios from 'axios';
@@ -31,6 +33,10 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => response,
   async (error) => {
+    // Temporarily skip token refresh for development
+    return Promise.reject(error);
+
+    /*
     const originalRequest = error.config;
     
     // Nếu lỗi 401 (Unauthorized) và chưa thử refresh token
@@ -57,6 +63,7 @@ axios.interceptors.response.use(
     }
     
     return Promise.reject(error);
+    */
   }
 );
 
@@ -66,14 +73,14 @@ axios.interceptors.response.use(
  */
 const setAuthData = (authData) => {
   const { access_token, refresh_token, expires_in, user } = authData;
-  
+
   // Tính thời gian token hết hạn
   const expiryTime = new Date().getTime() + expires_in * 1000;
-  
+
   localStorage.setItem(AUTH_TOKEN_KEY, access_token);
   localStorage.setItem(REFRESH_TOKEN_KEY, refresh_token);
   localStorage.setItem(TOKEN_EXPIRY_KEY, expiryTime.toString());
-  
+
   if (user) {
     localStorage.setItem(USER_DATA_KEY, JSON.stringify(user));
   }
@@ -128,10 +135,10 @@ export const loginWithGoogle = async () => {
     // Đây là phiên bản đơn giản hóa
     const googleAuth = await initializeGoogleAuth();
     const googleToken = await googleAuth.getToken();
-    
+
     // Gửi token đến server để xác thực
     const response = await axios.post(`${API_URL}/google`, { token: googleToken });
-    
+
     setAuthData(response.data);
     return response.data;
   } catch (error) {
@@ -148,7 +155,7 @@ const initializeGoogleAuth = async () => {
   // Trong ứng dụng thực tế, sẽ sử dụng Google OAuth library
   // Đây chỉ là placeholder
   console.log('Initializing Google Auth...');
-  
+
   return {
     getToken: async () => {
       // Mô phỏng việc lấy token từ Google
@@ -184,7 +191,7 @@ export const logout = async () => {
   } finally {
     // Xóa dữ liệu xác thực dù API thành công hay thất bại
     clearAuthData();
-    
+
     // Nếu cần, chuyển hướng người dùng đến trang đăng nhập
     // window.location.href = '/login';
   }
@@ -195,6 +202,12 @@ export const logout = async () => {
  * @returns {Promise<Object>} Thông tin người dùng
  */
 export const getCurrentUser = async () => {
+  // DEVELOPMENT MODE: Return mock user data or throw error to simulate not logged in
+  console.log('getCurrentUser called - DEVELOPMENT MODE: No authentication required');
+  // Throwing error to simulate not logged in (handled in App.jsx)
+  return Promise.reject('Authentication disabled for development');
+
+  /*
   try {
     // Trước tiên, kiểm tra dữ liệu người dùng trong localStorage
     const userData = localStorage.getItem(USER_DATA_KEY);
@@ -212,6 +225,7 @@ export const getCurrentUser = async () => {
   } catch (error) {
     return handleApiError(error, 'Không thể lấy thông tin người dùng');
   }
+  */
 };
 
 /**
@@ -219,6 +233,10 @@ export const getCurrentUser = async () => {
  * @returns {boolean} True nếu đã đăng nhập
  */
 export const isAuthenticated = () => {
+  // DEVELOPMENT MODE: Always return false to simulate not logged in
+  return false;
+
+  /*
   const token = localStorage.getItem(AUTH_TOKEN_KEY);
   const expiryTime = localStorage.getItem(TOKEN_EXPIRY_KEY);
   
@@ -228,4 +246,5 @@ export const isAuthenticated = () => {
   
   // Kiểm tra token còn hạn không
   return new Date().getTime() < parseInt(expiryTime);
+  */
 }; 

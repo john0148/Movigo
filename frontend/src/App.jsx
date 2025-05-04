@@ -7,15 +7,17 @@ import './App.css';
  * App Component
  * Component gốc của ứng dụng, bao gồm:
  * - Navbar cho điều hướng
- * - Quản lý trạng thái đăng nhập toàn cục
+ * - Quản lý trạng thái đăng nhập toàn cục (temporarily disabled)
  * - Container cho các routes con
  */
 function App() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // Set to false to skip loading state
   const navigate = useNavigate();
   const location = useLocation();
 
+  /* 
+  // Authentication logic disabled
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -31,6 +33,7 @@ function App() {
 
     fetchUser();
   }, [location.pathname]);
+  */
 
   const handleLogout = () => {
     logout();
@@ -60,6 +63,12 @@ function App() {
           </div>
         </div>
         <div className="navbar-right">
+          {/* Always show auth buttons for now */}
+          <div className="auth-buttons">
+            <Link to="/login" className="auth-button login">Đăng nhập</Link>
+            <Link to="/register" className="auth-button register">Đăng ký</Link>
+          </div>
+          {/* 
           {!loading && (
             user ? (
               <div className="user-menu">
@@ -78,6 +87,7 @@ function App() {
               </div>
             )
           )}
+          */}
         </div>
       </nav>
 

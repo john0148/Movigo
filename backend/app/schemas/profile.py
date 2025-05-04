@@ -34,7 +34,7 @@ class ProfileResponse(BaseModel):
     
     class Config:
         from_attributes = True
-        populate_by_name = True
+        validate_by_name = True
 
 
 class WatchHistoryEntry(BaseModel):
@@ -50,7 +50,7 @@ class WatchHistoryEntry(BaseModel):
     
     class Config:
         from_attributes = True
-        populate_by_name = True
+        validate_by_name = True
 
 
 class WatchHistoryResponse(BaseModel):
@@ -81,7 +81,7 @@ class WatchLaterEntry(BaseModel):
     
     class Config:
         from_attributes = True
-        populate_by_name = True
+        validate_by_name = True
 
 
 class WatchLaterResponse(BaseModel):

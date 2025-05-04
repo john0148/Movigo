@@ -55,7 +55,7 @@ class MovieInDB(MovieBase):
 
     class Config:
         from_attributes = True
-        populate_by_name = True
+        validate_by_name = True
 
 
 class MovieResponse(MovieInDB):
