@@ -158,3 +158,111 @@
 .footer-copyright {
   font-size: 0.8rem;
 }
+
+/* Enhanced User Avatar Styling */
+.user-menu {
+  position: relative;
+}
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.user-avatar:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.user-avatar span {
+  font-weight: 500;
+  margin-right: 5px;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 200px;
+  background-color: #141414;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.user-avatar:hover .user-dropdown {
+  display: block;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 12px 16px;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #333;
+}
+
+.logout-button {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #e50914;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 12px 16px;
+}
+
+.logout-button:hover {
+  background-color: #333;
+}
+
+/* Genre Select styles */
+.genre-select-container {
+  position: relative;
+  margin: 0 10px;
+}
+
+.genre-select {
+  appearance: none;
+  background-color: #333;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  min-width: 120px;
+  outline: none;
+  transition: background-color 0.3s;
+}
+
+.genre-select:hover {
+  background-color: #444;
+}
+
+.genre-select:focus {
+  background-color: #555;
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.3);
+}
+
+.genre-select-container::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #aaa;
+  pointer-events: none;
+  font-size: 10px;
+}

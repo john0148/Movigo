@@ -36,6 +36,10 @@ const router = createBrowserRouter([
         element: <ProtectedRoute><ProfileMain /></ProtectedRoute>
       },
       {
+        path: 'profileMain',
+        element: <ProtectedRoute><ProfileMain /></ProtectedRoute>
+      },
+      {
         path: 'profile/history',
         element: <ProtectedRoute><WatchHistory /></ProtectedRoute>
       },

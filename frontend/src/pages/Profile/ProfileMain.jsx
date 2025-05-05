@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import ProfileCard from '../../components/Profile/ProfileCard';
 import WatchStats from '../../components/Profile/WatchStats';
-import { getCurrentUser } from '../../api/authApi';
+import { getCurrentUser, isAuthenticated } from '../../api/authApi';
 import '../../styles/Profile.css';
 
 /**
@@ -11,34 +11,45 @@ import '../../styles/Profile.css';
  * 1. Thông tin cá nhân có thể chỉnh sửa
  * 2. Biểu đồ thống kê thời lượng xem phim
  * 3. Các nút điều hướng đến các trang con
- * 
- * TEMPORARILY MODIFIED FOR DEVELOPMENT: Authentication check disabled
  */
 const ProfileMain = () => {
   const navigate = useNavigate();
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // const [loading, setLoading] = useState(true);
-  // Always consider user authenticated for development
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [loading, setLoading] = useState(false); // Set to false to skip loading
+  const { user: contextUser } = useOutletContext() || { user: null };
+  const [user, setUser] = useState(contextUser);
+  const [loading, setLoading] = useState(true);
 
-  /* Authentication check disabled for development
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuthAndFetchUser = async () => {
       try {
-        await getCurrentUser();
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error('Authentication check failed:', error);
-        navigate('/login', { state: { message: 'Vui lòng đăng nhập để xem trang này' } });
+        // Check if user is authenticated
+        if (!isAuthenticated() && !contextUser) {
+          console.log('User not authenticated, redirecting to login');
+          navigate('/login', { state: { message: 'Vui lòng đăng nhập để xem trang này' } });
+          return;
+        }
+
+        // If we have user from context, use it
+        if (contextUser) {
+          setUser(contextUser);
+          setLoading(false);
+          return;
+        }
+
+        // Otherwise fetch user data
+        try {
+          const userData = await getCurrentUser();
+          setUser(userData);
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          navigate('/login', { state: { message: 'Vui lòng đăng nhập để xem trang này' } });
+        }
       } finally {
         setLoading(false);
       }
     };
 
-    checkAuth();
-  }, [navigate]);
-  */
+    checkAuthAndFetchUser();
+  }, [contextUser, navigate]);
 
   if (loading) {
     return (
@@ -48,10 +59,7 @@ const ProfileMain = () => {
       </div>
     );
   }
-  // if (!isAuthenticated) {
-  //   return null; // Will redirect in useEffect
-  // }
-  // Always render profile page
+
   return (
     <div className="profile-page-container">
       <div className="profile-header">
@@ -73,17 +81,17 @@ const ProfileMain = () => {
         <section className="profile-section links-section">
           <div className="profile-links">
             <div className="profile-link-card" onClick={() => navigate('/profile/vip')}>
-              <div className="link-icon vip-icon"></div>
+              <div className="link-icon vip-icon">🌟</div>
               <h3>Nâng cấp VIP</h3>
               <p>Xem phim không giới hạn với chất lượng cao nhất</p>
             </div>
             <div className="profile-link-card" onClick={() => navigate('/profile/history')}>
-              <div className="link-icon history-icon"></div>
+              <div className="link-icon history-icon">🕒</div>
               <h3>Lịch sử xem</h3>
               <p>Xem danh sách phim bạn đã xem gần đây</p>
             </div>
             <div className="profile-link-card" onClick={() => navigate('/profile/watchlater')}>
-              <div className="link-icon watchlater-icon"></div>
+              <div className="link-icon watchlater-icon">📋</div>
               <h3>Xem sau</h3>
               <p>Danh sách phim bạn đã lưu để xem sau</p>
             </div>

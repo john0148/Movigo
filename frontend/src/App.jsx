@@ -1,39 +1,56 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import { getCurrentUser, logout } from './api/authApi';
+import { attemptAutoLogin, isAutoLoginEnabled } from './utils/autoLogin';
 import './App.css';
 
 /**
  * App Component
  * Component gốc của ứng dụng, bao gồm:
  * - Navbar cho điều hướng
- * - Quản lý trạng thái đăng nhập toàn cục (temporarily disabled)
+ * - Quản lý trạng thái đăng nhập toàn cục
  * - Container cho các routes con
  */
 function App() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false); // Set to false to skip loading state
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
-  /* 
-  // Authentication logic disabled
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        // First check if we have a current user
         const userData = await getCurrentUser();
         setUser(userData);
       } catch (error) {
-        console.log('Not logged in');
-        setUser(null);
+        console.log('Not logged in, attempting auto-login');
+
+        // If auto-login is enabled, try to log in
+        if (isAutoLoginEnabled()) {
+          const loginResult = await attemptAutoLogin();
+          if (loginResult) {
+            // If auto-login was successful, fetch the user data
+            try {
+              const userData = await getCurrentUser();
+              setUser(userData);
+            } catch (autoLoginError) {
+              console.error('Error getting user after auto-login:', autoLoginError);
+              setUser(null);
+            }
+          } else {
+            setUser(null);
+          }
+        } else {
+          setUser(null);
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchUser();
-  }, [location.pathname]);
-  */
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -42,11 +59,15 @@ function App() {
   };
 
   // Function to navigate to profile page
-  // No authentication check needed as ProtectedRoute is already modified to allow direct access
   const goToProfile = () => {
-    // Direct navigation to profile page without checking authentication
-    // Authentication is already bypassed in ProtectedRoute.jsx
-    navigate('/profile');
+    navigate('/profileMain');
+  };
+
+  // Handle genre selection
+  const handleGenreChange = (e) => {
+    if (e.target.value) {
+      navigate(`/?category=${e.target.value}`);
+    }
   };
 
   return (
@@ -58,50 +79,42 @@ function App() {
           <div className="navbar-links">
             <Link to="/" className="nav-link">Trang chủ</Link>
             <Link to="/search" className="nav-link">Tìm kiếm</Link>
-            <div className="nav-dropdown">
-              <span className="nav-link dropdown-trigger">Thể loại</span>
-              <div className="dropdown-content">
-                <Link to="/?category=action" className="dropdown-item">Hành động</Link>
-                <Link to="/?category=comedy" className="dropdown-item">Hài</Link>
-                <Link to="/?category=drama" className="dropdown-item">Chính kịch</Link>
-                <Link to="/?category=horror" className="dropdown-item">Kinh dị</Link>
-                <Link to="/?category=animation" className="dropdown-item">Hoạt hình</Link>
-              </div>
+            <div className="genre-select-container">
+              <select
+                className="genre-select"
+                onChange={handleGenreChange}
+                defaultValue=""
+              >
+                <option value="" disabled>Thể loại</option>
+                <option value="action">Hành động</option>
+                <option value="comedy">Hài</option>
+                <option value="drama">Chính kịch</option>
+                <option value="horror">Kinh dị</option>
+                <option value="animation">Hoạt hình</option>
+              </select>
             </div>
           </div>
         </div>
         <div className="navbar-right">
-          {/* User profile icon */}
-          <div className="user-avatar-circle" onClick={goToProfile}>
-            <span>👤</span>
-          </div>
-
-          {/* 
-          {!loading && (
-            user ? (
-              <div className="user-menu">
-                <div className="user-avatar" style={{ backgroundImage: `url(${user.avatar_url || '/default-avatar.png'})` }}>
-                  <div className="user-dropdown">
-                    <Link to="/profile" className="dropdown-item">Hồ sơ</Link>
-                    <Link to="/profile/watchlater" className="dropdown-item">Xem sau</Link>
-                    <button onClick={handleLogout} className="dropdown-item logout-button">Đăng xuất</button>
-                  </div>
+          {/* Always show user icon, regardless of login status */}
+          <div className="user-menu">
+            <div className="user-avatar" onClick={goToProfile}>
+              <span>👤 {user ? user.full_name : 'User'}</span>
+              {user && (
+                <div className="user-dropdown">
+                  <Link to="/profileMain" className="dropdown-item">Hồ sơ</Link>
+                  <Link to="/profile/watchlater" className="dropdown-item">Xem sau</Link>
+                  <button onClick={handleLogout} className="dropdown-item logout-button">Đăng xuất</button>
                 </div>
-              </div>
-            ) : (
-              <div className="auth-buttons">
-                <Link to="/login" className="auth-button login">Đăng nhập</Link>
-                <Link to="/register" className="auth-button register">Đăng ký</Link>
-              </div>
-            )
-          )}
-          */}
+              )}
+            </div>
+          </div>
         </div>
       </nav>
 
       {/* Main content */}
       <main className="main-content">
-        <Outlet />
+        <Outlet context={{ user }} />
       </main>
 
       {/* Footer */}
