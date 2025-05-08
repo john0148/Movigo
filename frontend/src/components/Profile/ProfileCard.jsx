@@ -3,6 +3,7 @@ import { useOutletContext, useNavigate } from 'react-router-dom';
 import { getCurrentUser } from '../../api/authApi';
 import { updateUserProfile } from '../../api/userApi';
 import AvatarUpload from './AvatarUpload';
+import { SUBSCRIPTION_TYPES, USER_DATA_KEY } from '../../config/constants';
 import '../../styles/Profile.css';
 
 /**
@@ -26,38 +27,72 @@ const ProfileCard = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (contextUser) {
-        setUser(contextUser);
-        setLoading(false);
-        setFormData({
-          fullName: contextUser.full_name || '',
-          email: contextUser.email || '',
-          phone: contextUser.phone || '',
-          birthDate: contextUser.birth_date || '',
-          gender: contextUser.gender || '',
-        });
-        return;
-      }
-
       try {
+        setLoading(true);
+
+        // Ưu tiên sử dụng user từ context
+        if (contextUser) {
+          console.log('Using user from context:', contextUser.email);
+          setUser(contextUser);
+          setFormData({
+            fullName: contextUser.full_name || '',
+            email: contextUser.email || '',
+            phone: contextUser.phone || '',
+            birthDate: contextUser.birth_date || '',
+            gender: contextUser.gender || '',
+          });
+          setLoading(false);
+          return;
+        }
+
+        // Nếu không có trong context, thử lấy từ localStorage
+        const storedUserData = localStorage.getItem(USER_DATA_KEY);
+        if (storedUserData) {
+          try {
+            const userData = JSON.parse(storedUserData);
+            console.log('Using user from localStorage:', userData.email);
+            setUser(userData);
+            setFormData({
+              fullName: userData.full_name || '',
+              email: userData.email || '',
+              phone: userData.phone || '',
+              birthDate: userData.birth_date || '',
+              gender: userData.gender || '',
+            });
+            setLoading(false);
+            return;
+          } catch (error) {
+            console.error('Error parsing user data from localStorage:', error);
+          }
+        }
+
+        // Nếu không có ở cả 2 nơi, thử gọi API
+        console.log('Getting user data from API');
         const userData = await getCurrentUser();
-        setUser(userData);
-        setLoading(false);
-        setFormData({
-          fullName: userData.full_name || '',
-          email: userData.email || '',
-          phone: userData.phone || '',
-          birthDate: userData.birth_date || '',
-          gender: userData.gender || '',
-        });
+        if (userData) {
+          console.log('Got user from API:', userData.email);
+          setUser(userData);
+          setFormData({
+            fullName: userData.full_name || '',
+            email: userData.email || '',
+            phone: userData.phone || '',
+            birthDate: userData.birth_date || '',
+            gender: userData.gender || '',
+          });
+        } else {
+          // Nếu tất cả đều thất bại, chuyển hướng đến trang đăng nhập
+          console.error('No user data found, redirecting to login');
+          navigate('/login');
+        }
       } catch (error) {
-        console.error('Error fetching user data for ProfileCard:', error);
+        console.error('Error in ProfileCard:', error);
+      } finally {
         setLoading(false);
       }
     };
 
     fetchUserData();
-  }, [contextUser]);
+  }, [contextUser, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -134,10 +169,30 @@ const ProfileCard = () => {
 
   const getSubscriptionColor = () => {
     switch (user.subscription_plan) {
-      case 'premium': return '#e50914'; // Netflix red
-      case 'standard': return '#ffb92a'; // Gold
-      case 'basic': return '#2596be'; // Blue
+      case SUBSCRIPTION_TYPES.PREMIUM: return '#e50914'; // Netflix red
+      case SUBSCRIPTION_TYPES.STANDARD: return '#ffb92a'; // Gold
+      case SUBSCRIPTION_TYPES.BASIC: return '#2596be'; // Blue
       default: return '#777'; // Grey for free
+    }
+  };
+
+  // Function to get subscription plan icon
+  const getSubscriptionIcon = () => {
+    switch (user.subscription_plan) {
+      case SUBSCRIPTION_TYPES.PREMIUM: return '👑'; // Crown for premium
+      case SUBSCRIPTION_TYPES.STANDARD: return '⭐'; // Star for standard
+      case SUBSCRIPTION_TYPES.BASIC: return '✓'; // Check mark for basic
+      default: return '🔹'; // Diamond for free
+    }
+  };
+
+  // Function to get subscription plan name
+  const getSubscriptionName = () => {
+    switch (user.subscription_plan) {
+      case SUBSCRIPTION_TYPES.PREMIUM: return 'Premium';
+      case SUBSCRIPTION_TYPES.STANDARD: return 'Standard';
+      case SUBSCRIPTION_TYPES.BASIC: return 'Cơ bản';
+      default: return 'Miễn phí';
     }
   };
 
@@ -174,9 +229,8 @@ const ProfileCard = () => {
               className="subscription-badge"
               style={{ backgroundColor: getSubscriptionColor() }}
             >
-              {user.subscription_plan === 'premium' ? 'Premium' :
-                user.subscription_plan === 'standard' ? 'Standard' :
-                  user.subscription_plan === 'basic' ? 'Cơ bản' : 'Miễn phí'}
+              <span className="subscription-icon">{getSubscriptionIcon()}</span>
+              <span className="subscription-text">{getSubscriptionName()}</span>
             </div>
           </div>
 
@@ -198,7 +252,7 @@ const ProfileCard = () => {
         {isEditing ? (
           <form className="profile-edit-form" onSubmit={handleSubmit}>
             <div className="form-grid">
-              <div className="form-group">
+              <div className="form-group required">
                 <label htmlFor="fullName">Họ và tên</label>
                 <input
                   type="text"
@@ -207,6 +261,7 @@ const ProfileCard = () => {
                   value={formData.fullName}
                   onChange={handleChange}
                   placeholder="Nhập họ và tên"
+                  required
                 />
               </div>
 
@@ -254,7 +309,7 @@ const ProfileCard = () => {
                   value={formData.gender}
                   onChange={handleChange}
                 >
-                  <option value="">Chọn giới tính</option>
+                  <option value="">Chọn...</option>
                   <option value="male">Nam</option>
                   <option value="female">Nữ</option>
                   <option value="other">Khác</option>
@@ -265,10 +320,10 @@ const ProfileCard = () => {
             <div className="form-actions">
               <button
                 type="submit"
-                className="save-button"
+                className={`save-button ${loading ? 'loading' : ''}`}
                 disabled={loading}
               >
-                {loading ? 'Đang lưu...' : 'Lưu thay đổi'}
+                {loading ? 'Đang lưu...' : 'Lưu thay đổi'} {!loading && <span>💾</span>}
               </button>
             </div>
           </form>

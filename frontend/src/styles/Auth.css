@@ -135,7 +135,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
 }
 
 /* Label cho checkbox */
@@ -147,14 +148,19 @@
 
 /* Input checkbox */
 .checkbox-label input[type="checkbox"] {
-  margin-right: 10px;
+  margin-right: 8px;
   cursor: pointer;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: -1px;
 }
 
 /* Text cho checkbox */
 .checkbox-text {
   font-size: 0.85rem;
   color: #b3b3b3;
+  line-height: 1.2;
 }
 
 /* Link quên mật khẩu */
@@ -299,20 +305,20 @@
   .auth-header {
     padding: 16px 24px;
   }
-  
+
   .auth-logo {
     font-size: 1.5rem;
   }
-  
+
   .auth-form-container {
     padding: 40px 24px;
     max-width: 100%;
   }
-  
+
   .auth-title {
     font-size: 1.5rem;
   }
-  
+
   .form-group input:not([type="checkbox"]),
   .form-group select,
   .auth-button,
@@ -325,14 +331,14 @@
   .auth-form-container {
     padding: 30px 16px;
   }
-  
+
   .auth-title {
     font-size: 1.3rem;
     margin-bottom: 20px;
   }
-  
+
   .form-buttons {
     flex-direction: column;
     gap: 10px;
   }
-} 
+}

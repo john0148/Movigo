@@ -88,32 +88,111 @@ export const register = async (userData) => {
  */
 export const login = async (credentials) => {
   try {
-    // Try actual API login first
-    const response = await axios.post(`${API_URL}/login`, credentials);
-    setAuthData(response.data);
-    return response.data;
+    // Clear any existing user data to ensure clean state
+    localStorage.removeItem(USER_DATA_KEY);
+
+    // Thử gọi API đăng nhập thực sự từ backend (kết nối với MongoDB)
+    console.log(`Attempting to login with: ${credentials.email}`);
+
+    try {
+      // Gọi API backend thực sự
+      const response = await axios.post(`${API_URL}/login`, credentials);
+      console.log('Login successful with backend API:', response.data);
+      setAuthData(response.data);
+      return response.data;
+    } catch (error) {
+      // Nếu API trả về lỗi
+      console.log('Backend API login failed, falling back to mock data:', error.message);
+
+      // Danh sách một số tài khoản demo để dùng khi MongoDB không khả dụng
+      const mockUsers = {
+        'admin@movigo.com': {
+          _id: 'admin-123456',
+          email: 'admin@movigo.com',
+          full_name: 'Admin User',
+          role: 'admin',
+          subscription_plan: 'premium',
+          avatar_url: '/avatars/default-avatar.png',
+          phone: '0912345678',
+          birth_date: '1990-01-01',
+          gender: 'male'
+        },
+        'user0@example.com': {
+          _id: 'user0-123456',
+          email: 'user0@example.com',
+          full_name: 'User 0',
+          role: 'user',
+          subscription_plan: 'basic',
+          avatar_url: '/avatars/default-avatar.png',
+          phone: '0912345600',
+          birth_date: '1991-01-01',
+          gender: 'male'
+        },
+        'user1@example.com': {
+          _id: 'user1-123456',
+          email: 'user1@example.com',
+          full_name: 'User 1',
+          role: 'user',
+          subscription_plan: 'premium',
+          avatar_url: '/avatars/default-avatar.png',
+          phone: '0912345601',
+          birth_date: '1992-01-01',
+          gender: 'female'
+        },
+        'user2@example.com': {
+          _id: 'user2-123456',
+          email: 'user2@example.com',
+          full_name: 'User 2',
+          role: 'user',
+          subscription_plan: 'standard',
+          avatar_url: '/avatars/default-avatar.png',
+          phone: '0912345602',
+          birth_date: '1993-01-01',
+          gender: 'male'
+        }
+      };
+
+      // Kiểm tra xem email có trong danh sách mock users không
+      if (mockUsers[credentials.email]) {
+        console.log(`Using mock data for user: ${credentials.email}`);
+        const userData = mockUsers[credentials.email];
+
+        const mockAuthData = {
+          access_token: 'mock-token-' + Date.now(),
+          refresh_token: 'mock-refresh-token',
+          expires_in: 3600,
+          user: userData
+        };
+
+        setAuthData(mockAuthData);
+        return mockAuthData;
+      }
+
+      // Nếu không tìm thấy trong danh sách mock, tạo một tài khoản cơ bản với email đã nhập
+      console.log(`Creating generic user with email: ${credentials.email}`);
+      const genericUser = {
+        _id: 'generic-' + Date.now(),
+        email: credentials.email,
+        full_name: credentials.email.split('@')[0],
+        role: 'user',
+        subscription_plan: 'basic',
+        avatar_url: '/avatars/default-avatar.png',
+        created_at: new Date().toISOString()
+      };
+
+      const genericAuthData = {
+        access_token: 'mock-token-' + Date.now(),
+        refresh_token: 'mock-refresh-token',
+        expires_in: 3600,
+        user: genericUser
+      };
+
+      setAuthData(genericAuthData);
+      return genericAuthData;
+    }
   } catch (error) {
-    console.log('API login failed, using mock login for development:', error);
-
-    // Use mock data for development if API login fails
-    const mockUser = {
-      _id: '123456',
-      email: credentials.email,
-      full_name: 'Demo User',
-      role: credentials.email.includes('admin') ? 'admin' : 'user',
-      subscription_plan: 'premium',
-      avatar_url: '/avatars/default-avatar.png'
-    };
-
-    const mockAuthData = {
-      access_token: 'mock-token-' + Date.now(),
-      refresh_token: 'mock-refresh-token',
-      expires_in: 3600,
-      user: mockUser
-    };
-
-    setAuthData(mockAuthData);
-    return mockAuthData;
+    console.error('Login function error:', error);
+    throw error;
   }
 };
 
@@ -176,9 +255,13 @@ export const refreshAccessToken = async (refreshToken) => {
  */
 export const logout = async () => {
   try {
-    // Gọi API đăng xuất nếu cần
-    await axios.post(`${API_URL}/logout`);
+    // Không cần gọi API logout vì backend không có endpoint này
+    console.log('Logging out user, clearing auth data');
+    // Xóa dữ liệu xác thực
+    clearAuthData();
+    return true;
   } catch (error) {
+    console.error('Error during logout:', error);
     console.log('Logout API call failed, clearing local auth data anyway');
   } finally {
     // Xóa dữ liệu xác thực dù API thành công hay thất bại
@@ -192,37 +275,43 @@ export const logout = async () => {
  */
 export const getCurrentUser = async () => {
   try {
-    // Trước tiên, kiểm tra dữ liệu người dùng trong localStorage
-    const userData = localStorage.getItem(USER_DATA_KEY);
-    if (userData) {
-      return JSON.parse(userData);
+    // Thử gọi API lấy thông tin người dùng từ backend
+    try {
+      console.log('Attempting to get current user from backend API');
+      const token = localStorage.getItem(AUTH_TOKEN_KEY);
+
+      if (token) {
+        const response = await axios.get(`${API_URL}/user/me`);
+        console.log('Successfully retrieved user from backend:', response.data);
+
+        // Lưu dữ liệu mới vào localStorage
+        localStorage.setItem(USER_DATA_KEY, JSON.stringify(response.data));
+
+        return response.data;
+      }
+    } catch (error) {
+      console.log('Failed to get user from backend API, using localStorage:', error.message);
     }
 
-    // Nếu không có, gọi API để lấy thông tin người dùng
-    try {
-      const response = await axios.get(`${API_URL}/me`);
-      // Lưu thông tin người dùng vào localStorage
-      localStorage.setItem(USER_DATA_KEY, JSON.stringify(response.data));
-      return response.data;
-    } catch (error) {
-      // If API call fails, check if we have a token and create a mock user
-      const token = localStorage.getItem(AUTH_TOKEN_KEY);
-      if (token) {
-        // Create mock user based on token
-        const mockUser = {
-          _id: '123456',
-          email: 'user@example.com',
-          full_name: 'Demo User',
-          role: 'user',
-          subscription_plan: 'premium',
-          avatar_url: '/avatars/default-avatar.png'
-        };
-        localStorage.setItem(USER_DATA_KEY, JSON.stringify(mockUser));
-        return mockUser;
+    // Dùng dữ liệu từ localStorage nếu API thất bại
+    console.log('Falling back to localStorage for user data');
+    const storedUserData = localStorage.getItem(USER_DATA_KEY);
+
+    if (storedUserData) {
+      try {
+        const userData = JSON.parse(storedUserData);
+        console.log('Found user in localStorage:', userData.email);
+        return userData;
+      } catch (error) {
+        console.error('Error parsing user data from localStorage:', error);
       }
-      throw error;
     }
+
+    // Nếu không có user trong localStorage, trả về null
+    console.log('No user found in localStorage');
+    return null;
   } catch (error) {
+    console.error('getCurrentUser error:', error);
     throw error;
   }
 };
@@ -232,13 +321,14 @@ export const getCurrentUser = async () => {
  * @returns {boolean} True nếu đã đăng nhập
  */
 export const isAuthenticated = () => {
-  const token = localStorage.getItem(AUTH_TOKEN_KEY);
-  const expiryTime = localStorage.getItem(TOKEN_EXPIRY_KEY);
+  try {
+    // Kiểm tra token và user data trong localStorage
+    const token = localStorage.getItem(AUTH_TOKEN_KEY);
+    const userData = localStorage.getItem(USER_DATA_KEY);
 
-  if (!token || !expiryTime) {
+    return !!(token && userData);
+  } catch (error) {
+    console.error('Error checking authentication status:', error);
     return false;
   }
-
-  // Kiểm tra token còn hạn không
-  return new Date().getTime() < parseInt(expiryTime);
 }; 

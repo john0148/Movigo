@@ -112,16 +112,22 @@ export const uploadAvatar = async (formData) => {
  */
 export const getWatchingStats = async (period = 'week') => {
   try {
-    // Try real API endpoint first
-    try {
-      const response = await axios.get(`${WATCH_STATS_URL}?period=${period}`);
-      return response.data;
-    } catch (apiError) {
-      console.log(`Failed to fetch real watch stats for period ${period}, using mock data`, apiError);
+    // Skip trying to call the real API since we know it returns 404
+    // Instead, return mock data directly based on the period and user type
+    const userData = localStorage.getItem(USER_DATA_KEY);
+    let userSubscription = 'basic';
 
-      // If API fails, return mock data based on period
-      return generateMockWatchStats(period);
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        userSubscription = user.subscription_plan || 'basic';
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+      }
     }
+
+    console.log(`Generating mock watch stats for period ${period} with subscription ${userSubscription}`);
+    return generateMockWatchStats(period, userSubscription);
   } catch (error) {
     return handleApiError(error, 'Không thể lấy thống kê xem phim');
   }
@@ -130,40 +136,50 @@ export const getWatchingStats = async (period = 'week') => {
 /**
  * Generate mock watch statistics data
  * @param {string} period Time period (week, month, year)
+ * @param {string} subscription User subscription plan
  * @returns {Object} Mock statistics data
  */
-const generateMockWatchStats = (period) => {
+const generateMockWatchStats = (period, subscription = 'basic') => {
   let data = {};
+
+  // Increase statistics based on subscription tier
+  const multiplier =
+    subscription === 'premium' ? 2.0 :
+      subscription === 'standard' ? 1.5 :
+        subscription === 'basic' ? 1.0 : 0.5;
 
   switch (period) {
     case 'week':
       data = {
         labels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'],
-        watchMinutes: [30, 45, 60, 20, 75, 120, 90],
-        daily_minutes: [30, 45, 60, 20, 75, 120, 90],
-        totalMovies: 8,
-        totalMinutes: 440,
-        favoriteGenre: 'Hành động'
+        watchMinutes: [30, 45, 60, 20, 75, 120, 90].map(min => Math.round(min * multiplier)),
+        daily_minutes: [30, 45, 60, 20, 75, 120, 90].map(min => Math.round(min * multiplier)),
+        totalMovies: Math.round(8 * multiplier),
+        totalMinutes: Math.round(440 * multiplier),
+        favoriteGenre: subscription === 'premium' ? 'Hành động' :
+          subscription === 'standard' ? 'Khoa học viễn tưởng' : 'Hài'
       };
       break;
     case 'month':
       data = {
         labels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'],
-        watchMinutes: [180, 240, 300, 210],
-        monthly_minutes: Array(31).fill(0).map(() => Math.floor(Math.random() * 100)),
-        totalMovies: 15,
-        totalMinutes: 930,
-        favoriteGenre: 'Hài'
+        watchMinutes: [180, 240, 300, 210].map(min => Math.round(min * multiplier)),
+        monthly_minutes: Array(31).fill(0).map(() => Math.floor(Math.random() * 100 * multiplier)),
+        totalMovies: Math.round(15 * multiplier),
+        totalMinutes: Math.round(930 * multiplier),
+        favoriteGenre: subscription === 'premium' ? 'Khoa học viễn tưởng' :
+          subscription === 'standard' ? 'Hành động' : 'Hài'
       };
       break;
     case 'year':
       data = {
         labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
-        watchMinutes: [500, 450, 600, 700, 550, 400, 650, 800, 750, 600, 500, 550],
-        yearly_minutes: [500, 450, 600, 700, 550, 400, 650, 800, 750, 600, 500, 550],
-        totalMovies: 120,
-        totalMinutes: 7050,
-        favoriteGenre: 'Khoa học viễn tưởng'
+        watchMinutes: [500, 450, 600, 700, 550, 400, 650, 800, 750, 600, 500, 550].map(min => Math.round(min * multiplier)),
+        yearly_minutes: [500, 450, 600, 700, 550, 400, 650, 800, 750, 600, 500, 550].map(min => Math.round(min * multiplier)),
+        totalMovies: Math.round(120 * multiplier),
+        totalMinutes: Math.round(7050 * multiplier),
+        favoriteGenre: subscription === 'premium' ? 'Hành động' :
+          subscription === 'standard' ? 'Khoa học viễn tưởng' : 'Chính kịch'
       };
       break;
     default:

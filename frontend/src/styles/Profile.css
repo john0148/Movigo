@@ -90,12 +90,30 @@
 }
 
 .subscription-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: 70px;
+}
+
+.subscription-icon {
+    font-size: 14px;
     display: inline-block;
-    padding: 4px 12px;
-    background-color: #E50914;
-    border-radius: 4px;
-    color: white;
-    font-weight: bold;
+    margin-right: 2px;
+}
+
+.subscription-text {
+    white-space: nowrap;
 }
 
 .no-user-data {
@@ -150,6 +168,7 @@
     border-radius: 12px;
     padding: 24px;
     margin-top: 20px;
+    animation: fadeIn 0.4s ease forwards;
 }
 
 .details-section-title {
@@ -246,54 +265,10 @@
     font-weight: 600;
 }
 
-.edit-button {
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 4px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 14px;
-}
-
-.edit-button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.cancel-button {
-    background-color: rgba(229, 9, 20, 0.2);
-    border-color: rgba(229, 9, 20, 0.5);
-}
-
-.cancel-button:hover {
-    background-color: rgba(229, 9, 20, 0.3);
-}
-
-.edit-icon {
-    margin-left: 8px;
-    font-size: 16px;
-}
-
-.success-message {
-    background-color: rgba(39, 174, 96, 0.2);
-    color: #2ecc71;
-    padding: 12px;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-}
-
-.success-icon {
-    margin-right: 8px;
-    font-size: 18px;
-}
-
 .profile-card-content {
     margin-bottom: 24px;
+    transition: all 0.4s ease;
+    overflow: hidden;
 }
 
 .profile-main-info {
@@ -304,18 +279,6 @@
 
 .avatar-container {
     position: relative;
-}
-
-.subscription-badge {
-    position: absolute;
-    bottom: -5px;
-    right: -5px;
-    border-radius: 20px;
-    padding: 4px 10px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .main-user-info {
@@ -347,84 +310,206 @@
     margin-right: 8px;
 }
 
-/* Profile Edit Form */
+/* Profile Edit Form - Animation and Transitions */
 .profile-edit-form {
-    background-color: rgba(30, 30, 30, 0.5);
-    border-radius: 8px;
-    padding: 20px;
+    background-color: rgba(30, 30, 30, 0.6);
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.4s ease forwards;
+    transform-origin: top center;
 }
 
 .form-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .form-group {
     margin-bottom: 16px;
+    position: relative;
+}
+
+.form-group::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: #E50914;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.form-group:focus-within::after {
+    transform: scaleX(1);
 }
 
 .form-group label {
     display: block;
-    color: #bbb;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    color: #e5e5e5;
+    font-weight: 500;
     font-size: 14px;
+    letter-spacing: 0.5px;
 }
 
+/* Base styling for form inputs and selects */
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 10px 12px;
-    border-radius: 4px;
-    background-color: rgba(50, 50, 50, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 16px;
+    background-color: rgba(40, 40, 40, 0.8);
+    border: 1px solid rgba(80, 80, 80, 0.5);
+    border-radius: 6px;
     color: #fff;
-    font-size: 14px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    outline: none;
+    height: 48px;
+    box-sizing: border-box;
+}
+
+/* Special styling for selects - Fix for dropdown text being cut off */
+.form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 42px;
+    /* Increased padding to avoid text being cut off by arrow */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: normal;
+    /* Fixes vertical alignment in select */
+    display: flex;
+    align-items: center;
+}
+
+/* Specific fix for gender select that has long option texts */
+.form-group select#gender {
+    min-width: 150px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Styling for select dropdown options */
+.form-group select option {
+    background-color: #282828;
+    color: #fff;
+    padding: 12px;
+    font-size: 15px;
+    min-height: 40px;
 }
 
 .form-group input:focus,
 .form-group select:focus {
-    outline: none;
-    border-color: rgba(229, 9, 20, 0.7);
-    box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+    border-color: #E50914;
+    background-color: rgba(50, 50, 50, 0.8);
+    box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.25);
+}
+
+.form-group input::placeholder {
+    color: rgba(180, 180, 180, 0.7);
 }
 
 .disabled-input {
-    opacity: 0.7;
+    background-color: rgba(30, 30, 30, 0.5) !important;
+    color: rgba(200, 200, 200, 0.7) !important;
     cursor: not-allowed;
+    border: 1px solid rgba(60, 60, 60, 0.5) !important;
 }
 
 .field-hint {
     display: block;
-    color: #999;
+    margin-top: 6px;
+    color: rgba(180, 180, 180, 0.8);
     font-size: 12px;
-    margin-top: 4px;
+    font-style: italic;
 }
 
 .form-actions {
+    margin-top: 24px;
     display: flex;
     justify-content: flex-end;
+    border-top: 1px solid rgba(80, 80, 80, 0.3);
+    padding-top: 20px;
 }
 
 .save-button {
     background-color: #E50914;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
+    color: white;
     font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    min-width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .save-button:hover {
-    background-color: #f40612;
+    background-color: #f50f1a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
 }
 
 .save-button:disabled {
-    background-color: #666;
+    background-color: #6e6e6e;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.save-button::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spinner 1s linear infinite;
+    opacity: 0;
+    margin-right: -24px;
+    /* Hide by default */
+    transition: opacity 0.3s, margin-right 0.3s;
+}
+
+.save-button.loading::before {
+    opacity: 1;
+    margin-right: 8px;
+}
+
+/* Custom form field styles */
+.form-group input[type="date"] {
+    position: relative;
+    padding-right: 18px;
+    color-scheme: dark;
+}
+
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E");
+    cursor: pointer;
+    filter: invert(1);
+    opacity: 0.6;
 }
 
 /* Profile Actions */
@@ -548,4 +633,172 @@
 .skeleton-avatar,
 .skeleton-line {
     animation: skeleton-loading 1.5s infinite ease-in-out;
+}
+
+/* Success message animation */
+.success-message {
+    background-color: rgba(39, 174, 96, 0.2);
+    border-left: 4px solid #27ae60;
+    color: #e5e5e5;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: slideInDown 0.5s ease forwards, fadeOut 0.5s ease 2.5s forwards;
+}
+
+.success-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(39, 174, 96, 0.2);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    color: #2ecc71;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Improved Edit Button */
+.edit-button {
+    background-color: rgba(40, 40, 40, 0.8);
+    color: #e5e5e5;
+    border: 1px solid rgba(80, 80, 80, 0.5);
+    border-radius: 6px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.edit-button:hover {
+    background-color: rgba(60, 60, 60, 0.9);
+    border-color: rgba(100, 100, 100, 0.7);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.edit-button .edit-icon {
+    transition: transform 0.3s ease;
+}
+
+.edit-button:hover .edit-icon {
+    transform: rotate(90deg);
+}
+
+.cancel-button {
+    background-color: rgba(60, 60, 60, 0.8);
+    color: #e5e5e5;
+    border-color: rgba(255, 107, 107, 0.3);
+}
+
+.cancel-button:hover {
+    background-color: rgba(255, 107, 107, 0.2);
+    border-color: rgba(255, 107, 107, 0.5);
+}
+
+.edit-icon {
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Better spacing for form groups */
+.form-grid .form-group:nth-child(odd) {
+    padding-right: 10px;
+}
+
+.form-grid .form-group:nth-child(even) {
+    padding-left: 10px;
+}
+
+@media (max-width: 768px) {
+
+    .form-grid .form-group:nth-child(odd),
+    .form-grid .form-group:nth-child(even) {
+        padding: 0;
+    }
+}
+
+/* Required field indicator */
+.form-group.required label::after {
+    content: ' *';
+    color: #E50914;
+}
+
+/* Enhance form field interactions with hover effects */
+.form-group input:hover,
+.form-group select:hover {
+    border-color: rgba(100, 100, 100, 0.8);
+    background-color: rgba(45, 45, 45, 0.8);
+}
+
+/* Fix layout on smaller screens */
+@media (max-width: 768px) {
+    .form-group select#gender {
+        min-width: 100%;
+        /* Full width on mobile */
+    }
+
+    .form-group select {
+        padding-right: 32px;
+        /* Adjust padding on mobile */
+    }
+}
+
+/* Fix specificity for select elements to ensure our styling takes precedence */
+.profile-edit-form .form-group select {
+    text-align: left;
+    text-indent: 0;
+    padding: 0 42px 0 16px;
+    /* left and right padding */
+    height: 48px !important;
+    /* Force height with !important */
+    display: flex;
+    align-items: center;
+}
+
+/* Ensure option text isn't cut off when dropdown is expanded */
+.profile-edit-form .form-group select option {
+    padding: 8px 12px;
+    white-space: normal;
+    /* Allow line breaks if needed */
+}
+
+/* Apply modern dropdown style with better readability */
+.profile-edit-form .form-group select {
+    font-weight: 500;
+    letter-spacing: 0.2px;
 }

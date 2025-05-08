@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
-import { getCurrentUser, logout } from './api/authApi';
-import { attemptAutoLogin, isAutoLoginEnabled } from './utils/autoLogin';
+import { getCurrentUser, logout, isAuthenticated } from './api/authApi';
+import { attemptAutoLogin } from './utils/autoLogin';
+import { USER_DATA_KEY } from './config/constants';
 import './App.css';
 
 /**
@@ -13,38 +14,109 @@ import './App.css';
  */
 function App() {
   const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Force refresh user data from localStorage
+  const refreshUserFromStorage = () => {
+    const storedUserData = localStorage.getItem(USER_DATA_KEY);
+    if (storedUserData) {
+      try {
+        const userData = JSON.parse(storedUserData);
+        console.log('Refreshed user data from localStorage:', userData);
+        setUser(userData);
+        setIsLoggedIn(true);
+        return userData;
+      } catch (error) {
+        console.error('Error parsing user data from localStorage:', error);
+        setIsLoggedIn(false);
+      }
+    } else {
+      // Nếu không có dữ liệu, đảm bảo state được reset
+      setUser(null);
+      setIsLoggedIn(false);
+    }
+    return null;
+  };
+
+  // Add an effect that runs when location changes
+  useEffect(() => {
+    // This will check authentication status whenever the route changes
+    const checkAuth = async () => {
+      const authenticated = isAuthenticated();
+      setIsLoggedIn(authenticated);
+
+      if (authenticated && !user) {
+        refreshUserFromStorage();
+      } else if (!authenticated) {
+        setUser(null);
+      }
+    };
+
+    checkAuth();
+  }, [location.pathname]);
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        // First check if we have a current user
-        const userData = await getCurrentUser();
-        setUser(userData);
-      } catch (error) {
-        console.log('Not logged in, attempting auto-login');
+        setLoading(true);
 
-        // If auto-login is enabled, try to log in
-        if (isAutoLoginEnabled()) {
-          const loginResult = await attemptAutoLogin();
-          if (loginResult) {
-            // If auto-login was successful, fetch the user data
-            try {
-              const userData = await getCurrentUser();
-              setUser(userData);
-            } catch (autoLoginError) {
-              console.error('Error getting user after auto-login:', autoLoginError);
-              setUser(null);
-            }
-          } else {
-            setUser(null);
+        // Kiểm tra nếu đã có user trong localStorage
+        const storedUserData = localStorage.getItem(USER_DATA_KEY);
+        if (storedUserData) {
+          try {
+            const userData = JSON.parse(storedUserData);
+            console.log('Found existing user in localStorage:', userData.email);
+            setUser(userData);
+            setIsLoggedIn(true);
+            setLoading(false);
+            return;
+          } catch (error) {
+            console.error('Error parsing user data from localStorage:', error);
           }
-        } else {
-          setUser(null);
         }
-      } finally {
+
+        // Chỉ tự động đăng nhập khi không có người dùng nào
+        console.log('No user found in localStorage, attempting auto-login');
+        const loginResult = await attemptAutoLogin();
+
+        if (loginResult) {
+          // Wait a moment for localStorage to update
+          setTimeout(() => {
+            const userData = refreshUserFromStorage();
+            if (userData) {
+              console.log('Auto-login successful, user data loaded:', userData.email);
+              setIsLoggedIn(true);
+            } else {
+              console.error('User data not found in localStorage after auto-login');
+              setIsLoggedIn(false);
+            }
+            setLoading(false);
+          }, 200);
+        } else {
+          console.error('Auto-login failed, trying to load user data anyway');
+          try {
+            const userData = await getCurrentUser();
+            if (userData) {
+              console.log('User data from getCurrentUser():', userData.email);
+              setUser(userData);
+              setIsLoggedIn(true);
+            } else {
+              console.log('No user data available');
+              setUser(null);
+              setIsLoggedIn(false);
+            }
+          } catch (error) {
+            console.error('Error getting user data:', error);
+            setUser(null);
+            setIsLoggedIn(false);
+          }
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error in fetchUser:', error);
         setLoading(false);
       }
     };
@@ -52,15 +124,27 @@ function App() {
     fetchUser();
   }, []);
 
-  const handleLogout = () => {
-    logout();
-    setUser(null);
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setUser(null);
+      setIsLoggedIn(false);
+
+      // Sử dụng window.location.href thay vì navigate để tải lại trang
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Error during logout:', error);
+      navigate('/login');
+    }
   };
 
   // Function to navigate to profile page
   const goToProfile = () => {
-    navigate('/profileMain');
+    if (isLoggedIn) {
+      navigate('/profileMain');
+    } else {
+      navigate('/login');
+    }
   };
 
   // Handle genre selection
@@ -96,11 +180,11 @@ function App() {
           </div>
         </div>
         <div className="navbar-right">
-          {/* Always show user icon, regardless of login status */}
+          {/* User menu section */}
           <div className="user-menu">
             <div className="user-avatar" onClick={goToProfile}>
-              <span>👤 {user ? user.full_name : 'User'}</span>
-              {user && (
+              <span>👤 {user ? user.full_name : 'Đăng nhập'}</span>
+              {isLoggedIn && (
                 <div className="user-dropdown">
                   <Link to="/profileMain" className="dropdown-item">Hồ sơ</Link>
                   <Link to="/profile/watchlater" className="dropdown-item">Xem sau</Link>
@@ -114,7 +198,7 @@ function App() {
 
       {/* Main content */}
       <main className="main-content">
-        <Outlet context={{ user }} />
+        <Outlet context={{ user, isLoggedIn, refreshUserFromStorage }} />
       </main>
 
       {/* Footer */}
