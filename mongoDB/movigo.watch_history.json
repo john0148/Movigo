@@ -1,0 +1,341 @@
+[{
+  "_id": "bad704dc-5c6e-4598-885c-f905474f9f61",
+  "user_id": "f6f13d5e-83a3-45dd-aa77-725ff0941a50",
+  "movie_id": "4a6bc72a-daba-491b-b4d5-906dc1550c58",
+  "watched_at": {
+    "$date": "2025-05-03T00:43:25.060Z"
+  },
+  "watch_percent": 87,
+  "completed": false,
+  "duration_seconds": 4123
+},
+{
+  "_id": "4d9e11c3-08c6-4a13-8e5a-009d6b112dd4",
+  "user_id": "2eeb6faf-f235-480a-bdc2-96205fea9bb2",
+  "movie_id": "1ca716cd-c1e8-4138-9b18-4e6ed81f0e4b",
+  "watched_at": {
+    "$date": "2025-04-10T00:43:25.060Z"
+  },
+  "watch_percent": 54,
+  "completed": false,
+  "duration_seconds": 6120
+},
+{
+  "_id": "e72c4abb-c51b-4c31-a7b8-35b3dd558841",
+  "user_id": "2eeb6faf-f235-480a-bdc2-96205fea9bb2",
+  "movie_id": "aaec092e-413d-4846-bd12-887089fa5cd2",
+  "watched_at": {
+    "$date": "2025-05-05T00:43:25.060Z"
+  },
+  "watch_percent": 76,
+  "completed": false,
+  "duration_seconds": 5615
+},
+{
+  "_id": "b36d3186-58c1-4cdf-8e63-dd6e50aed777",
+  "user_id": "2eeb6faf-f235-480a-bdc2-96205fea9bb2",
+  "movie_id": "18bfc238-c3e6-4ae3-b6cb-7cf9df80fd22",
+  "watched_at": {
+    "$date": "2025-05-01T00:43:25.060Z"
+  },
+  "watch_percent": 40,
+  "completed": false,
+  "duration_seconds": 6124
+},
+{
+  "_id": "3f658ad4-b888-4e9d-bbba-5f099573218e",
+  "user_id": "2eeb6faf-f235-480a-bdc2-96205fea9bb2",
+  "movie_id": "dc6fccb7-f762-40df-8be3-f50f68c3bcd3",
+  "watched_at": {
+    "$date": "2025-04-17T00:43:25.060Z"
+  },
+  "watch_percent": 81,
+  "completed": false,
+  "duration_seconds": 1744
+},
+{
+  "_id": "4e725a1c-0c2f-45c2-a841-c84cd8e696ce",
+  "user_id": "4e89053e-7226-4dcf-ae92-189b984e240d",
+  "movie_id": "de67e165-6c90-4326-b212-184670d026cb",
+  "watched_at": {
+    "$date": "2025-04-26T00:43:25.060Z"
+  },
+  "watch_percent": 59,
+  "completed": false,
+  "duration_seconds": 428
+},
+{
+  "_id": "e57d4f12-44fb-4644-92c4-ac1634fb041c",
+  "user_id": "4e89053e-7226-4dcf-ae92-189b984e240d",
+  "movie_id": "3cf258c7-4ac3-4b9d-a949-26c963efd720",
+  "watched_at": {
+    "$date": "2025-05-01T00:43:25.060Z"
+  },
+  "watch_percent": 32,
+  "completed": false,
+  "duration_seconds": 5958
+},
+{
+  "_id": "10bff8df-7c11-4dda-ade2-965e622de21b",
+  "user_id": "c33bdadd-18ea-45f8-9feb-7bb2940a4736",
+  "movie_id": "34a97702-5758-493a-a8b0-715cba78b7c6",
+  "watched_at": {
+    "$date": "2025-04-20T00:43:25.060Z"
+  },
+  "watch_percent": 76,
+  "completed": false,
+  "duration_seconds": 2910
+},
+{
+  "_id": "398299b3-47d6-4006-889a-442af035d465",
+  "user_id": "c33bdadd-18ea-45f8-9feb-7bb2940a4736",
+  "movie_id": "f6891511-8421-41c9-939a-3dde4f300683",
+  "watched_at": {
+    "$date": "2025-05-06T00:43:25.060Z"
+  },
+  "watch_percent": 19,
+  "completed": false,
+  "duration_seconds": 4974
+},
+{
+  "_id": "e4bf24b5-c4bd-4c94-bfa8-a0da37361a87",
+  "user_id": "c33bdadd-18ea-45f8-9feb-7bb2940a4736",
+  "movie_id": "3cf258c7-4ac3-4b9d-a949-26c963efd720",
+  "watched_at": {
+    "$date": "2025-05-01T00:43:25.060Z"
+  },
+  "watch_percent": 31,
+  "completed": false,
+  "duration_seconds": 2191
+},
+{
+  "_id": "9872e82e-2817-43e4-9f01-ad6b0f4da996",
+  "user_id": "69cce4c1-bfe2-4cb9-9e51-8a81e0dccfe0",
+  "movie_id": "ca3ae9e3-aab7-48f3-b30c-23a2e36aefe3",
+  "watched_at": {
+    "$date": "2025-04-28T00:43:25.060Z"
+  },
+  "watch_percent": 82,
+  "completed": false,
+  "duration_seconds": 2565
+},
+{
+  "_id": "55c4344a-88cc-48ac-815a-c08bee3de474",
+  "user_id": "69cce4c1-bfe2-4cb9-9e51-8a81e0dccfe0",
+  "movie_id": "34a97702-5758-493a-a8b0-715cba78b7c6",
+  "watched_at": {
+    "$date": "2025-04-24T00:43:25.060Z"
+  },
+  "watch_percent": 29,
+  "completed": false,
+  "duration_seconds": 5088
+},
+{
+  "_id": "4c05d1b5-4edf-422f-a860-a080d4f65da0",
+  "user_id": "69cce4c1-bfe2-4cb9-9e51-8a81e0dccfe0",
+  "movie_id": "3cf258c7-4ac3-4b9d-a949-26c963efd720",
+  "watched_at": {
+    "$date": "2025-04-25T00:43:25.060Z"
+  },
+  "watch_percent": 74,
+  "completed": false,
+  "duration_seconds": 5800
+},
+{
+  "_id": "7ee6050d-a302-4579-bae1-c27a457faf0c",
+  "user_id": "69cce4c1-bfe2-4cb9-9e51-8a81e0dccfe0",
+  "movie_id": "dc6fccb7-f762-40df-8be3-f50f68c3bcd3",
+  "watched_at": {
+    "$date": "2025-04-16T00:43:25.060Z"
+  },
+  "watch_percent": 21,
+  "completed": false,
+  "duration_seconds": 3507
+},
+{
+  "_id": "19f2d99b-e0da-48ee-9bef-1ebfb85a2a52",
+  "user_id": "69cce4c1-bfe2-4cb9-9e51-8a81e0dccfe0",
+  "movie_id": "f6891511-8421-41c9-939a-3dde4f300683",
+  "watched_at": {
+    "$date": "2025-04-09T00:43:25.060Z"
+  },
+  "watch_percent": 39,
+  "completed": false,
+  "duration_seconds": 1041
+},
+{
+  "_id": "ac578077-fae9-481d-aa92-19565851fbba",
+  "user_id": "84b7c5be-8055-4d78-83c3-0fe41cd09813",
+  "movie_id": "ca3ae9e3-aab7-48f3-b30c-23a2e36aefe3",
+  "watched_at": {
+    "$date": "2025-04-09T00:43:25.060Z"
+  },
+  "watch_percent": 65,
+  "completed": false,
+  "duration_seconds": 1303
+},
+{
+  "_id": "7a9168ac-1765-47db-9dbe-b38337ca67af",
+  "user_id": "84b7c5be-8055-4d78-83c3-0fe41cd09813",
+  "movie_id": "4a6bc72a-daba-491b-b4d5-906dc1550c58",
+  "watched_at": {
+    "$date": "2025-04-11T00:43:25.060Z"
+  },
+  "watch_percent": 19,
+  "completed": false,
+  "duration_seconds": 2435
+},
+{
+  "_id": "acf4f1a4-6c22-4a64-ac1b-fa98c0b90f59",
+  "user_id": "84b7c5be-8055-4d78-83c3-0fe41cd09813",
+  "movie_id": "0cf3be15-4c4f-438d-b8a8-4eb9f045ac02",
+  "watched_at": {
+    "$date": "2025-04-22T00:43:25.060Z"
+  },
+  "watch_percent": 10,
+  "completed": false,
+  "duration_seconds": 4535
+},
+{
+  "_id": "ddc97575-e82d-4c67-9c36-eacb44d9361a",
+  "user_id": "84b7c5be-8055-4d78-83c3-0fe41cd09813",
+  "movie_id": "3cf258c7-4ac3-4b9d-a949-26c963efd720",
+  "watched_at": {
+    "$date": "2025-04-25T00:43:25.060Z"
+  },
+  "watch_percent": 46,
+  "completed": false,
+  "duration_seconds": 485
+},
+{
+  "_id": "22a2709a-b315-4eaf-b1c2-3f8bcb8698ff",
+  "user_id": "84b7c5be-8055-4d78-83c3-0fe41cd09813",
+  "movie_id": "3cf258c7-4ac3-4b9d-a949-26c963efd720",
+  "watched_at": {
+    "$date": "2025-04-28T00:43:25.060Z"
+  },
+  "watch_percent": 43,
+  "completed": false,
+  "duration_seconds": 3821
+},
+{
+  "_id": "57932b2f-0a15-420d-8405-fd549226c9a0",
+  "user_id": "d124648b-7e27-4408-922d-582d602477bd",
+  "movie_id": "0a2a6e10-a47c-441d-9ab8-50562e80cbc7",
+  "watched_at": {
+    "$date": "2025-04-26T00:43:25.061Z"
+  },
+  "watch_percent": 49,
+  "completed": false,
+  "duration_seconds": 5857
+},
+{
+  "_id": "fccb1c6c-5b97-4a72-b466-ac9754927eb5",
+  "user_id": "d124648b-7e27-4408-922d-582d602477bd",
+  "movie_id": "de67e165-6c90-4326-b212-184670d026cb",
+  "watched_at": {
+    "$date": "2025-04-28T00:43:25.061Z"
+  },
+  "watch_percent": 85,
+  "completed": false,
+  "duration_seconds": 4848
+},
+{
+  "_id": "9debdd12-0048-4d16-bcac-35ac7122369c",
+  "user_id": "c939cae0-83d3-4bf7-8ab6-30f2882da543",
+  "movie_id": "3cf258c7-4ac3-4b9d-a949-26c963efd720",
+  "watched_at": {
+    "$date": "2025-05-03T00:43:25.061Z"
+  },
+  "watch_percent": 32,
+  "completed": false,
+  "duration_seconds": 4089
+},
+{
+  "_id": "9b651aec-92f5-4779-b223-f4b4ce75c964",
+  "user_id": "c939cae0-83d3-4bf7-8ab6-30f2882da543",
+  "movie_id": "6ba0e59d-62a9-43a6-bab7-efd36ed77c9c",
+  "watched_at": {
+    "$date": "2025-04-14T00:43:25.061Z"
+  },
+  "watch_percent": 66,
+  "completed": false,
+  "duration_seconds": 6108
+},
+{
+  "_id": "aa4348ca-9e33-4681-8b74-250ca8fb6762",
+  "user_id": "c939cae0-83d3-4bf7-8ab6-30f2882da543",
+  "movie_id": "34a97702-5758-493a-a8b0-715cba78b7c6",
+  "watched_at": {
+    "$date": "2025-05-01T00:43:25.061Z"
+  },
+  "watch_percent": 32,
+  "completed": false,
+  "duration_seconds": 5154
+},
+{
+  "_id": "9856c281-4562-4f72-baa0-f0b431e0674b",
+  "user_id": "c939cae0-83d3-4bf7-8ab6-30f2882da543",
+  "movie_id": "375fdd7a-ca4c-4277-a991-e5366dbbe8cc",
+  "watched_at": {
+    "$date": "2025-05-01T00:43:25.061Z"
+  },
+  "watch_percent": 91,
+  "completed": false,
+  "duration_seconds": 6914
+},
+{
+  "_id": "b77d796f-a76b-496b-ad98-c901405b6142",
+  "user_id": "7822870a-c14a-4012-b6dc-2f3b8fdfd3e2",
+  "movie_id": "0a2a6e10-a47c-441d-9ab8-50562e80cbc7",
+  "watched_at": {
+    "$date": "2025-04-09T00:43:25.061Z"
+  },
+  "watch_percent": 54,
+  "completed": false,
+  "duration_seconds": 2780
+},
+{
+  "_id": "d22d2282-df71-4da9-9559-00d8be714ed1",
+  "user_id": "a54444a9-6536-47cf-94f4-3989bac3167a",
+  "movie_id": "6ba0e59d-62a9-43a6-bab7-efd36ed77c9c",
+  "watched_at": {
+    "$date": "2025-04-09T00:43:25.061Z"
+  },
+  "watch_percent": 66,
+  "completed": false,
+  "duration_seconds": 6911
+},
+{
+  "_id": "5001b91b-1169-4803-84d7-56fbd7bfa606",
+  "user_id": "a54444a9-6536-47cf-94f4-3989bac3167a",
+  "movie_id": "0cf3be15-4c4f-438d-b8a8-4eb9f045ac02",
+  "watched_at": {
+    "$date": "2025-04-08T00:43:25.061Z"
+  },
+  "watch_percent": 49,
+  "completed": false,
+  "duration_seconds": 4303
+},
+{
+  "_id": "d013704a-324e-4794-8455-5a4e63c40c6a",
+  "user_id": "a54444a9-6536-47cf-94f4-3989bac3167a",
+  "movie_id": "1ca716cd-c1e8-4138-9b18-4e6ed81f0e4b",
+  "watched_at": {
+    "$date": "2025-04-23T00:43:25.061Z"
+  },
+  "watch_percent": 98,
+  "completed": false,
+  "duration_seconds": 4637
+},
+{
+  "_id": "373aa877-e611-4bbc-9047-5156d6ad49ff",
+  "user_id": "d0401efc-71d7-49f3-b649-e64fcdc2a2a8",
+  "movie_id": "e7901a20-1e87-420c-815d-ce4ed719eba3",
+  "watched_at": {
+    "$date": "2025-04-14T00:43:25.061Z"
+  },
+  "watch_percent": 80,
+  "completed": false,
+  "duration_seconds": 3104
+}]

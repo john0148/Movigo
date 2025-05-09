@@ -1,0 +1,443 @@
+[{
+  "_id": "0a2a6e10-a47c-441d-9ab8-50562e80cbc7",
+  "title": "Movie 1",
+  "description": "This is a description for Movie 1. An exciting film that will keep you entertained.",
+  "genres": [
+    "Action",
+    "Horror",
+    "Sci-Fi"
+  ],
+  "release_year": 2018,
+  "duration_minutes": 97,
+  "poster_url": "/assets/posters/movie1.jpg",
+  "video_url": "/assets/videos/movie1.mp4",
+  "view_count": 4053,
+  "rating": 2,
+  "is_featured": true,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.041Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.041Z"
+  }
+},
+{
+  "_id": "f6891511-8421-41c9-939a-3dde4f300683",
+  "title": "Movie 2",
+  "description": "This is a description for Movie 2. An exciting film that will keep you entertained.",
+  "genres": [
+    "Horror",
+    "Comedy"
+  ],
+  "release_year": 2024,
+  "duration_minutes": 101,
+  "poster_url": "/assets/posters/movie2.jpg",
+  "video_url": "/assets/videos/movie2.mp4",
+  "view_count": 7147,
+  "rating": 1.6,
+  "is_featured": true,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.041Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.041Z"
+  }
+},
+{
+  "_id": "c80c46fa-d899-4f28-92d4-6b32955cf4c1",
+  "title": "Movie 3",
+  "description": "This is a description for Movie 3. An exciting film that will keep you entertained.",
+  "genres": [
+    "Romance",
+    "Thriller"
+  ],
+  "release_year": 1994,
+  "duration_minutes": 123,
+  "poster_url": "/assets/posters/movie3.jpg",
+  "video_url": "/assets/videos/movie3.mp4",
+  "view_count": 1115,
+  "rating": 1.3,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.041Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.041Z"
+  }
+},
+{
+  "_id": "dc6fccb7-f762-40df-8be3-f50f68c3bcd3",
+  "title": "Movie 4",
+  "description": "This is a description for Movie 4. An exciting film that will keep you entertained.",
+  "genres": [
+    "Romance",
+    "Comedy"
+  ],
+  "release_year": 2002,
+  "duration_minutes": 149,
+  "poster_url": "/assets/posters/movie4.jpg",
+  "video_url": "/assets/videos/movie4.mp4",
+  "view_count": 5686,
+  "rating": 2.5,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.041Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.041Z"
+  }
+},
+{
+  "_id": "59813cb1-f8c9-4c8d-976c-3acd6d819ac2",
+  "title": "Movie 5",
+  "description": "This is a description for Movie 5. An exciting film that will keep you entertained.",
+  "genres": [
+    "Romance",
+    "Animation"
+  ],
+  "release_year": 2005,
+  "duration_minutes": 104,
+  "poster_url": "/assets/posters/movie5.jpg",
+  "video_url": "/assets/videos/movie5.mp4",
+  "view_count": 7667,
+  "rating": 4.1,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "72bd8212-709a-4b52-a215-1c60b47c2b78",
+  "title": "Movie 6",
+  "description": "This is a description for Movie 6. An exciting film that will keep you entertained.",
+  "genres": [
+    "Thriller",
+    "Romance"
+  ],
+  "release_year": 2012,
+  "duration_minutes": 128,
+  "poster_url": "/assets/posters/movie6.jpg",
+  "video_url": "/assets/videos/movie6.mp4",
+  "view_count": 3372,
+  "rating": 3.8,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "7f4151bf-7352-4e5c-bb53-0dc83931ea7b",
+  "title": "Movie 7",
+  "description": "This is a description for Movie 7. An exciting film that will keep you entertained.",
+  "genres": [
+    "Horror",
+    "Action"
+  ],
+  "release_year": 2004,
+  "duration_minutes": 130,
+  "poster_url": "/assets/posters/movie7.jpg",
+  "video_url": "/assets/videos/movie7.mp4",
+  "view_count": 1694,
+  "rating": 1.9,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "e7901a20-1e87-420c-815d-ce4ed719eba3",
+  "title": "Movie 8",
+  "description": "This is a description for Movie 8. An exciting film that will keep you entertained.",
+  "genres": [
+    "Thriller"
+  ],
+  "release_year": 1996,
+  "duration_minutes": 117,
+  "poster_url": "/assets/posters/movie8.jpg",
+  "video_url": "/assets/videos/movie8.mp4",
+  "view_count": 8867,
+  "rating": 1.6,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "0cf3be15-4c4f-438d-b8a8-4eb9f045ac02",
+  "title": "Movie 9",
+  "description": "This is a description for Movie 9. An exciting film that will keep you entertained.",
+  "genres": [
+    "Thriller",
+    "Sci-Fi",
+    "Action"
+  ],
+  "release_year": 1996,
+  "duration_minutes": 161,
+  "poster_url": "/assets/posters/movie9.jpg",
+  "video_url": "/assets/videos/movie9.mp4",
+  "view_count": 6499,
+  "rating": 1.6,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "1ca716cd-c1e8-4138-9b18-4e6ed81f0e4b",
+  "title": "Movie 10",
+  "description": "This is a description for Movie 10. An exciting film that will keep you entertained.",
+  "genres": [
+    "Sci-Fi",
+    "Action"
+  ],
+  "release_year": 1997,
+  "duration_minutes": 101,
+  "poster_url": "/assets/posters/movie10.jpg",
+  "video_url": "/assets/videos/movie10.mp4",
+  "view_count": 4412,
+  "rating": 1.7,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "6ba0e59d-62a9-43a6-bab7-efd36ed77c9c",
+  "title": "Movie 11",
+  "description": "This is a description for Movie 11. An exciting film that will keep you entertained.",
+  "genres": [
+    "Animation",
+    "Comedy"
+  ],
+  "release_year": 2020,
+  "duration_minutes": 154,
+  "poster_url": "/assets/posters/movie11.jpg",
+  "video_url": "/assets/videos/movie11.mp4",
+  "view_count": 7572,
+  "rating": 2.9,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "3cf258c7-4ac3-4b9d-a949-26c963efd720",
+  "title": "Movie 12",
+  "description": "This is a description for Movie 12. An exciting film that will keep you entertained.",
+  "genres": [
+    "Horror"
+  ],
+  "release_year": 2015,
+  "duration_minutes": 103,
+  "poster_url": "/assets/posters/movie12.jpg",
+  "video_url": "/assets/videos/movie12.mp4",
+  "view_count": 9328,
+  "rating": 1.2,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "aaec092e-413d-4846-bd12-887089fa5cd2",
+  "title": "Movie 13",
+  "description": "This is a description for Movie 13. An exciting film that will keep you entertained.",
+  "genres": [
+    "Romance",
+    "Horror"
+  ],
+  "release_year": 2004,
+  "duration_minutes": 163,
+  "poster_url": "/assets/posters/movie13.jpg",
+  "video_url": "/assets/videos/movie13.mp4",
+  "view_count": 2193,
+  "rating": 4.5,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "de67e165-6c90-4326-b212-184670d026cb",
+  "title": "Movie 14",
+  "description": "This is a description for Movie 14. An exciting film that will keep you entertained.",
+  "genres": [
+    "Sci-Fi",
+    "Thriller",
+    "Drama"
+  ],
+  "release_year": 2003,
+  "duration_minutes": 158,
+  "poster_url": "/assets/posters/movie14.jpg",
+  "video_url": "/assets/videos/movie14.mp4",
+  "view_count": 5312,
+  "rating": 2.5,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "375fdd7a-ca4c-4277-a991-e5366dbbe8cc",
+  "title": "Movie 15",
+  "description": "This is a description for Movie 15. An exciting film that will keep you entertained.",
+  "genres": [
+    "Comedy"
+  ],
+  "release_year": 2000,
+  "duration_minutes": 162,
+  "poster_url": "/assets/posters/movie15.jpg",
+  "video_url": "/assets/videos/movie15.mp4",
+  "view_count": 1742,
+  "rating": 3.8,
+  "is_featured": true,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "4a6bc72a-daba-491b-b4d5-906dc1550c58",
+  "title": "Movie 16",
+  "description": "This is a description for Movie 16. An exciting film that will keep you entertained.",
+  "genres": [
+    "Comedy",
+    "Drama",
+    "Horror"
+  ],
+  "release_year": 2017,
+  "duration_minutes": 118,
+  "poster_url": "/assets/posters/movie16.jpg",
+  "video_url": "/assets/videos/movie16.mp4",
+  "view_count": 4604,
+  "rating": 3.7,
+  "is_featured": true,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "34a97702-5758-493a-a8b0-715cba78b7c6",
+  "title": "Movie 17",
+  "description": "This is a description for Movie 17. An exciting film that will keep you entertained.",
+  "genres": [
+    "Comedy"
+  ],
+  "release_year": 2011,
+  "duration_minutes": 138,
+  "poster_url": "/assets/posters/movie17.jpg",
+  "video_url": "/assets/videos/movie17.mp4",
+  "view_count": 6175,
+  "rating": 2.1,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "ca3ae9e3-aab7-48f3-b30c-23a2e36aefe3",
+  "title": "Movie 18",
+  "description": "This is a description for Movie 18. An exciting film that will keep you entertained.",
+  "genres": [
+    "Animation",
+    "Action",
+    "Drama"
+  ],
+  "release_year": 2014,
+  "duration_minutes": 123,
+  "poster_url": "/assets/posters/movie18.jpg",
+  "video_url": "/assets/videos/movie18.mp4",
+  "view_count": 8345,
+  "rating": 4,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "18bfc238-c3e6-4ae3-b6cb-7cf9df80fd22",
+  "title": "Movie 19",
+  "description": "This is a description for Movie 19. An exciting film that will keep you entertained.",
+  "genres": [
+    "Comedy",
+    "Drama",
+    "Thriller"
+  ],
+  "release_year": 1993,
+  "duration_minutes": 154,
+  "poster_url": "/assets/posters/movie19.jpg",
+  "video_url": "/assets/videos/movie19.mp4",
+  "view_count": 316,
+  "rating": 1.1,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+},
+{
+  "_id": "40990f7d-ccf5-4a59-95b0-bf4899170229",
+  "title": "Movie 20",
+  "description": "This is a description for Movie 20. An exciting film that will keep you entertained.",
+  "genres": [
+    "Thriller",
+    "Animation",
+    "Drama"
+  ],
+  "release_year": 2015,
+  "duration_minutes": 135,
+  "poster_url": "/assets/posters/movie20.jpg",
+  "video_url": "/assets/videos/movie20.mp4",
+  "view_count": 3179,
+  "rating": 4.4,
+  "is_featured": false,
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.042Z"
+  }
+}]
