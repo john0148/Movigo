@@ -18,6 +18,7 @@ export const USER_DATA_KEY = 'user_data';
 
 // Subscription types
 export const SUBSCRIPTION_TYPES = {
+  FREE: 'free',
   BASIC: 'basic',
   STANDARD: 'standard',
   PREMIUM: 'premium'

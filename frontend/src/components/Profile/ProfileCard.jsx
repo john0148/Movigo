@@ -169,10 +169,11 @@ const ProfileCard = () => {
 
   const getSubscriptionColor = () => {
     switch (user.subscription_plan) {
-      case SUBSCRIPTION_TYPES.PREMIUM: return '#e50914'; // Netflix red
-      case SUBSCRIPTION_TYPES.STANDARD: return '#ffb92a'; // Gold
-      case SUBSCRIPTION_TYPES.BASIC: return '#2596be'; // Blue
-      default: return '#777'; // Grey for free
+      case SUBSCRIPTION_TYPES.PREMIUM: return '#e50914'; // Red for premium
+      case SUBSCRIPTION_TYPES.STANDARD: return '#ffb92a'; // Yellow for standard
+      case SUBSCRIPTION_TYPES.BASIC: return '#2596be'; // Blue for basic
+      case SUBSCRIPTION_TYPES.FREE: return '#ffffff'; // White for free
+      default: return '#ffffff'; // Default to white
     }
   };
 
@@ -182,7 +183,8 @@ const ProfileCard = () => {
       case SUBSCRIPTION_TYPES.PREMIUM: return '👑'; // Crown for premium
       case SUBSCRIPTION_TYPES.STANDARD: return '⭐'; // Star for standard
       case SUBSCRIPTION_TYPES.BASIC: return '✓'; // Check mark for basic
-      default: return '🔹'; // Diamond for free
+      case SUBSCRIPTION_TYPES.FREE: return '🔹'; // Diamond for free
+      default: return '🔹'; // Default to free icon
     }
   };
 
@@ -192,6 +194,7 @@ const ProfileCard = () => {
       case SUBSCRIPTION_TYPES.PREMIUM: return 'Premium';
       case SUBSCRIPTION_TYPES.STANDARD: return 'Standard';
       case SUBSCRIPTION_TYPES.BASIC: return 'Cơ bản';
+      case SUBSCRIPTION_TYPES.FREE: return 'Miễn phí';
       default: return 'Miễn phí';
     }
   };

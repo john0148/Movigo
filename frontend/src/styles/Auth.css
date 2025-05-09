@@ -121,6 +121,84 @@
   margin-top: 6px;
 }
 
+/* Thông báo cảnh báo */
+.warning-message {
+  background-color: rgba(224, 180, 0, 0.8);
+  color: white;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+}
+
+.warning-icon {
+  margin-right: 5px;
+}
+
+.small-text {
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+.mongodb-status {
+  margin-top: 12px;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.mongodb-error {
+  margin: 0 0 6px 0;
+}
+
+.mongodb-url {
+  margin: 0;
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.warning-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.warning-action-button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.retry-button {
+  background-color: #fff;
+  color: #333;
+}
+
+.retry-button:hover {
+  background-color: #f0f0f0;
+}
+
+.retry-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.continue-button {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.continue-button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
 /* Thông báo thành công */
 .success-message {
   background-color: rgba(30, 159, 83, 0.8);

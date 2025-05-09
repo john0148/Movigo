@@ -32,7 +32,7 @@ function Register() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    
+
     // Xóa lỗi khi người dùng sửa input
     if (errors[name]) {
       setErrors({ ...errors, [name]: null });
@@ -42,14 +42,14 @@ function Register() {
   // Validate form
   const validateForm = () => {
     const newErrors = {};
-    
+
     // Validate email
     if (!formData.email) {
       newErrors.email = 'Email là bắt buộc';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email không hợp lệ';
     }
-    
+
     // Chỉ validate các trường khác ở step 2
     if (step === 2) {
       // Validate password
@@ -58,18 +58,18 @@ function Register() {
       } else if (formData.password.length < 6) {
         newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
       }
-      
+
       // Validate confirm password
       if (formData.password !== formData.confirmPassword) {
         newErrors.confirmPassword = 'Mật khẩu xác nhận không khớp';
       }
-      
+
       // Validate phone (không bắt buộc nhưng phải đúng định dạng nếu nhập)
       if (formData.phone && !/^\d{10,11}$/.test(formData.phone)) {
         newErrors.phone = 'Số điện thoại không hợp lệ';
       }
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -77,7 +77,7 @@ function Register() {
   // Xử lý chuyển bước
   const handleNextStep = (e) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
       if (step === 1) {
         setStep(2);
@@ -90,24 +90,24 @@ function Register() {
   // Xử lý gửi form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setLoading(true);
     try {
       // Gọi API đăng ký
       await register({
         email: formData.email,
         password: formData.password,
-        subscription_type: formData.subscription_type,
+        subscription_plan: formData.subscription_type,
         phone: formData.phone || undefined
       });
-      
+
       // Chuyển hướng đến trang đăng nhập sau khi đăng ký thành công
-      navigate('/login', { 
-        state: { 
-          message: 'Đăng ký thành công! Vui lòng đăng nhập.' 
-        } 
+      navigate('/login', {
+        state: {
+          message: 'Đăng ký thành công! Vui lòng đăng nhập.'
+        }
       });
     } catch (error) {
       console.error('Đăng ký thất bại:', error);
@@ -123,7 +123,7 @@ function Register() {
     try {
       // Khởi tạo đăng nhập Google
       const response = await loginWithGoogle();
-      
+
       // Chuyển hướng đến trang chủ sau khi đăng nhập thành công
       navigate('/');
     } catch (error) {
@@ -137,17 +137,17 @@ function Register() {
   return (
     <div className="auth-page register-page">
       <div className="auth-overlay"></div>
-      
+
       <div className="auth-header">
         <Link to="/" className="auth-logo">MOVIGO</Link>
       </div>
-      
+
       <div className="auth-container">
         <div className="auth-form-container">
           <h1 className="auth-title">
             {step === 1 ? 'Tạo tài khoản mới' : 'Hoàn tất đăng ký'}
           </h1>
-          
+
           <form className="auth-form" onSubmit={handleNextStep}>
             {step === 1 ? (
               // Step 1: Email
@@ -165,21 +165,21 @@ function Register() {
                   />
                   {errors.email && <div className="error-message">{errors.email}</div>}
                 </div>
-                
-                <button 
-                  type="submit" 
+
+                <button
+                  type="submit"
                   className="auth-button"
                   disabled={loading}
                 >
                   {loading ? 'Đang xử lý...' : 'Tiếp theo'}
                 </button>
-                
+
                 <div className="auth-separator">
                   <span>Hoặc</span>
                 </div>
-                
-                <button 
-                  type="button" 
+
+                <button
+                  type="button"
                   className="google-button"
                   onClick={handleGoogleLogin}
                   disabled={loading}
@@ -204,7 +204,7 @@ function Register() {
                   />
                   {errors.password && <div className="error-message">{errors.password}</div>}
                 </div>
-                
+
                 <div className="form-group">
                   <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
                   <input
@@ -218,7 +218,7 @@ function Register() {
                   />
                   {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
                 </div>
-                
+
                 <div className="form-group">
                   <label htmlFor="subscription_type">Gói dịch vụ</label>
                   <select
@@ -232,7 +232,7 @@ function Register() {
                     <option value={SUBSCRIPTION_TYPES.PREMIUM}>Cao cấp</option>
                   </select>
                 </div>
-                
+
                 <div className="form-group">
                   <label htmlFor="phone">Số điện thoại (tùy chọn)</label>
                   <input
@@ -246,19 +246,19 @@ function Register() {
                   />
                   {errors.phone && <div className="error-message">{errors.phone}</div>}
                 </div>
-                
+
                 <div className="form-buttons">
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className="back-button"
                     onClick={() => setStep(1)}
                     disabled={loading}
                   >
                     Quay lại
                   </button>
-                  
-                  <button 
-                    type="submit" 
+
+                  <button
+                    type="submit"
                     className="auth-button"
                     disabled={loading}
                   >
@@ -268,7 +268,7 @@ function Register() {
               </>
             )}
           </form>
-          
+
           <div className="auth-footer">
             Đã có tài khoản? <Link to="/login" className="auth-link">Đăng nhập</Link>
           </div>

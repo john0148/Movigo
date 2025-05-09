@@ -11,8 +11,8 @@ export const AUTO_LOGIN_CONFIG = {
     enabled: true,
 
     // Default email for auto-login (must match a user in MongoDB)
-    email: "movigo@example.com",
+    email: "admin@movigo.com",
 
     // Default password for auto-login
-    password: "movigo123"
+    password: "admin123"
 }; 

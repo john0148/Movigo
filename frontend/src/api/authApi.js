@@ -15,6 +15,7 @@
 import axios from 'axios';
 import { handleApiError } from '../utils/errorHandler';
 import { API_BASE_URL, AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY, TOKEN_EXPIRY_KEY, USER_DATA_KEY } from '../config/constants';
+import { setManualLogout } from '../utils/autoLogin';
 
 const API_URL = `${API_BASE_URL}/auth`;
 
@@ -31,9 +32,15 @@ axios.interceptors.request.use(
 );
 
 axios.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Check if response contains user data with missing subscription_plan
+    if (response.data && response.data.user && !response.data.user.subscription_plan) {
+      console.warn('User data from API missing subscription_plan - this should be fixed on the backend');
+      console.log('User data before fix:', response.data.user);
+    }
+    return response;
+  },
   async (error) => {
-    // Skip token refresh for now
     return Promise.reject(error);
   }
 );
@@ -49,7 +56,7 @@ const setAuthData = (authData) => {
   const expiryTime = new Date().getTime() + (expires_in || 3600) * 1000;
 
   localStorage.setItem(AUTH_TOKEN_KEY, access_token);
-  localStorage.setItem(REFRESH_TOKEN_KEY, refresh_token || 'mock-refresh-token');
+  localStorage.setItem(REFRESH_TOKEN_KEY, refresh_token || '');
   localStorage.setItem(TOKEN_EXPIRY_KEY, expiryTime.toString());
 
   if (user) {
@@ -90,106 +97,41 @@ export const login = async (credentials) => {
   try {
     // Clear any existing user data to ensure clean state
     localStorage.removeItem(USER_DATA_KEY);
+    // Clear the manual logout flag when user is deliberately logging in
+    localStorage.removeItem('manual_logout');
 
-    // Thử gọi API đăng nhập thực sự từ backend (kết nối với MongoDB)
     console.log(`Attempting to login with: ${credentials.email}`);
 
-    try {
-      // Gọi API backend thực sự
-      const response = await axios.post(`${API_URL}/login`, credentials);
-      console.log('Login successful with backend API:', response.data);
-      setAuthData(response.data);
-      return response.data;
-    } catch (error) {
-      // Nếu API trả về lỗi
-      console.log('Backend API login failed, falling back to mock data:', error.message);
+    // Create FormData to match FastAPI's OAuth2PasswordRequestForm
+    const formData = new FormData();
+    formData.append('username', credentials.email); // FastAPI expects 'username' even for email
+    formData.append('password', credentials.password);
 
-      // Danh sách một số tài khoản demo để dùng khi MongoDB không khả dụng
-      const mockUsers = {
-        'admin@movigo.com': {
-          _id: 'admin-123456',
-          email: 'admin@movigo.com',
-          full_name: 'Admin User',
-          role: 'admin',
-          subscription_plan: 'premium',
-          avatar_url: '/avatars/default-avatar.png',
-          phone: '0912345678',
-          birth_date: '1990-01-01',
-          gender: 'male'
-        },
-        'user0@example.com': {
-          _id: 'user0-123456',
-          email: 'user0@example.com',
-          full_name: 'User 0',
-          role: 'user',
-          subscription_plan: 'basic',
-          avatar_url: '/avatars/default-avatar.png',
-          phone: '0912345600',
-          birth_date: '1991-01-01',
-          gender: 'male'
-        },
-        'user1@example.com': {
-          _id: 'user1-123456',
-          email: 'user1@example.com',
-          full_name: 'User 1',
-          role: 'user',
-          subscription_plan: 'premium',
-          avatar_url: '/avatars/default-avatar.png',
-          phone: '0912345601',
-          birth_date: '1992-01-01',
-          gender: 'female'
-        },
-        'user2@example.com': {
-          _id: 'user2-123456',
-          email: 'user2@example.com',
-          full_name: 'User 2',
-          role: 'user',
-          subscription_plan: 'standard',
-          avatar_url: '/avatars/default-avatar.png',
-          phone: '0912345602',
-          birth_date: '1993-01-01',
-          gender: 'male'
-        }
-      };
+    // Set correct headers for form data
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    };
 
-      // Kiểm tra xem email có trong danh sách mock users không
-      if (mockUsers[credentials.email]) {
-        console.log(`Using mock data for user: ${credentials.email}`);
-        const userData = mockUsers[credentials.email];
+    // Convert FormData to URLSearchParams for proper submission
+    const params = new URLSearchParams();
+    params.append('username', credentials.email);
+    params.append('password', credentials.password);
 
-        const mockAuthData = {
-          access_token: 'mock-token-' + Date.now(),
-          refresh_token: 'mock-refresh-token',
-          expires_in: 3600,
-          user: userData
-        };
+    // Gọi API backend với form data format
+    const response = await axios.post(`${API_URL}/login`, params, config);
+    console.log('Login successful with backend API:', response.data);
 
-        setAuthData(mockAuthData);
-        return mockAuthData;
-      }
+    // Lưu dữ liệu xác thực
+    setAuthData(response.data);
+    console.log('User data saved to localStorage, user:', response.data.user?.email);
 
-      // Nếu không tìm thấy trong danh sách mock, tạo một tài khoản cơ bản với email đã nhập
-      console.log(`Creating generic user with email: ${credentials.email}`);
-      const genericUser = {
-        _id: 'generic-' + Date.now(),
-        email: credentials.email,
-        full_name: credentials.email.split('@')[0],
-        role: 'user',
-        subscription_plan: 'basic',
-        avatar_url: '/avatars/default-avatar.png',
-        created_at: new Date().toISOString()
-      };
+    // For debugging
+    const userAfterLogin = localStorage.getItem(USER_DATA_KEY);
+    console.log('Verified user data in localStorage:', userAfterLogin ? 'present' : 'missing');
 
-      const genericAuthData = {
-        access_token: 'mock-token-' + Date.now(),
-        refresh_token: 'mock-refresh-token',
-        expires_in: 3600,
-        user: genericUser
-      };
-
-      setAuthData(genericAuthData);
-      return genericAuthData;
-    }
+    return response.data;
   } catch (error) {
     console.error('Login function error:', error);
     throw error;
@@ -255,17 +197,18 @@ export const refreshAccessToken = async (refreshToken) => {
  */
 export const logout = async () => {
   try {
-    // Không cần gọi API logout vì backend không có endpoint này
     console.log('Logging out user, clearing auth data');
-    // Xóa dữ liệu xác thực
-    clearAuthData();
+
+    // Use the setManualLogout function to prevent auto-login
+    setManualLogout();
+
     return true;
   } catch (error) {
     console.error('Error during logout:', error);
     console.log('Logout API call failed, clearing local auth data anyway');
-  } finally {
-    // Xóa dữ liệu xác thực dù API thành công hay thất bại
-    clearAuthData();
+
+    // Ensure we still set manual logout even if an error occurs
+    setManualLogout();
   }
 };
 
@@ -275,26 +218,20 @@ export const logout = async () => {
  */
 export const getCurrentUser = async () => {
   try {
-    // Thử gọi API lấy thông tin người dùng từ backend
-    try {
-      console.log('Attempting to get current user from backend API');
-      const token = localStorage.getItem(AUTH_TOKEN_KEY);
+    console.log('Attempting to get current user from backend API');
+    const token = localStorage.getItem(AUTH_TOKEN_KEY);
 
-      if (token) {
-        const response = await axios.get(`${API_URL}/user/me`);
-        console.log('Successfully retrieved user from backend:', response.data);
+    if (token) {
+      const response = await axios.get(`${API_URL}/user/me`);
+      console.log('Successfully retrieved user from backend:', response.data);
 
-        // Lưu dữ liệu mới vào localStorage
-        localStorage.setItem(USER_DATA_KEY, JSON.stringify(response.data));
-
-        return response.data;
-      }
-    } catch (error) {
-      console.log('Failed to get user from backend API, using localStorage:', error.message);
+      // Lưu dữ liệu từ MongoDB vào localStorage
+      localStorage.setItem(USER_DATA_KEY, JSON.stringify(response.data));
+      return response.data;
     }
 
-    // Dùng dữ liệu từ localStorage nếu API thất bại
-    console.log('Falling back to localStorage for user data');
+    // Dùng dữ liệu từ localStorage nếu có token nhưng API thất bại
+    console.log('No token found, checking localStorage');
     const storedUserData = localStorage.getItem(USER_DATA_KEY);
 
     if (storedUserData) {
@@ -312,7 +249,16 @@ export const getCurrentUser = async () => {
     return null;
   } catch (error) {
     console.error('getCurrentUser error:', error);
-    throw error;
+    // Không throw error để tránh crash app, thay vào đó cố gắng lấy từ localStorage
+    const storedUserData = localStorage.getItem(USER_DATA_KEY);
+    if (storedUserData) {
+      try {
+        return JSON.parse(storedUserData);
+      } catch (e) {
+        console.error('Error parsing stored user data:', e);
+      }
+    }
+    return null;
   }
 };
 
@@ -322,6 +268,13 @@ export const getCurrentUser = async () => {
  */
 export const isAuthenticated = () => {
   try {
+    // First check if manual logout flag is set - if so, user is not authenticated
+    const manualLogout = localStorage.getItem('manual_logout');
+    if (manualLogout) {
+      console.log('Manual logout flag is set - user is not authenticated');
+      return false;
+    }
+
     // Kiểm tra token và user data trong localStorage
     const token = localStorage.getItem(AUTH_TOKEN_KEY);
     const userData = localStorage.getItem(USER_DATA_KEY);
@@ -330,5 +283,23 @@ export const isAuthenticated = () => {
   } catch (error) {
     console.error('Error checking authentication status:', error);
     return false;
+  }
+};
+
+/**
+ * Kiểm tra trạng thái kết nối MongoDB
+ * @returns {Promise<Object>} Kết quả kiểm tra kết nối
+ */
+export const checkMongoDBStatus = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/mongodb-status`);
+    return response.data;
+  } catch (error) {
+    console.error('Error checking MongoDB status:', error);
+    return {
+      status: 'error',
+      message: 'Không thể kiểm tra trạng thái MongoDB: ' +
+        (error.response?.data?.message || error.message)
+    };
   }
 }; 

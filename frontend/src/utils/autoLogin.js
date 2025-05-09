@@ -8,28 +8,36 @@
 
 import { login } from '../api/authApi';
 import { USER_DATA_KEY, AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY, TOKEN_EXPIRY_KEY } from '../config/constants';
+import { AUTO_LOGIN_CONFIG } from '../config/autoLogin';
 
-// Credentials for first login when no user exists
-const DEV_EMAIL = 'admin@movigo.com';
-const DEV_PASSWORD = 'admin123';
-const ENABLE_AUTO_LOGIN = false; // Disable auto-login by default
+// Key to store manual logout flag in localStorage
+const MANUAL_LOGOUT_KEY = 'manual_logout';
 
 /**
  * Clear any existing auth data from localStorage
+ * @param {boolean} isManualLogout - Whether this is a manual logout (not auto cleanup)
  */
-const clearExistingAuthData = () => {
+const clearExistingAuthData = (isManualLogout = false) => {
     // Remove all auth-related items from localStorage
     localStorage.removeItem(AUTH_TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
     localStorage.removeItem(TOKEN_EXPIRY_KEY);
     localStorage.removeItem(USER_DATA_KEY);
 
+    // If this is a manual logout, set the logout flag
+    if (isManualLogout) {
+        localStorage.setItem(MANUAL_LOGOUT_KEY, 'true');
+        console.log('Manual logout flag set - auto-login disabled until next app start');
+    }
+
     // Clear any other potential cached user data
     try {
         // Remove any items that might contain user information
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
-            if (key && (key.includes('user') || key.includes('auth') || key.includes('token'))) {
+            if (key &&
+                key !== MANUAL_LOGOUT_KEY && // Don't remove the manual logout flag
+                (key.includes('user') || key.includes('auth') || key.includes('token'))) {
                 localStorage.removeItem(key);
             }
         }
@@ -40,10 +48,59 @@ const clearExistingAuthData = () => {
     console.log('Cleared all existing auth data before auto-login');
 };
 
+/**
+ * Mark that user has manually logged out
+ */
+export const setManualLogout = () => {
+    // First, clear all authentication data
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(REFRESH_TOKEN_KEY);
+    localStorage.removeItem(TOKEN_EXPIRY_KEY);
+    localStorage.removeItem(USER_DATA_KEY);
+
+    // Then set the manual logout flag
+    localStorage.setItem(MANUAL_LOGOUT_KEY, 'true');
+    console.log('Manual logout flag set - auto-login disabled until next app start');
+
+    // Also clear any other potential user/auth data
+    try {
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key &&
+                key !== MANUAL_LOGOUT_KEY &&
+                (key.includes('user') || key.includes('auth') || key.includes('token'))) {
+                localStorage.removeItem(key);
+            }
+        }
+    } catch (e) {
+        console.error('Error clearing additional localStorage items:', e);
+    }
+};
+
+/**
+ * Clear the manual logout flag (called when app starts fresh)
+ */
+export const clearManualLogoutFlag = () => {
+    localStorage.removeItem(MANUAL_LOGOUT_KEY);
+    console.log('Manual logout flag cleared - auto-login enabled for this session');
+};
+
 export const attemptAutoLogin = async () => {
+    // IMPORTANT: First check if user has manually logged out
+    const manualLogout = localStorage.getItem(MANUAL_LOGOUT_KEY);
+    if (manualLogout) {
+        console.log('User has manually logged out - skipping auto-login');
+        return null;
+    }
+
+    // Check if auto-login is enabled in config
+    if (!AUTO_LOGIN_CONFIG.enabled) {
+        console.log('Auto-login is disabled in configuration');
+        return null;
+    }
+
     // Check if there's already a user logged in
     const existingUserData = localStorage.getItem(USER_DATA_KEY);
-
     if (existingUserData) {
         try {
             // Parse existing user data
@@ -59,37 +116,40 @@ export const attemptAutoLogin = async () => {
             };
         } catch (error) {
             console.error('Error parsing existing user data:', error);
-            // Don't continue with auto-login if we can't parse user data
+            // Clear corrupted data
+            localStorage.removeItem(USER_DATA_KEY);
             return null;
         }
     }
 
-    // Check if auto-login is enabled
-    if (!ENABLE_AUTO_LOGIN) {
-        console.log('Auto-login is disabled');
-        return null;
-    }
-
     try {
-        console.log(`Attempting development auto-login with: ${DEV_EMAIL}`);
+        console.log(`Attempting auto-login with: ${AUTO_LOGIN_CONFIG.email}`);
 
-        // Call the login API with development credentials
+        // Clear any existing authentication data before attempting auto-login
+        // But don't set the manual logout flag
+        clearExistingAuthData(false);
+
+        // Call the login API with configuration credentials
         const response = await login({
-            email: DEV_EMAIL,
-            password: DEV_PASSWORD
+            email: AUTO_LOGIN_CONFIG.email,
+            password: AUTO_LOGIN_CONFIG.password
         });
 
         if (response && response.access_token) {
-            console.log('Auto-login successful with user:', response.user.email);
+            console.log('Auto-login successful with user:', response.user?.email || 'unknown');
             return response;
         } else {
             console.error('Auto-login failed: Invalid response');
             return null;
         }
     } catch (error) {
-        console.error('Auto-login failed:', error);
+        console.error('Auto-login failed:', error.message);
+        if (error.response) {
+            console.error('Error details:', error.response.data);
+            console.error('Status code:', error.response.status);
+        }
         return null;
     }
 };
 
-export const isAutoLoginEnabled = () => ENABLE_AUTO_LOGIN; 
+export const isAutoLoginEnabled = () => AUTO_LOGIN_CONFIG.enabled; 

@@ -10,7 +10,7 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { login, loginWithGoogle } from '../../api/authApi';
+import { login, loginWithGoogle, checkMongoDBStatus } from '../../api/authApi';
 import { showErrorToast } from '../../utils/errorHandler';
 import '../../styles/Auth.css';
 
@@ -23,7 +23,10 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
-  
+  const [usingFallbackData, setUsingFallbackData] = useState(false);
+  const [checkingMongoDB, setCheckingMongoDB] = useState(false);
+  const [mongoDBStatus, setMongoDBStatus] = useState(null);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,9 +43,9 @@ function Login() {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === 'checkbox' ? checked : value;
-    
+
     setFormData({ ...formData, [name]: newValue });
-    
+
     // Xóa lỗi khi người dùng sửa input
     if (errors[name]) {
       setErrors({ ...errors, [name]: null });
@@ -52,43 +55,90 @@ function Login() {
   // Validate form
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.email) {
       newErrors.email = 'Vui lòng nhập email';
     }
-    
+
     if (!formData.password) {
       newErrors.password = 'Vui lòng nhập mật khẩu';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  // Kiểm tra kết nối MongoDB
+  const handleCheckMongoDBStatus = async () => {
+    setCheckingMongoDB(true);
+    try {
+      const result = await checkMongoDBStatus();
+      setMongoDBStatus(result);
+
+      if (result.status === 'connected') {
+        setSuccessMessage('Kết nối MongoDB thành công! Đang đăng nhập lại...');
+        setUsingFallbackData(false);
+
+        // Thử đăng nhập lại với thông tin người dùng hiện tại
+        if (formData.email && formData.password) {
+          handleSubmit(null, true);
+        }
+      } else {
+        setUsingFallbackData(true);
+        showErrorToast(`Không thể kết nối MongoDB: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('Error checking MongoDB status:', error);
+      showErrorToast('Không thể kiểm tra trạng thái MongoDB');
+    } finally {
+      setCheckingMongoDB(false);
+    }
+  };
+
   // Xử lý đăng nhập
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
-    
+  const handleSubmit = async (e, skipValidation = false) => {
+    if (e) e.preventDefault();
+
+    if (!skipValidation && !validateForm()) return;
+
     setLoading(true);
+    setUsingFallbackData(false);
+    setMongoDBStatus(null);
+
     try {
       // Gọi API đăng nhập
-      await login({
+      const authData = await login({
         email: formData.email,
         password: formData.password,
         remember_me: formData.rememberMe
       });
-      
-      // Chuyển hướng đến trang chủ hoặc trang được chuyển hướng
-      const redirectTo = location.state?.from || '/';
-      navigate(redirectTo);
+
+      // Kiểm tra xem có đang sử dụng dữ liệu fallback hay không
+      if (authData && authData.access_token && authData.access_token.startsWith('mock-token')) {
+        console.log('Đang sử dụng dữ liệu fallback vì không thể kết nối đến MongoDB');
+        setUsingFallbackData(true);
+
+        // Automatically continue with fallback data without showing warning
+        const redirectTo = location.state?.from || '/';
+        navigate(redirectTo);
+      } else {
+        // Chuyển hướng ngay lập tức nếu dữ liệu từ MongoDB
+        const redirectTo = location.state?.from || '/';
+        navigate(redirectTo);
+      }
     } catch (error) {
       console.error('Đăng nhập thất bại:', error);
-      showErrorToast(error.message);
+      showErrorToast(error.message || 'Đăng nhập thất bại');
     } finally {
       setLoading(false);
     }
+  };
+
+  // Tiếp tục với dữ liệu cục bộ
+  const continueWithFallbackData = () => {
+    // Chuyển đến trang chủ hoặc trang được chuyển hướng
+    const redirectTo = location.state?.from || '/';
+    navigate(redirectTo);
   };
 
   // Xử lý đăng nhập với Google
@@ -97,7 +147,7 @@ function Login() {
     try {
       // Khởi tạo đăng nhập Google
       await loginWithGoogle();
-      
+
       // Chuyển hướng đến trang chủ sau khi đăng nhập thành công
       const redirectTo = location.state?.from || '/';
       navigate(redirectTo);
@@ -112,19 +162,19 @@ function Login() {
   return (
     <div className="auth-page login-page">
       <div className="auth-overlay"></div>
-      
+
       <div className="auth-header">
         <Link to="/" className="auth-logo">MOVIGO</Link>
       </div>
-      
+
       <div className="auth-container">
         <div className="auth-form-container">
           <h1 className="auth-title">Đăng nhập</h1>
-          
+
           {successMessage && (
             <div className="success-message">{successMessage}</div>
           )}
-          
+
           <form className="auth-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="email">Email</label>
@@ -139,7 +189,7 @@ function Login() {
               />
               {errors.email && <div className="error-message">{errors.email}</div>}
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="password">Mật khẩu</label>
               <input
@@ -153,7 +203,7 @@ function Login() {
               />
               {errors.password && <div className="error-message">{errors.password}</div>}
             </div>
-            
+
             <div className="form-group checkbox-group">
               <label className="checkbox-label">
                 <input
@@ -166,21 +216,21 @@ function Login() {
               </label>
               <Link to="/forgot-password" className="forgot-password">Quên mật khẩu?</Link>
             </div>
-            
-            <button 
-              type="submit" 
+
+            <button
+              type="submit"
               className="auth-button"
               disabled={loading}
             >
               {loading ? 'Đang xử lý...' : 'Đăng nhập'}
             </button>
-            
+
             <div className="auth-separator">
               <span>Hoặc</span>
             </div>
-            
-            <button 
-              type="button" 
+
+            <button
+              type="button"
               className="google-button"
               onClick={handleGoogleLogin}
               disabled={loading}
@@ -189,7 +239,7 @@ function Login() {
               Đăng nhập với Google
             </button>
           </form>
-          
+
           <div className="auth-footer">
             Chưa có tài khoản? <Link to="/register" className="auth-link">Đăng ký ngay</Link>
           </div>

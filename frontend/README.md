@@ -118,3 +118,57 @@ Please read our contributing guidelines before submitting pull requests.
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Đăng nhập và Xác thực
+
+### Xác thực với MongoDB
+
+Hệ thống ưu tiên xác thực người dùng thông qua MongoDB. Khi đăng nhập, hệ thống sẽ:
+
+1. Gửi request đến API backend để xác thực
+2. Nếu thành công, lấy dữ liệu người dùng từ MongoDB (bao gồm subscription_plan)
+3. Lưu thông tin người dùng vào localStorage
+4. Hiển thị các tính năng phù hợp với gói subscription_plan của người dùng
+
+Các cấp độ subscription_plan:
+- `basic`: Gói cơ bản, hiển thị màu xanh
+- `standard`: Gói tiêu chuẩn, hiển thị màu vàng
+- `premium`: Gói cao cấp, hiển thị màu đỏ
+
+### Xử lý khi không thể kết nối MongoDB
+
+Khi không thể kết nối đến MongoDB, ứng dụng sẽ:
+
+1. Hiển thị thông báo cảnh báo: "Không thể kết nối đến MongoDB. Đang sử dụng dữ liệu cục bộ."
+2. Hiển thị hai lựa chọn:
+   - **Thử kết nối lại**: Kiểm tra lại kết nối MongoDB thông qua API `/mongodb-status` và thử đăng nhập lại nếu kết nối thành công
+   - **Tiếp tục với dữ liệu cục bộ**: Sử dụng dữ liệu fallback và tiếp tục vào ứng dụng
+
+Nếu người dùng chọn tiếp tục với dữ liệu cục bộ, hệ thống sẽ:
+1. Chuyển hướng đến trang chủ
+2. Sử dụng dữ liệu người dùng từ bộ nhớ cục bộ (không lưu vào MongoDB)
+3. Hiển thị cảnh báo rằng các tính năng yêu cầu database có thể không hoạt động
+
+### Xác thực Fallback
+
+Trong trường hợp không thể kết nối đến MongoDB, hệ thống sẽ sử dụng dữ liệu mặc định:
+
+1. Kiểm tra và sử dụng tài khoản từ danh sách cứng nếu email trùng khớp
+   - admin@movigo.com (premium)
+   - user0@example.com (basic)
+   - user1@example.com (premium)
+   - user2@example.com (standard)
+2. Nếu không có trong danh sách, tạo tài khoản generic với subscription_plan là "basic"
+
+**LƯU Ý:** Khi sử dụng tài khoản đã có trong MongoDB (ví dụ: user9@example.com với subscription_plan là "standard"), đảm bảo MongoDB đang hoạt động để hệ thống có thể đọc đúng thông tin subscription_plan.
+
+### Khắc phục lỗi kết nối MongoDB
+
+Nếu gặp lỗi kết nối MongoDB, hãy kiểm tra:
+
+1. MongoDB đã được cài đặt và đang chạy
+2. URI kết nối MongoDB trong file `.env` hoặc biến môi trường `MONGODB_URL` đã chính xác
+3. Firewall hoặc network settings không chặn kết nối đến MongoDB
+4. MongoDB đang chạy trên port mặc định (27017)
+
+Backend endpoint `/api/v1/mongodb-status` có thể được sử dụng để kiểm tra và debug kết nối MongoDB.

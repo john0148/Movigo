@@ -32,8 +32,8 @@ The auto-login configuration is stored in `frontend/src/config/autoLogin.js`. Ma
 ```javascript
 export const AUTO_LOGIN_CONFIG = {
   enabled: true,
-  email: "movigo@example.com", // Should match what you created
-  password: "movigo123"        // Should match what you created
+  email: "admin@movigo.com", // Should match what you created
+  password: "admin123"        // Should match what you created
 };
 ```
 
