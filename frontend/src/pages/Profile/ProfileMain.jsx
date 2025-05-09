@@ -97,7 +97,7 @@ const ProfileMain = () => {
   return (
     <div className="profile-page-container">
       <div className="profile-header">
-        <h1>Hồ sơ của tôi</h1>
+        <h1 style={{ color: '#000000' }}>Hồ sơ của tôi</h1>
       </div>
 
       <div className="profile-sections">
@@ -114,10 +114,20 @@ const ProfileMain = () => {
         {/* Các liên kết/hành động */}
         <section className="profile-section links-section">
           <div className="profile-links">
-            <div className="profile-link-card" onClick={() => navigate('/profile/vip')}>
+            <div
+              className={`profile-link-card ${user?.subscription_plan === 'premium' ? 'disabled-card' : ''}`}
+              onClick={() => user?.subscription_plan !== 'premium' && navigate('/profile/vip')}
+              style={{
+                opacity: user?.subscription_plan === 'premium' ? 0.5 : 1,
+                cursor: user?.subscription_plan === 'premium' ? 'not-allowed' : 'pointer'
+              }}
+            >
               <div className="link-icon vip-icon">🌟</div>
               <h3>Nâng cấp VIP</h3>
               <p>Xem phim không giới hạn với chất lượng cao nhất</p>
+              {user?.subscription_plan === 'premium' && (
+                <div className="premium-badge">Bạn đã là thành viên Premium</div>
+              )}
             </div>
             <div className="profile-link-card" onClick={() => navigate('/profile/history')}>
               <div className="link-icon history-icon">🕒</div>

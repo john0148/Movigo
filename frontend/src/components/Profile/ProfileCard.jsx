@@ -415,32 +415,6 @@ const ProfileCard = () => {
           </div>
         )}
       </div>
-
-      <div className="profile-actions">
-        <button
-          className="action-button primary-action"
-          onClick={() => navigate('/profile/vip')}
-        >
-          <span className="action-icon">🌟</span>
-          Nâng cấp tài khoản VIP
-        </button>
-        <div className="action-button-group">
-          <button
-            className="action-button"
-            onClick={() => navigate('/profile/history')}
-          >
-            <span className="action-icon">🕒</span>
-            Lịch sử xem phim
-          </button>
-          <button
-            className="action-button"
-            onClick={() => navigate('/profile/watchlater')}
-          >
-            <span className="action-icon">📋</span>
-            Xem sau
-          </button>
-        </div>
-      </div>
     </div>
   );
 };

@@ -329,7 +329,6 @@ function App() {
               {isLoggedIn && (
                 <div className="user-dropdown">
                   <Link to="/profileMain" className="dropdown-item">Hồ sơ</Link>
-                  <Link to="/profile/watchlater" className="dropdown-item">Xem sau</Link>
                   <button onClick={handleLogout} className="dropdown-item logout-button">Đăng xuất</button>
                 </div>
               )}
