@@ -1,0 +1,220 @@
+[{
+  "_id": "f6f13d5e-83a3-45dd-aa77-725ff0941a50",
+  "email": "admin@movigo.com",
+  "password": "$2b$12$AMc7v.rdmb3vYGAaEQTL7e0z7gxookKLXsgeLg8ojB5LiV9/ewrX2",
+  "full_name": "Admin User",
+  "role": "admin",
+  "subscription_plan": "premium",
+  "avatar_url": "/avatars/default-avatar.png",
+  "created_at": {
+    "$date": "2025-05-06T00:43:21.374Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:21.374Z"
+  },
+  "is_active": true,
+  "preferences": {
+    "language": "vi",
+    "notifications_enabled": true
+  }
+},
+{
+  "_id": "2eeb6faf-f235-480a-bdc2-96205fea9bb2",
+  "email": "user0@example.com",
+  "password": "$2b$12$UUUwiF.qRpFFhZo5HNyfbOAy8DDgg4GEsNliq2aqDHTXrDxH1Ji8y",
+  "full_name": "User 0",
+  "role": "user",
+  "subscription_plan": "basic",
+  "avatar_url": "/avatars/default-avatar.png",
+  "created_at": {
+    "$date": "2025-05-06T00:43:21.717Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:21.717Z"
+  },
+  "is_active": true,
+  "preferences": {
+    "language": "en",
+    "notifications_enabled": false
+  }
+},
+{
+  "_id": "4e89053e-7226-4dcf-ae92-189b984e240d",
+  "email": "user1@example.com",
+  "password": "$2b$12$wqenproUQK6YABxgQ.otAOeQNODyOWn3Ff1P4.AsGWqPFKujRO7nC",
+  "full_name": "User 1",
+  "role": "user",
+  "subscription_plan": "premium",
+  "avatar_url": "/avatars/default-avatar.png",
+  "created_at": {
+    "$date": "2025-05-06T00:43:22.104Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:22.104Z"
+  },
+  "is_active": true,
+  "preferences": {
+    "language": "en",
+    "notifications_enabled": false
+  }
+},
+{
+  "_id": "c33bdadd-18ea-45f8-9feb-7bb2940a4736",
+  "email": "user2@example.com",
+  "password": "$2b$12$.m.jbK4g2ZnM6nsGFXrZrO2kzH8vGYvbvHGsuRwHajHBy2DuGW83i",
+  "full_name": "User 2",
+  "role": "user",
+  "subscription_plan": "standard",
+  "avatar_url": "/avatars/default-avatar.png",
+  "created_at": {
+    "$date": "2025-05-06T00:43:22.445Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:22.445Z"
+  },
+  "is_active": true,
+  "preferences": {
+    "language": "vi",
+    "notifications_enabled": true
+  }
+},
+{
+  "_id": "69cce4c1-bfe2-4cb9-9e51-8a81e0dccfe0",
+  "email": "user3@example.com",
+  "password": "$2b$12$4Ip5cFXmn6WFM0qqVaYvOuaKpZUMayHOcL6vjLUIhVINsw6qUYmEy",
+  "full_name": "User 3",
+  "role": "user",
+  "subscription_plan": "standard",
+  "avatar_url": "/avatars/default-avatar.png",
+  "created_at": {
+    "$date": "2025-05-06T00:43:22.796Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:22.796Z"
+  },
+  "is_active": true,
+  "preferences": {
+    "language": "vi",
+    "notifications_enabled": false
+  }
+},
+{
+  "_id": "84b7c5be-8055-4d78-83c3-0fe41cd09813",
+  "email": "user4@example.com",
+  "password": "$2b$12$X4oiW3ybPt4fc2cPVG99Oe8HT.c0IUqrQD1MRkIg/.WSOnXxSiFgm",
+  "full_name": "User 4",
+  "role": "user",
+  "subscription_plan": "basic",
+  "avatar_url": "/avatars/default-avatar.png",
+  "created_at": {
+    "$date": "2025-05-06T00:43:23.165Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:23.165Z"
+  },
+  "is_active": true,
+  "preferences": {
+    "language": "vi",
+    "notifications_enabled": true
+  }
+},
+{
+  "_id": "d124648b-7e27-4408-922d-582d602477bd",
+  "email": "user5@example.com",
+  "password": "$2b$12$dfc5X7/4skVOeAynEZ8QRu4/SmpfZIqx9kbqMziv6JndAvOnpaVTO",
+  "full_name": "User 5",
+  "role": "user",
+  "subscription_plan": "premium",
+  "avatar_url": "/avatars/default-avatar.png",
+  "created_at": {
+    "$date": "2025-05-06T00:43:23.583Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:23.583Z"
+  },
+  "is_active": true,
+  "preferences": {
+    "language": "vi",
+    "notifications_enabled": false
+  }
+},
+{
+  "_id": "c939cae0-83d3-4bf7-8ab6-30f2882da543",
+  "email": "user6@example.com",
+  "password": "$2b$12$MrvFg6zMUmurDxTiG5bSte3vzZJ/RlFn8bryOreHrLchuNqa5Ssum",
+  "full_name": "User 6",
+  "role": "user",
+  "subscription_plan": "free",
+  "avatar_url": "/avatars/default-avatar.png",
+  "created_at": {
+    "$date": "2025-05-06T00:43:23.932Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:23.932Z"
+  },
+  "is_active": true,
+  "preferences": {
+    "language": "en",
+    "notifications_enabled": false
+  }
+},
+{
+  "_id": "7822870a-c14a-4012-b6dc-2f3b8fdfd3e2",
+  "email": "user7@example.com",
+  "password": "$2b$12$yXovbL5OleGqEJ8MBEtcHO.iQwYoMZeCaeW.qA1EOWJuj6iuSW.k.",
+  "full_name": "User 7",
+  "role": "user",
+  "subscription_plan": "premium",
+  "avatar_url": "/avatars/default-avatar.png",
+  "created_at": {
+    "$date": "2025-05-06T00:43:24.270Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:24.270Z"
+  },
+  "is_active": true,
+  "preferences": {
+    "language": "en",
+    "notifications_enabled": true
+  }
+},
+{
+  "_id": "a54444a9-6536-47cf-94f4-3989bac3167a",
+  "email": "user8@example.com",
+  "password": "$2b$12$C.5y1vupkwNqtLX4ge4oBOqYNzVq4Rz4HsZqQr7Bhdy6JNiAEYSL6",
+  "full_name": "User 8",
+  "role": "user",
+  "subscription_plan": "premium",
+  "avatar_url": "/avatars/default-avatar.png",
+  "created_at": {
+    "$date": "2025-05-06T00:43:24.608Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:24.608Z"
+  },
+  "is_active": true,
+  "preferences": {
+    "language": "en",
+    "notifications_enabled": false
+  }
+},
+{
+  "_id": "d0401efc-71d7-49f3-b649-e64fcdc2a2a8",
+  "email": "user9@example.com",
+  "password": "$2b$12$sf3qKQ/Cn6dpOGwz5Uz5q.Tfm0Z3ULj7e0ZTfSi7cgoKSukuGT7Tq",
+  "full_name": "User 9",
+  "role": "user",
+  "subscription_plan": "standard",
+  "avatar_url": "/avatars/default-avatar.png",
+  "created_at": {
+    "$date": "2025-05-06T00:43:25.010Z"
+  },
+  "updated_at": {
+    "$date": "2025-05-06T00:43:25.010Z"
+  },
+  "is_active": true,
+  "preferences": {
+    "language": "vi",
+    "notifications_enabled": true
+  }
+}]
