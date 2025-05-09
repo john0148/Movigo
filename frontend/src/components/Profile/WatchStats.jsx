@@ -59,9 +59,13 @@ const WatchStats = () => {
       {
         label: 'Phút xem',
         data: statsData.watchMinutes,
-        backgroundColor: 'rgba(229, 9, 20, 0.6)',
+        backgroundColor: 'rgba(229, 9, 20, 0.7)',
         borderColor: 'rgba(229, 9, 20, 1)',
-        borderWidth: 1,
+        borderWidth: 2,
+        borderRadius: 6,
+        hoverBackgroundColor: 'rgba(229, 9, 20, 0.9)',
+        hoverBorderColor: '#ffffff',
+        hoverBorderWidth: 2,
       },
     ],
   };
@@ -71,12 +75,68 @@ const WatchStats = () => {
     plugins: {
       legend: {
         position: 'top',
+        labels: {
+          color: '#ffffff',
+          font: {
+            size: 14,
+            weight: 'bold'
+          },
+          padding: 20
+        }
       },
       title: {
         display: true,
         text: 'Thời gian xem phim',
+        color: '#ffffff',
+        font: {
+          size: 18,
+          weight: 'bold'
+        },
+        padding: {
+          top: 10,
+          bottom: 20
+        }
       },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        titleFont: {
+          size: 16,
+          weight: 'bold'
+        },
+        bodyFont: {
+          size: 14
+        },
+        padding: 12,
+        cornerRadius: 8,
+        caretSize: 6
+      }
     },
+    scales: {
+      x: {
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)'
+        },
+        ticks: {
+          color: '#ffffff',
+          font: {
+            size: 12
+          }
+        }
+      },
+      y: {
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)'
+        },
+        ticks: {
+          color: '#ffffff',
+          font: {
+            size: 12
+          }
+        }
+      }
+    }
   };
 
   return (
