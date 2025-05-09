@@ -31,6 +31,8 @@ class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
     refresh_token: Optional[str] = None
+    expires_in: int = 3600
+    user: Optional[dict] = None
 
 
 class GoogleToken(BaseModel):
@@ -103,7 +105,7 @@ class UserInDB(UserBase):
 
     class Config:
         from_attributes = True
-        populate_by_name = True
+        validate_by_name = True
 
 
 class UserResponse(BaseModel):
@@ -121,7 +123,7 @@ class UserResponse(BaseModel):
     
     class Config:
         from_attributes = True
-        populate_by_name = True
+        validate_by_name = True
 
 
 class UserOut(UserBase):

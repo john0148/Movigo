@@ -4,12 +4,14 @@ import { getCurrentUser } from '../api/authApi';
 
 /**
  * ProtectedRoute Component
- * Component bảo vệ các routes yêu cầu xác thực
- * - Kiểm tra xem người dùng đã đăng nhập chưa
- * - Nếu chưa đăng nhập, chuyển hướng đến trang login
- * - Nếu đã đăng nhập, hiển thị component con
+ * TEMPORARILY DISABLED FOR DEVELOPMENT
+ * All routes are now accessible without authentication
  */
 const ProtectedRoute = ({ children }) => {
+  // Temporarily bypass authentication
+  return children;
+
+  /*
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const location = useLocation();
@@ -45,6 +47,7 @@ const ProtectedRoute = ({ children }) => {
   }
 
   return children;
+  */
 };
 
 export default ProtectedRoute; 

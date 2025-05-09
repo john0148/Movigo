@@ -239,4 +239,58 @@ async def remove_from_watch_later(user_id: ObjectId, movie_id: ObjectId) -> bool
         "user_id": user_id,
         "movie_id": movie_id
     })
-    return result.deleted_count > 0 
+    return result.deleted_count > 0
+
+class UserCRUD:
+    """
+    User CRUD helper class
+    """
+    @staticmethod
+    def model_to_dict(user):
+        """
+        Convert MongoDB user to dict format expected by frontend
+        """
+        # Handle both dict and object format
+        if isinstance(user, dict):
+            user_id = str(user.get("_id", ""))
+            email = user.get("email", "")
+            full_name = user.get("full_name", "")
+            subscription_plan = user.get("subscription_plan", "basic")
+            avatar_url = user.get("avatar_url", "")
+            max_devices = user.get("max_devices", 1)
+            role = user.get("role", "user")
+            phone = user.get("phone", "")
+            birth_date = user.get("birth_date")
+            gender = user.get("gender")
+            is_active = user.get("is_active", True)
+            created_at = user.get("created_at", datetime.now())
+        else:
+            # Object with attributes
+            user_id = str(getattr(user, "id", ""))
+            email = getattr(user, "email", "")
+            full_name = getattr(user, "full_name", "")
+            subscription_plan = getattr(user, "subscription_plan", "basic")
+            avatar_url = getattr(user, "avatar_url", "")
+            max_devices = getattr(user, "max_devices", 1)
+            role = getattr(user, "role", "user")
+            phone = getattr(user, "phone", "")
+            birth_date = getattr(user, "birth_date", None)
+            gender = getattr(user, "gender", None)
+            is_active = getattr(user, "is_active", True)
+            created_at = getattr(user, "created_at", datetime.now())
+        
+        # Return dict in format that frontend expects
+        return {
+            "id": user_id,
+            "email": email,
+            "full_name": full_name,
+            "subscription_plan": subscription_plan,
+            "avatar_url": avatar_url,
+            "max_devices": max_devices,
+            "role": role,
+            "phone": phone,
+            "birth_date": birth_date,
+            "gender": gender,
+            "is_active": is_active,
+            "created_at": created_at
+        } 

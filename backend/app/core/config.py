@@ -42,10 +42,11 @@ class Settings(BaseSettings):
     AVATAR_DIR: str = "uploads/avatars"
     MAX_UPLOAD_SIZE: int = 5 * 1024 * 1024  # 5MB
     
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = True
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "case_sensitive": True
+    }
 
 # Export settings instance
 settings = Settings()

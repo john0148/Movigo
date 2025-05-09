@@ -10,7 +10,7 @@ import os
 
 from .core.config import settings
 from .api import movies, auth, profiles, watch_stats
-from .db.database import connect_to_mongodb, close_mongodb_connection, initialize_crud_modules
+from .db.database import connect_to_mongodb, close_mongodb_connection, initialize_crud_modules, test_connection
 
 # Configure logging
 logging.basicConfig(
@@ -53,9 +53,17 @@ app.include_router(watch_stats.router, prefix=f"{settings.API_V1_PREFIX}/watch-s
 # Kết nối MongoDB khi startup
 @app.on_event("startup")
 async def startup_db_client():
-    await connect_to_mongodb()
-    initialize_crud_modules()
-    logging.info("Application startup complete")
+    try:
+        db = await connect_to_mongodb()
+        if db is not None:
+            initialize_crud_modules()
+            logging.info("MongoDB connection successful, CRUD modules initialized")
+        else:
+            logging.warning("Application running without MongoDB connection! Using fallback/local data only.")
+        logging.info("Application startup complete")
+    except Exception as e:
+        logging.error(f"Error during application startup: {e}")
+        logging.warning("Application will continue without MongoDB connection - some features may not work!")
 
 # Đóng kết nối MongoDB khi shutdown
 @app.on_event("shutdown")
@@ -80,3 +88,11 @@ async def health_check():
     Health check endpoint to verify the API is running.
     """
     return {"status": "ok"}
+
+@app.get(f"{settings.API_V1_PREFIX}/mongodb-status")
+async def mongodb_status():
+    """
+    Check MongoDB connection status
+    """
+    result = await test_connection()
+    return result

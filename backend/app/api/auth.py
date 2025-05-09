@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Body, status
 from fastapi.security import OAuth2PasswordRequestForm
+import jwt
 
 from ..schemas.user import UserCreate, UserOut, Token, GoogleToken
 from ..services.auth_service import (
@@ -8,8 +9,10 @@ from ..services.auth_service import (
     register_new_user,
     get_current_active_user,
     verify_google_token,
-    create_tokens_for_user
+    create_tokens_for_user,
+    get_user_by_email
 )
+from ..core.config import settings
 
 """
 Authentication API Router
@@ -81,11 +84,34 @@ async def refresh_access_token(refresh_token: str = Body(..., embed=True)):
     Refresh token để lấy access token mới
     """
     try:
-        tokens = await create_access_token(refresh_token=refresh_token)
-        return tokens
-    except Exception as e:
+        # Decode refresh token
+        payload = jwt.decode(
+            refresh_token, 
+            settings.JWT_SECRET_KEY, 
+            algorithms=[settings.JWT_ALGORITHM]
+        )
+        email = payload.get("sub")
+        if email is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid refresh token",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        
+        # Get user from database
+        user = await get_user_by_email(email)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User not found",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+            
+        # Return new tokens
+        return await create_tokens_for_user(user)
+    except jwt.PyJWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Refresh token không hợp lệ hoặc đã hết hạn",
+            detail="Invalid refresh token",
             headers={"WWW-Authenticate": "Bearer"},
         ) 

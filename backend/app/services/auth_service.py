@@ -9,7 +9,8 @@ import httpx
 import json
 
 from ..schemas.user import UserCreate
-from ..crud.user import get_user_by_email, create_user, get_user_by_id
+from ..crud.user import get_user_by_email, create_user, get_user_by_id, update_user
+from ..core.config import settings
 
 """
 Authentication Service
@@ -19,15 +20,6 @@ Xử lý các chức năng liên quan đến xác thực:
 - Xác thực Google OAuth
 - Tạo và xác thực JWT token
 """
-
-# Cấu hình JWT
-SECRET_KEY = "YOUR_SECRET_KEY"  # Thay đổi trong production
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 1 ngày
-REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 30  # 30 ngày
-
-# Google OAuth
-GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"  # Thay đổi trong production
 
 # Cấu hình mã hóa mật khẩu
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -59,77 +51,44 @@ async def authenticate_user(email: str, password: str) -> Optional[Dict[str, Any
         return None
     
     # Kiểm tra nếu là tài khoản Google (không có mật khẩu)
-    if user.get("is_google_auth") and not user.get("hashed_password"):
+    if user.get("is_google_auth") and not user.get("hashed_password") and not user.get("password"):
         return None
+    
+    # Check if hashed_password exists in the user document
+    if "hashed_password" not in user:
+        # If not, check if there's a "password" field instead
+        if "password" in user:
+            # Use the password field as hashed_password
+            user["hashed_password"] = user["password"]
+        else:
+            return None
     
     if not verify_password(password, user["hashed_password"]):
         return None
     
     return user
 
-async def create_access_token(
-    data: dict = None,
-    expires_delta: Optional[timedelta] = None,
-    user_id: str = None,
-    refresh_token: str = None
-) -> Dict[str, str]:
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     """
-    Tạo JWT token
-    - Nếu có refresh_token: dùng để tạo access token mới
-    - Nếu không: tạo cả access và refresh token mới
+    Create a new access token
     """
-    if refresh_token:
-        # Xác thực refresh token
-        try:
-            payload = jwt.decode(refresh_token, SECRET_KEY, algorithms=[ALGORITHM])
-            user_id = payload.get("sub")
-            if user_id is None:
-                raise HTTPException(
-                    status_code=status.HTTP_401_UNAUTHORIZED,
-                    detail="Invalid refresh token",
-                )
-        except jwt.PyJWTError:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid refresh token",
-            )
-        
-        # Kiểm tra user tồn tại
-        user = await get_user_by_id(ObjectId(user_id))
-        if not user or not user["is_active"]:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="User not found or inactive",
-            )
-        
-        # Tạo access token mới
-        data = {"sub": user_id}
-    
-    to_encode = data.copy() if data else {"sub": str(user_id)}
-    
-    # Access token
-    access_expires = expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_expire_time = datetime.utcnow() + access_expires
-    to_encode.update({"exp": access_expire_time})
-    access_token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    
-    # Refresh token (nếu không có refresh_token input)
-    if not refresh_token:
-        refresh_expires = timedelta(minutes=REFRESH_TOKEN_EXPIRE_MINUTES)
-        refresh_expire_time = datetime.utcnow() + refresh_expires
-        refresh_to_encode = {"sub": to_encode["sub"], "exp": refresh_expire_time}
-        refresh_token = jwt.encode(refresh_to_encode, SECRET_KEY, algorithm=ALGORITHM)
-        
-        return {
-            "access_token": access_token,
-            "token_type": "bearer",
-            "refresh_token": refresh_token
-        }
-    else:
-        return {
-            "access_token": access_token,
-            "token_type": "bearer"
-        }
+    to_encode = data.copy()
+    expires_delta = expires_delta or timedelta(minutes=settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.utcnow() + expires_delta
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
+    return encoded_jwt
+
+def create_refresh_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
+    """
+    Create a new refresh token with longer expiry
+    """
+    to_encode = data.copy()
+    expires = expires_delta or timedelta(minutes=settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES * 30)  # 30x longer
+    expire = datetime.utcnow() + expires
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
+    return encoded_jwt
 
 async def register_new_user(user_data: UserCreate) -> Optional[Dict[str, Any]]:
     """
@@ -164,7 +123,7 @@ async def verify_google_token(google_token: str) -> Optional[Dict[str, Any]]:
             token_info = response.json()
             
         # Kiểm tra token hợp lệ
-        if token_info.get("aud") != GOOGLE_CLIENT_ID:
+        if token_info.get("aud") != settings.GOOGLE_CLIENT_ID:
             return None
         
         # Lấy thông tin user
@@ -206,7 +165,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> Dict[str, Any
     
     try:
         # Decode JWT token
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
         user_id = payload.get("sub")
         if user_id is None:
             raise credentials_exception
@@ -233,15 +192,36 @@ async def get_current_active_user(
         )
     return current_user
 
-async def create_tokens_for_user(user: Dict[str, Any], is_google: bool = False) -> Dict[str, str]:
+async def create_tokens_for_user(user, is_google=False):
     """
-    Tạo JWT tokens cho user
+    Tạo access token và refresh token cho user
     """
-    # Dữ liệu để encode vào token
-    data = {
-        "sub": str(user["_id"]),
-        "email": user["email"]
-    }
+    from ..crud.user import UserCRUD
+    user_dict = UserCRUD.model_to_dict(user)
     
-    # Tạo tokens
-    return await create_access_token(data=data) 
+    # Handle both dict and object formats for user
+    if isinstance(user, dict):
+        email = user.get("email", "")
+        role = user.get("role", "user")
+    else:
+        # Assume it's an object with attributes
+        email = getattr(user, "email", "")
+        role = getattr(user, "role", "user")
+    
+    # Create access token
+    access_token = create_access_token(
+        data={"sub": email, "role": role}
+    )
+    
+    # Create refresh token (can have longer expiry)
+    refresh_token = create_refresh_token(
+        data={"sub": email}
+    )
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "refresh_token": refresh_token,
+        "expires_in": settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        "user": user_dict
+    } 

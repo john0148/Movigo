@@ -1,6 +1,8 @@
 """
 Dependencies module for the FastAPI application.
 Defines dependency injection functions for services, database connections, and authentication.
+
+TEMPORARILY MODIFIED FOR DEVELOPMENT: Authentication is bypassed
 """
 
 import logging
@@ -65,17 +67,31 @@ async def get_movie_service(
 # Dependency to get current user from token
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     """
-    Dependency function to get the current authenticated user from the token.
+    DEVELOPMENT MODE: This function is temporarily modified to bypass authentication
+    and always return a dummy user for development purposes.
     
     Args:
-        token: JWT token from request
+        token: JWT token from request (ignored in development mode)
         
     Returns:
-        UserInDB instance representing the current user
-        
-    Raises:
-        HTTPException: If the token is invalid or the user is not found
+        UserInDB instance representing a dummy user
     """
+    # Development mode: Return dummy user without checking token
+    user = {
+        "id": "dummy_user_id",
+        "email": "dev@example.com",
+        "hashed_password": "hashed_password",
+        "full_name": "Development User",
+        "is_active": True,
+        "created_at": datetime.utcnow(),
+        "updated_at": datetime.utcnow(),
+        "subscription_type": "premium"  # Premium to access all features
+    }
+    
+    return UserInDB(**user)
+    
+    """
+    # Original authentication logic - commented out for development
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -118,21 +134,24 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     except (JWTError, ValidationError):
         logger.exception("Token validation error")
         raise credentials_exception
+    """
 
 # Dependency to get admin user
 async def get_admin_user(user: UserInDB = Depends(get_current_user)):
     """
-    Dependency function to get an admin user.
+    DEVELOPMENT MODE: This function always returns the current user as an admin
     
     Args:
         user: Current authenticated user
         
     Returns:
         UserInDB instance representing an admin user
-        
-    Raises:
-        HTTPException: If the user is not an admin
     """
+    # Development mode: Always return user as admin
+    return user
+    
+    """
+    # Original admin check - commented out for development
     # Check if user is an admin (placeholder logic)
     if user.email != "admin@example.com":
         raise HTTPException(
@@ -141,3 +160,4 @@ async def get_admin_user(user: UserInDB = Depends(get_current_user)):
         )
     
     return user
+    """

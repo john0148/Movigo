@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import ProfileCard from '../../components/Profile/ProfileCard';
 import WatchStats from '../../components/Profile/WatchStats';
-import { getCurrentUser } from '../../api/authApi';
+import { getCurrentUser, isAuthenticated } from '../../api/authApi';
+import { USER_DATA_KEY } from '../../config/constants';
 import '../../styles/Profile.css';
 
 /**
@@ -14,24 +15,75 @@ import '../../styles/Profile.css';
  */
 const ProfileMain = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user: contextUser } = useOutletContext() || { user: null };
+  const [user, setUser] = useState(contextUser);
   const [loading, setLoading] = useState(true);
 
+  // Helper to refresh user data directly from localStorage
+  const refreshUserFromStorage = () => {
+    try {
+      const storedUserData = localStorage.getItem(USER_DATA_KEY);
+      if (storedUserData) {
+        const userData = JSON.parse(storedUserData);
+        console.log('ProfileMain - User from localStorage:', userData);
+        setUser(userData);
+        return userData;
+      }
+    } catch (error) {
+      console.error('Error refreshing user from localStorage:', error);
+    }
+    return null;
+  };
+
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuthAndFetchUser = async () => {
       try {
-        await getCurrentUser();
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error('Authentication check failed:', error);
-        navigate('/login', { state: { message: 'Vui lòng đăng nhập để xem trang này' } });
+        // Check if user is authenticated
+        if (!isAuthenticated()) {
+          console.log('User not authenticated, redirecting to login');
+          navigate('/login', { state: { message: 'Vui lòng đăng nhập để xem trang này' } });
+          return;
+        }
+
+        // First try to get user from context
+        if (contextUser) {
+          console.log('ProfileMain - Using user from context:', contextUser.email);
+          setUser(contextUser);
+          setLoading(false);
+          return;
+        }
+
+        // Next try to get user from localStorage
+        const storageUser = refreshUserFromStorage();
+        if (storageUser) {
+          console.log('User found in localStorage:', storageUser.email);
+          setLoading(false);
+          return;
+        }
+
+        // Otherwise fetch user data from API
+        try {
+          console.log('ProfileMain - Fetching user data from API');
+          const userData = await getCurrentUser();
+
+          if (userData) {
+            console.log('ProfileMain - User data from API:', userData.email);
+            setUser(userData);
+          } else {
+            console.warn('API returned no user data');
+            navigate('/login', { state: { message: 'Vui lòng đăng nhập để xem trang này' } });
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          navigate('/login', { state: { message: 'Vui lòng đăng nhập để xem trang này' } });
+        }
       } finally {
         setLoading(false);
       }
     };
 
-    checkAuth();
-  }, [navigate]);
+    checkAuthAndFetchUser();
+  }, [contextUser, navigate]);
 
   if (loading) {
     return (
@@ -42,42 +94,48 @@ const ProfileMain = () => {
     );
   }
 
-  if (!isAuthenticated) {
-    return null; // Will redirect in useEffect
-  }
-
   return (
     <div className="profile-page-container">
       <div className="profile-header">
-        <h1>Hồ sơ của tôi</h1>
+        <h1 style={{ color: '#000000' }}>Hồ sơ của tôi</h1>
       </div>
-      
+
       <div className="profile-sections">
         {/* Thông tin cá nhân */}
         <section className="profile-section">
           <ProfileCard />
         </section>
-        
+
         {/* Biểu đồ thống kê */}
         <section className="profile-section stats-section">
           <WatchStats />
         </section>
-        
+
         {/* Các liên kết/hành động */}
         <section className="profile-section links-section">
           <div className="profile-links">
-            <div className="profile-link-card" onClick={() => navigate('/profile/vip')}>
-              <div className="link-icon vip-icon"></div>
+            <div
+              className={`profile-link-card ${user?.subscription_plan === 'premium' ? 'disabled-card' : ''}`}
+              onClick={() => user?.subscription_plan !== 'premium' && navigate('/profile/vip')}
+              style={{
+                opacity: user?.subscription_plan === 'premium' ? 0.5 : 1,
+                cursor: user?.subscription_plan === 'premium' ? 'not-allowed' : 'pointer'
+              }}
+            >
+              <div className="link-icon vip-icon">🌟</div>
               <h3>Nâng cấp VIP</h3>
               <p>Xem phim không giới hạn với chất lượng cao nhất</p>
+              {user?.subscription_plan === 'premium' && (
+                <div className="premium-badge">Bạn đã là thành viên Premium</div>
+              )}
             </div>
             <div className="profile-link-card" onClick={() => navigate('/profile/history')}>
-              <div className="link-icon history-icon"></div>
+              <div className="link-icon history-icon">🕒</div>
               <h3>Lịch sử xem</h3>
               <p>Xem danh sách phim bạn đã xem gần đây</p>
             </div>
             <div className="profile-link-card" onClick={() => navigate('/profile/watchlater')}>
-              <div className="link-icon watchlater-icon"></div>
+              <div className="link-icon watchlater-icon">📋</div>
               <h3>Xem sau</h3>
               <p>Danh sách phim bạn đã lưu để xem sau</p>
             </div>

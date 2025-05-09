@@ -121,6 +121,84 @@
   margin-top: 6px;
 }
 
+/* Thông báo cảnh báo */
+.warning-message {
+  background-color: rgba(224, 180, 0, 0.8);
+  color: white;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+}
+
+.warning-icon {
+  margin-right: 5px;
+}
+
+.small-text {
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+.mongodb-status {
+  margin-top: 12px;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.mongodb-error {
+  margin: 0 0 6px 0;
+}
+
+.mongodb-url {
+  margin: 0;
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.warning-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.warning-action-button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.retry-button {
+  background-color: #fff;
+  color: #333;
+}
+
+.retry-button:hover {
+  background-color: #f0f0f0;
+}
+
+.retry-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.continue-button {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.continue-button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
 /* Thông báo thành công */
 .success-message {
   background-color: rgba(30, 159, 83, 0.8);
@@ -135,7 +213,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
 }
 
 /* Label cho checkbox */
@@ -147,14 +226,19 @@
 
 /* Input checkbox */
 .checkbox-label input[type="checkbox"] {
-  margin-right: 10px;
+  margin-right: 8px;
   cursor: pointer;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: -1px;
 }
 
 /* Text cho checkbox */
 .checkbox-text {
   font-size: 0.85rem;
   color: #b3b3b3;
+  line-height: 1.2;
 }
 
 /* Link quên mật khẩu */
@@ -299,20 +383,20 @@
   .auth-header {
     padding: 16px 24px;
   }
-  
+
   .auth-logo {
     font-size: 1.5rem;
   }
-  
+
   .auth-form-container {
     padding: 40px 24px;
     max-width: 100%;
   }
-  
+
   .auth-title {
     font-size: 1.5rem;
   }
-  
+
   .form-group input:not([type="checkbox"]),
   .form-group select,
   .auth-button,
@@ -325,14 +409,14 @@
   .auth-form-container {
     padding: 30px 16px;
   }
-  
+
   .auth-title {
     font-size: 1.3rem;
     margin-bottom: 20px;
   }
-  
+
   .form-buttons {
     flex-direction: column;
     gap: 10px;
   }
-} 
+}
