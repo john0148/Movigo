@@ -26,8 +26,9 @@ const router = createBrowserRouter([
     path: '/',
     element: <App />,
     children: [
-      { index: true, element: <Home /> },
       { path: 'movies/:id', element: <MovieDetail /> },
+      { index: true, element: <Home /> },
+
       { path: 'watch/:id', element: <MoviePlayer /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
@@ -56,4 +57,4 @@ const router = createBrowserRouter([
   }
 ]);
 
-export default router; 
+export default router;

@@ -38,7 +38,7 @@ async def create_user():
     """
     # Connect to MongoDB
     db = await connect_to_mongodb()
-    if not db:
+    if db is None:
         logger.error("Failed to connect to MongoDB. Cannot create user.")
         return False
 
