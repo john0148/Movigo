@@ -152,3 +152,14 @@ export const fetchRelatedMovies = async (movieId, limit = 6) => {
     throw error;
   }
 }; 
+
+export const getPopularMovies = async (page = 1) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/movies/tmdb/popular`, {
+      params: { page }
+    });
+    return response.data;
+  } catch (error) {
+    return handleApiError(error, 'Không thể lấy danh sách phim phổ biến');
+  }
+};

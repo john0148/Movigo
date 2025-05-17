@@ -55,6 +55,22 @@
   background-color: #f40612;
 }
 
+.movie-topic {
+  margin-bottom: 40px;
+}
+
+.topic-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.topic-subtitle {
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 16px;
+}
+
 /* Animation fade-in cho nội dung */
 @keyframes fadeIn {
   from {

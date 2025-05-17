@@ -51,7 +51,7 @@ export default function SearchPage() {
 
     const fetchData = async () => {
       const data = await searchMovies(query, genre, year, 1, 20);
-      setResults(data.results || []);
+      setResults(data || []);
     };
 
     if (query || genre || year) {
@@ -59,18 +59,6 @@ export default function SearchPage() {
     }
   }, [location.search]); // 👈 Bắt thay đổi query string
 
-  // return (
-  //   <div>
-  //     <h2>Kết quả tìm kiếm</h2>
-  //     {results.length > 0 ? (
-  //       results.map(movie => (
-  //         <div key={movie.id}>{movie.title}</div>
-  //       ))
-  //     ) : (
-  //       <p>Không tìm thấy kết quả.</p>
-  //     )}
-  //   </div>
-  // );
   return (
     <div>
       <h2>Kết quả tìm kiếm</h2>

@@ -17,6 +17,7 @@ from ..core.security import get_current_user
 from ..services.movie_service import MovieService
 from ..dependencies import get_movie_service
 from ..schemas.user import UserInDB
+from app.schemas.movie import TMDbMovie
 
 """
 Movies API Router
@@ -105,7 +106,39 @@ async def get_featured_movies(
     logger.info(f"Getting {limit} featured movies")
     return await movie_service.get_featured_movies(limit=limit)
 
-@router.get("/search", response_model=List[MovieResponse])
+# @router.get("/search", response_model=List[MovieResponse])
+# async def search_movies(
+#     query: str = Query(..., description="Search query"),
+#     genre: Optional[str] = Query(None, description="Filter by genre"),
+#     year: Optional[int] = Query(None, description="Filter by release year"),
+#     skip: int = Query(0, description="Number of movies to skip"),
+#     limit: int = Query(20, description="Number of movies to return"),
+#     movie_service: MovieService = Depends(get_movie_service)
+# ):
+#     """
+#     Search for movies by title, description, or other criteria.
+    
+#     Args:
+#         query: Search query string
+#         genre: Optional genre filter
+#         year: Optional release year filter
+#         skip: Number of movies to skip
+#         limit: Maximum number of movies to return
+#         movie_service: MovieService dependency
+        
+#     Returns:
+#         List of movies matching search criteria
+#     """
+#     logger.info(f"Searching movies with query='{query}', genre={genre}, year={year}")
+#     return await movie_service.search_movies(
+#         query=query, 
+#         genre=genre,
+#         year=year,
+#         skip=skip, 
+#         limit=limit
+#     )
+
+@router.get("/search", response_model=List[TMDbMovie])  # hoặc List[MovieResponse]
 async def search_movies(
     query: str = Query(..., description="Search query"),
     genre: Optional[str] = Query(None, description="Filter by genre"),
@@ -114,28 +147,16 @@ async def search_movies(
     limit: int = Query(20, description="Number of movies to return"),
     movie_service: MovieService = Depends(get_movie_service)
 ):
-    """
-    Search for movies by title, description, or other criteria.
-    
-    Args:
-        query: Search query string
-        genre: Optional genre filter
-        year: Optional release year filter
-        skip: Number of movies to skip
-        limit: Maximum number of movies to return
-        movie_service: MovieService dependency
-        
-    Returns:
-        List of movies matching search criteria
-    """
     logger.info(f"Searching movies with query='{query}', genre={genre}, year={year}")
-    return await movie_service.search_movies(
+    results = await movie_service.search_movies(
         query=query, 
         genre=genre,
         year=year,
         skip=skip, 
         limit=limit
     )
+    return results  # trả về list phim trực tiếp
+
 
 @router.get("/{movie_id}", response_model=MovieResponse)
 async def get_movie(
@@ -214,3 +235,11 @@ async def read_related_movies(
     
     related = await get_related_movies(movie, limit)
     return related
+
+@router.get("/tmdb/popular", response_model=List[TMDbMovie])
+async def fetch_from_tmdb(
+    page: int = Query(1, ge=1, description="Trang TMDb muốn lấy"),
+    movie_service: MovieService = Depends(get_movie_service)
+):
+    return await movie_service.fetch_movies_from_tmdb(page)
+

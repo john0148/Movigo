@@ -10,7 +10,7 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getRandomMovies, getMostViewedMovies } from '../api/movieApi';
+import { getRandomMovies, getMostViewedMovies, getPopularMovies } from '../api/movieApi';
 import MovieRow from '../components/MovieRow';
 import FeaturedBanner from '../components/FeaturedBanner';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -23,6 +23,8 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [popularMovies, setPopularMovies] = useState([]);
+
 
   useEffect(() => {
     // Hàm để tải dữ liệu từ API
@@ -38,6 +40,9 @@ function Home() {
         const mostViewedMoviesData = await getMostViewedMovies(10);
         setMostViewedMovies(mostViewedMoviesData);
         
+        const popularMoviesData = await getPopularMovies(10);
+        setPopularMovies(popularMoviesData);
+
         // Chọn một phim để hiển thị banner
         if (randomMoviesData.length > 0) {
           setFeaturedMovie(randomMoviesData[0]);
@@ -79,19 +84,38 @@ function Home() {
 
       <div className="movie-rows-container">
         {/* Danh sách phim ngẫu nhiên */}
-        <MovieRow
-          title="Phim đề xuất cho bạn"
-          movies={randomMovies}
-          onMovieClick={handleMovieClick}
-        />
+        <section className="movie-topic">
+          <h3 className="topic-title">Phim đề xuất cho bạn</h3>
+          <p className="topic-subtitle">Phim được chọn lọc dành riêng cho bạn</p>
+          <MovieRow
+            title="Phim đề xuất cho bạn"
+            movies={randomMovies}
+            onMovieClick={handleMovieClick}
+          />
+        </section>
 
-        {/* Danh sách phim được xem nhiều nhất */}
-        <MovieRow
-          title="Phim được xem nhiều nhất"
-          movies={mostViewedMovies}
-          onMovieClick={handleMovieClick}
-        />
+        {/* Danh sách phim được xem nhiều nhất
+        <section className="movie-topic">
+          <h3 className="topic-title">Phim được xem nhiều nhất</h3>
+          <p className="topic-subtitle">Những bộ phim đang rất hot hiện nay</p>
+          <MovieRow
+            title="Phim được xem nhiều nhất"
+            movies={mostViewedMovies}
+            onMovieClick={handleMovieClick}
+          />
+        </section> */}
         
+          {/* Topic: Phim phổ biến */}
+        <section className="movie-topic">
+          {/* <h3 className="topic-title">Phim phổ biến</h3>
+          <p className="topic-subtitle">Những bộ phim đang được yêu thích</p> */}
+          <MovieRow
+            title="Phim phổ biến"
+            movies={popularMovies}
+            onMovieClick={handleMovieClick}
+          />
+        </section>
+
         {/* Thêm các danh sách phim theo thể loại khác ở đây */}
       </div>
     </div>

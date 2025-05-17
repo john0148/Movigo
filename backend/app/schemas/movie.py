@@ -61,3 +61,16 @@ class MovieInDB(MovieBase):
 class MovieResponse(MovieInDB):
     """Schema for movie responses with all fields"""
     pass
+
+class TMDbMovie(BaseModel):
+    id: str
+    title: str
+    description: Optional[str] = ""
+    release_year: Optional[int] = None
+    genres: List[str] = []
+    duration_minutes: Optional[int] = 120
+    rating: Optional[float] = 0.0
+    poster_url: Optional[str] = None
+    backdrop_url: Optional[str] = None
+    trailer_url: Optional[str] = None
+

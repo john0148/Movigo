@@ -15,6 +15,7 @@ from datetime import datetime
 from ..crud.movie import MovieCRUD
 from ..crud.watch_history import WatchHistoryCRUD
 from ..schemas.movie import MovieInDB, MovieResponse
+from .tmdb_client import fetch_popular_movies
 
 logger = logging.getLogger(__name__)
 
@@ -181,3 +182,5 @@ class MovieService:
             await self.watch_history_crud.create(obj_in=watch_history_data)
         
         return MovieResponse.model_validate(updated_movie) 
+    async def fetch_movies_from_tmdb(self, page: int = 1):
+        return await fetch_popular_movies(page)
