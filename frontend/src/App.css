@@ -102,7 +102,8 @@
 
 /* Khung nhập dữ liệu (input) */
 .search-input-container {
-  margin-left: 20px; /* Khoảng cách giữa genre select và input */
+  margin-left: 20px;
+  /* Khoảng cách giữa genre select và input */
   align-items: center;
   margin-left: 10px;
 }
@@ -110,11 +111,13 @@
 .search-input {
   padding: 8px 12px;
   font-size: 14px;
-  border: 1px solid #444; /* Viền màu tối cho khung nhập */
+  border: 1px solid #444;
+  /* Viền màu tối cho khung nhập */
   border-radius: 4px;
   background-color: #333;
   color: white;
-  width: 300px; /* Đặt chiều rộng cho input */
+  width: 300px;
+  /* Đặt chiều rộng cho input */
   outline: none;
   transition: border-color 0.3s;
 }
@@ -122,22 +125,27 @@
 /* Khi hover hoặc focus vào input */
 .search-input:hover,
 .search-input:focus {
-  border-color: #E50914; /* Viền chuyển sang đỏ khi focus */
+  border-color: #E50914;
+  /* Viền chuyển sang đỏ khi focus */
   background-color: #444;
 }
+
 .search-btn {
   background-color: transparent;
   border: none;
   cursor: pointer;
   margin-left: 8px;
 }
+
 .search-icon {
   font-size: 18px;
   color: #fff;
 }
+
 .search-btn:hover .search-icon {
   color: #fff !important;
 }
+
 .search-results {
   display: flex;
   flex-direction: column;
@@ -348,3 +356,95 @@
   background-color: #ff8c00;
   color: white;
 } */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 0 10px;
+  transition: all 0.2s ease;
+}
+
+.search-container:focus-within {
+  background-color: #141414;
+  border-color: #fff;
+}
+
+.search-icon {
+  color: #8c8c8c;
+  margin-right: 10px;
+}
+
+.search-input {
+  background: transparent;
+  border: none;
+  color: white;
+  flex: 1;
+  font-size: 14px;
+  height: 34px;
+  outline: none;
+  padding: 0;
+}
+
+.search-input::placeholder {
+  color: #8c8c8c;
+}
+
+.clear-search-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 0 5px;
+}
+
+.search-suggestions {
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  left: 0;
+  margin-top: 2px;
+  position: absolute;
+  right: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.explore-section {
+  padding: 15px;
+}
+
+.explore-title {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.keyword-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.keyword-tag {
+  background-color: #333;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  padding: 5px 15px;
+  transition: background-color 0.2s;
+}
+
+.keyword-tag:hover {
+  background-color: #555;
+}

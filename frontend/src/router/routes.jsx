@@ -30,6 +30,7 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: 'movies/:id', element: <MovieDetail /> },
       { path: 'watch/:id', element: <MoviePlayer /> },
+      { path: 'search', element: <Search /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       {
@@ -58,4 +59,4 @@ const router = createBrowserRouter([
   }
 ]);
 
-export default router; 
+export default router;
