@@ -20,12 +20,20 @@ function App() {
   const [usingFallbackData, setUsingFallbackData] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+<<<<<<< HEAD
   // Search state variables - synchronized with URL parameters
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
   const [recentSearches, setRecentSearches] = useState([]);
+=======
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
+  const [searchResults, setSearchResults] = useState([]); // nếu muốn hiện kết quả tìm kiếm
+
+>>>>>>> main
   // Force refresh user data from localStorage
   const refreshUserFromStorage = () => {
     console.log('Refreshing user data from localStorage...');
@@ -332,6 +340,7 @@ function App() {
     }
   };
 
+<<<<<<< HEAD
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -377,15 +386,54 @@ function App() {
     }
     if (selectedGenre) params.set("category", selectedGenre);
     if (selectedYear) params.set("year", selectedYear);
+=======
+  // Handle genre selection
+  // const handleGenreChange = (e) => {
+  //   if (e.target.value) {
+  //     navigate(`/?category=${e.target.value}`);
+  //   }
+  // };
+
+  const handleGenreChange = (e) => {
+    const genre = e.target.value || null;
+    setSelectedGenre(genre);
+
+    const params = new URLSearchParams();
+    if (searchQuery) params.set("query", searchQuery);
+    if (genre) params.set("category", genre);
+>>>>>>> main
 
     navigate(`/search?${params.toString()}`);
   };
 
+<<<<<<< HEAD
   // Handle Enter key press in search input
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleSearch();
     }
+=======
+  const handleInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  // const handleSearch = async () => {
+  //   try {
+  //     console.log('Tìm kiếm với từ khóa:', searchQuery);
+  //     const movies = await searchMovies(searchQuery, selectedGenre, selectedYear, 1, 20);
+  //     setSearchResults(movies);  // setSearchResults là state để lưu kết quả phim
+  //   } catch (error) {
+  //     console.error("Lỗi khi tìm kiếm phim:", error);
+  //   }
+  // };
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (searchQuery) params.set("query", searchQuery);
+    if (selectedGenre) params.set("category", selectedGenre);
+
+    navigate(`/search?${params.toString()}`);
+>>>>>>> main
   };
 
   // Handle search suggestion click
@@ -469,6 +517,7 @@ function App() {
               <select
                 className="genre-select"
                 onChange={handleGenreChange}
+<<<<<<< HEAD
                 value={selectedGenre || ""}
               >
                 {genres.map(genre => (
@@ -570,6 +619,30 @@ function App() {
                   </div>
                 </div>
               )}
+=======
+                // defaultValue=""
+                value={selectedGenre ?? ""}
+              >
+                <option value="" >Thể loại</option>
+                <option value="action">Hành động</option>
+                <option value="comedy">Hài</option>
+                <option value="drama">Chính kịch</option>
+                <option value="horror">Kinh dị</option>
+                <option value="animation">Hoạt hình</option>
+              </select>
+            </div>
+            <div className="search-input-container">
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Nhập từ khóa..."
+                value={searchQuery}
+                onChange={handleInputChange}
+              />
+              <button className="search-btn" onClick={handleSearch}>
+                <i className="search-icon">&#128269;</i>
+              </button>
+>>>>>>> main
             </div>
           </div>
         </div>

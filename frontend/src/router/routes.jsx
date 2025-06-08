@@ -27,8 +27,9 @@ const router = createBrowserRouter([
     path: '/',
     element: <App />,
     children: [
-      { index: true, element: <Home /> },
       { path: 'movies/:id', element: <MovieDetail /> },
+      { index: true, element: <Home /> },
+
       { path: 'watch/:id', element: <MoviePlayer /> },
       { path: 'search', element: <Search /> },
       { path: 'login', element: <Login /> },

@@ -102,8 +102,12 @@
 
 /* Khung nhập dữ liệu (input) */
 .search-input-container {
+<<<<<<< HEAD
   margin-left: 20px;
   /* Khoảng cách giữa genre select và input */
+=======
+  margin-left: 20px; /* Khoảng cách giữa genre select và input */
+>>>>>>> main
   align-items: center;
   margin-left: 10px;
 }
@@ -111,6 +115,7 @@
 .search-input {
   padding: 8px 12px;
   font-size: 14px;
+<<<<<<< HEAD
   border: 1px solid #444;
   /* Viền màu tối cho khung nhập */
   border-radius: 4px;
@@ -118,6 +123,13 @@
   color: white;
   width: 300px;
   /* Đặt chiều rộng cho input */
+=======
+  border: 1px solid #444; /* Viền màu tối cho khung nhập */
+  border-radius: 4px;
+  background-color: #333;
+  color: white;
+  width: 300px; /* Đặt chiều rộng cho input */
+>>>>>>> main
   outline: none;
   transition: border-color 0.3s;
 }
@@ -125,27 +137,40 @@
 /* Khi hover hoặc focus vào input */
 .search-input:hover,
 .search-input:focus {
+<<<<<<< HEAD
   border-color: #E50914;
   /* Viền chuyển sang đỏ khi focus */
   background-color: #444;
 }
 
+=======
+  border-color: #E50914; /* Viền chuyển sang đỏ khi focus */
+  background-color: #444;
+}
+>>>>>>> main
 .search-btn {
   background-color: transparent;
   border: none;
   cursor: pointer;
   margin-left: 8px;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 .search-icon {
   font-size: 18px;
   color: #fff;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 .search-btn:hover .search-icon {
   color: #fff !important;
 }
 
+<<<<<<< HEAD
 .search-results {
   display: flex;
   flex-direction: column;
@@ -153,6 +178,8 @@
   padding: 20px;
 }
 
+=======
+>>>>>>> main
 /* User Avatar Circle styles */
 .user-avatar-circle {
   width: 40px;
