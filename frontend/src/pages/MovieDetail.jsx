@@ -5,6 +5,90 @@ import { getMovieDetails, fetchRelatedMovies, incrementMovieView } from '../api/
 const MovieDetail = () => {
   const [movie, setMovie] = useState(null);
 
+<<<<<<< HEAD
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        // Lấy thông tin chi tiết phim
+        const movieData = await getMovieDetails(id);
+        setMovie(movieData);
+
+        // Tăng lượt xem phim
+        await incrementMovieView(id);
+
+        // Lấy danh sách phim liên quan
+        const relatedMoviesData = await fetchRelatedMovies(id, 6);
+        setRelatedMovies(related);
+      } catch (err) {
+        setError('Không thể tải thông tin phim');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+  // Mock data cho chi tiết phim
+  // const movieData = {
+  //   id: "1",
+  //   title: "Avengers: Endgame",
+  //   description: "Sau các sự kiện tàn khốc của Avengers: Infinity War, vũ trụ đang trong cảnh hoang tàn. Với sự giúp đỡ của các đồng minh còn lại, các Avengers tập hợp một lần nữa để đảo ngược hành động của Thanos và khôi phục sự cân bằng cho vũ trụ.",
+  //   genres: ["Hành động", "Viễn tưởng", "Phiêu lưu"],
+  //   release_year: "2019-04-26",
+  //   duration_minutes: 181,
+  //   rating: 8.4,
+  //   view_count: 12543789,
+  //   poster_url: "https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_.jpg",
+  //   backdrop_url: "https://wallpaperaccess.com/full/1079195.jpg",
+  // };
+
+  // // Mock data cho phim liên quan
+  // const relatedMoviesData = [
+  //   {
+  //     id: "2",
+  //     title: "Avengers: Infinity War",
+  //     release_year: "2018-04-27",
+  //     poster_url: "https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_.jpg"
+  //   },
+  //   {
+  //     id: "3",
+  //     title: "Black Panther",
+  //     release_year: "2018-02-16",
+  //     poster_url: "https://m.media-amazon.com/images/M/MV5BMTg1MTY2MjYzNV5BMl5BanBnXkFtZTgwMTc4NTMwNDI@._V1_.jpg"
+  //   },
+  //   {
+  //     id: "4",
+  //     title: "Captain Marvel",
+  //     release_year: "2019-03-08",
+  //     poster_url: "https://m.media-amazon.com/images/M/MV5BMTE0YWFmOTMtYTU2ZS00ZTIxLWE3OTEtYTNiYzBkZjViZThiXkEyXkFqcGdeQXVyODMzMzQ4OTI@._V1_.jpg"
+  //   },
+  //   {
+  //     id: "5",
+  //     title: "Spider-Man: Far From Home",
+  //     release_year: "2019-07-02",
+  //     poster_url: "https://m.media-amazon.com/images/M/MV5BMGZlNTY1ZWUtYTMzNC00ZjUyLWE0MjQtMTMxN2E3ODYxMWVmXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg"
+  //   },
+  //   {
+  //     id: "6",
+  //     title: "Doctor Strange",
+  //     release_year: "2016-11-04",
+  //     poster_url: "https://m.media-amazon.com/images/M/MV5BNjgwNzAzNjk1Nl5BMl5BanBnXkFtZTgwMzQ2NjI1OTE@._V1_.jpg"
+  //   },
+  //   {
+  //     id: "7",
+  //     title: "Thor: Ragnarok",
+  //     release_year: "2017-11-03",
+  //     poster_url: "https://m.media-amazon.com/images/M/MV5BMjMyNDkzMzI1OF5BMl5BanBnXkFtZTgwODcxODg5MjI@._V1_.jpg"
+  //   }
+  // ];
+
+  const handleWatchMovie = () => {
+    console.log(`Watching movie ${movieData.id}`);
+  };
+
+=======
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
@@ -87,6 +171,7 @@ const MovieDetail = () => {
     console.log(`Watching movie ${movieData.id}`);
   };
 
+>>>>>>> main
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('vi-VN');

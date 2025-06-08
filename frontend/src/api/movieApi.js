@@ -6,7 +6,7 @@ const API_URL = `${API_BASE_URL}/movies`;
 
 /**
  * Movie API
- * 
+ *
  * Cung cấp các hàm giao tiếp với backend API cho các chức năng liên quan đến phim.
  * Bao gồm:
  * - Lấy danh sách phim ngẫu nhiên
@@ -87,21 +87,50 @@ export const getMovieDetails = async (id) => {
  * @param {number} limit Số lượng phim mỗi trang
  * @returns {Promise<Object>} Kết quả tìm kiếm và thông tin phân trang
  */
-export const searchMovies = async (query, genre = null, year = null, page = 1, limit = 20) => {
+export const searchMovies = async (query, genre = null, year = null, page = 1, limit = 10) => {
   try {
     const skip = (page - 1) * limit;
-    const response = await axios.get(`${API_URL}/search`, {
-      params: {
-        query,
-        genre,
-        year,
-        skip,
-        limit
+    // Tạo đối tượng params, loại bỏ các tham số null
+    const params = {};
+    if (query) params.query = query;
+    if (genre) params.genre = genre;
+    if (year) params.year = year;
+    params.skip = skip;
+    params.limit = limit;
+
+    console.log('Search params:', params);
+
+    const response = await axios.get(`${API_URL}/search`, { params });
+
+    console.log('API Response:', response.data);
+    // Kiểm tra cấu trúc phản hồi từ API
+    if (response.data && typeof response.data === 'object') {
+      // Nếu API trả về đối tượng có results và total
+      if (response.data.results) {
+        return {
+          results: response.data.results,
+          total: response.data.total || response.data.results.length
+        };
       }
-    });
-    return response.data;
+      // Nếu API trả về một mảng trực tiếp
+      else if (Array.isArray(response.data)) {
+        return {
+          results: response.data,
+          total: response.data.length
+        };
+      }
+    }
+    return {
+      results: [],
+      total: 0
+    };
   } catch (error) {
-    return handleApiError(error, 'Không thể tìm kiếm phim');
+    console.error('Error searching movies:', error);
+    return {
+      results: [],
+      total: 0,
+      error: error.message || 'Không thể tìm kiếm phim'
+    };
   }
 };
 
@@ -151,4 +180,6 @@ export const fetchRelatedMovies = async (movieId, limit = 6) => {
     console.error(`Error fetching related movies for ID ${movieId}:`, error);
     throw error;
   }
-}; 
+};
+
+
