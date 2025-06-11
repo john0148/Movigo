@@ -1,9 +1,9 @@
 /**
  * MovieRow Component
- * 
+ *
  * Hiển thị một hàng phim theo chiều ngang với khả năng cuộn ngang.
  * Mỗi phim được hiển thị thông qua component MovieItem.
- * 
+ *
  * Tính năng:
  * - Cuộn phim sang trái/phải
  * - Trạng thái hiển thị nút cuộn khi hover
@@ -56,13 +56,13 @@ function MovieRow({ title, movies, onMovieClick }) {
   }
 
   return (
-    <div 
+    <div
       className="movie-row"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <h2 className="row-title">{title}</h2>
-      
+
       <div className="row-container">
         {/* Nút cuộn trái */}
         {isScrolling && (
@@ -70,11 +70,11 @@ function MovieRow({ title, movies, onMovieClick }) {
             <i className="scroll-icon left-icon">&#10094;</i>
           </button>
         )}
-        
+
         {/* Danh sách phim */}
         <div className="movies-container" ref={rowRef}>
           {movies.map((movie) => (
-            <MovieItem 
+            <MovieItem
               key={movie.id}
               movie={movie}
               onMovieClick={onMovieClick}
@@ -82,7 +82,7 @@ function MovieRow({ title, movies, onMovieClick }) {
             />
           ))}
         </div>
-        
+
         {/* Nút cuộn phải */}
         {isScrolling && (
           <button className="scroll-button right" onClick={handleScrollRight}>
@@ -94,4 +94,4 @@ function MovieRow({ title, movies, onMovieClick }) {
   );
 }
 
-export default MovieRow; 
+export default MovieRow;

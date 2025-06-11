@@ -9,7 +9,7 @@ import logging
 import os
 
 from .core.config import settings
-from .api import movies, auth, profiles, watch_stats
+from .api import movies, auth, profiles, watch_stats, sync_routes
 from .db.database import connect_to_mongodb, close_mongodb_connection, initialize_crud_modules, test_connection
 
 # Configure logging
@@ -50,6 +50,7 @@ app.include_router(movies.router, prefix=f"{settings.API_V1_PREFIX}/movies")
 app.include_router(profiles.router, prefix=f"{settings.API_V1_PREFIX}/profiles")
 app.include_router(watch_stats.router, prefix=f"{settings.API_V1_PREFIX}/watch-stats")
 
+app.include_router(sync_routes.router, prefix=f"{settings.API_V1_PREFIX}/sync", tags=["sync"])
 # Kết nối MongoDB khi startup
 @app.on_event("startup")
 async def startup_db_client():
@@ -96,3 +97,4 @@ async def mongodb_status():
     """
     result = await test_connection()
     return result
+
