@@ -2,7 +2,7 @@
 /**
  * Search Page Component
  *
- * Hiển thị kết quả tìm kiếm 
+ * Hiển thị kết quả tìm kiếm
  */
 
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
@@ -376,7 +376,7 @@ export default function Search() {
               // </div>
 
 
-              
+
               <div className="no-results-wrapper">
                 <div className="no-results">
                   <div className="no-results-icon">🔍</div>
@@ -385,26 +385,26 @@ export default function Search() {
                     Rất tiếc, chúng tôi không tìm thấy bất kỳ phim nào phù hợp với từ khóa tìm kiếm của bạn.
                   </p>
                 </div>
-              
-              
-                  <div className="search-suggestions">
-                    <h4>Gợi ý:</h4>
-                    <ul>
-                      <li>Kiểm tra lỗi chính tả</li>
-                      <li>Thử sử dụng ít từ khóa hơn</li>
-                      <li>Thử sử dụng từ khóa khác</li>
-                    </ul>
-                  </div>                  
 
-                  <div className="popular-suggestions">
-                    <h4>Hoặc khám phá các phim phổ biến:</h4>
-                    <div className="popular-tags">
-                      <button onClick={() => navigate('/search?query=avengers')}>Avengers</button>
-                      <button onClick={() => navigate('/search?query=batman')}>Batman</button>
-                      <button onClick={() => navigate('/search?category=action')}>Hành động</button>
-                      <button onClick={() => navigate('/search?category=comedy')}>Hài</button>
-                    </div>
+
+                <div className="search-suggestions">
+                  <h4>Gợi ý:</h4>
+                  <ul>
+                    <li>Kiểm tra lỗi chính tả</li>
+                    <li>Thử sử dụng ít từ khóa hơn</li>
+                    <li>Thử sử dụng từ khóa khác</li>
+                  </ul>
+                </div>
+
+                <div className="popular-suggestions">
+                  <h4>Hoặc khám phá các phim phổ biến:</h4>
+                  <div className="popular-tags">
+                    <button onClick={() => navigate('/search?query=avengers')}>Avengers</button>
+                    <button onClick={() => navigate('/search?query=batman')}>Batman</button>
+                    <button onClick={() => navigate('/search?category=action')}>Hành động</button>
+                    <button onClick={() => navigate('/search?category=comedy')}>Hài</button>
                   </div>
+                </div>
 
               </div>
 

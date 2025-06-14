@@ -32,6 +32,8 @@ function App() {
     const storedUserData = localStorage.getItem(USER_DATA_KEY);
     // Danh sách từ khóa gợi ý - bạn có thể lấy từ API hoặc định nghĩa tĩnh
 
+    // Danh sách từ khóa gợi ý - bạn có thể lấy từ API hoặc định nghĩa tĩnh
+
 
     if (storedUserData) {
       try {
@@ -477,6 +479,9 @@ function App() {
             <Link to="/search" className="nav-link">Danh sách</Link>
 
             {/* Improved Genre dropdown */}
+            <Link to="/search" className="nav-link">Danh sách</Link>
+
+            {/* Improved Genre dropdown */}
             <div className="genre-select-container">
               <select
                 className="genre-select"
@@ -590,6 +595,8 @@ function App() {
         </div>
 
         {/* User menu section */}
+
+        {/* User menu section */}
         <div className="navbar-right">
           <div className="user-menu">
             <div className="user-avatar" onClick={goToProfile}>
@@ -607,6 +614,23 @@ function App() {
 
       {/* Main content */}
       <main className="main-content">
+        <Outlet context={{
+          user,
+          isLoggedIn,
+          refreshUserFromStorage,
+          usingFallbackData,
+          retryMongoDBConnection,
+          // Pass search context to child routes
+          searchContext: {
+            query: searchQuery,
+            genre: selectedGenre,
+            year: selectedYear,
+            setSearchQuery,
+            setSelectedGenre,
+            setSelectedYear,
+            handleSearch
+          }
+        }} />
         <Outlet context={{
           user,
           isLoggedIn,

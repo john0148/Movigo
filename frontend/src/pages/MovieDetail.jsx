@@ -87,6 +87,7 @@ const MovieDetail = () => {
     console.log(`Watching movie ${movieData.id}`);
   };
 
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('vi-VN');
