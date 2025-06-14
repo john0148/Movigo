@@ -109,23 +109,15 @@
 }
 
 .watch-stats-chart {
-  min-height: 300px;
+  height: 300px;
   margin-top: 20px;
   padding: 15px;
   background-color: rgba(30, 30, 30, 0.7);
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  text-align: center;
 }
 
 /* Canvas specific styles */
 .watch-stats-chart canvas {
   margin-top: 10px;
-  max-width: 90%;
-}
-
-.chart-container {
-  width: 80%;
-  max-width: 800px;
-  margin: 0 auto;
 }

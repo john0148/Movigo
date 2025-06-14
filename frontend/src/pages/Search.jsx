@@ -1,10 +1,16 @@
-<<<<<<< HEAD
+
+/**
+ * Search Page Component
+ *
+ * Hiển thị kết quả tìm kiếm
+ */
 
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { searchMovies } from '../api/movieApi';
 import MovieItem from '../components/MovieItem';
 import '../styles/Search.css';
+
 
 export default function Search() {
   const location = useLocation();
@@ -311,7 +317,7 @@ export default function Search() {
                   <button
                     className="load-more-btn"
                     onClick={handleLoadMore}
-                    disabled={isLoading}
+                    disabled={isLoading || page >= totalPages}
                   >
                     Tải thêm
                   </button>
@@ -343,12 +349,44 @@ export default function Search() {
             </>
           ) : (
             activeFilters.query && (
-              <div className="no-results">
-                <div className="no-results-icon">🔍</div>
-                <h3>Không tìm thấy kết quả cho "{activeFilters.query}"</h3>
-                <p className="no-results-message">
-                  Rất tiếc, chúng tôi không tìm thấy bất kỳ phim nào phù hợp với từ khóa tìm kiếm của bạn.
-                </p>
+              // <div className="no-results">
+              //   <div className="no-results-icon">🔍</div>
+              //   <h3>Không tìm thấy kết quả cho "{activeFilters.query}"</h3>
+              //   <p className="no-results-message">
+              //     Rất tiếc, chúng tôi không tìm thấy bất kỳ phim nào phù hợp với từ khóa tìm kiếm của bạn.
+              //   </p>
+              //   <div className="search-suggestions">
+              //     <h4>Gợi ý:</h4>
+              //     <ul>
+              //       <li>Kiểm tra lỗi chính tả</li>
+              //       <li>Thử sử dụng ít từ khóa hơn</li>
+              //       <li>Thử sử dụng từ khóa khác</li>
+              //     </ul>
+              //   </div>
+
+              //   <div className="popular-suggestions">
+              //     <h4>Hoặc khám phá các phim phổ biến:</h4>
+              //     <div className="popular-tags">
+              //       <button onClick={() => navigate('/search?query=avengers')}>Avengers</button>
+              //       <button onClick={() => navigate('/search?query=batman')}>Batman</button>
+              //       <button onClick={() => navigate('/search?category=action')}>Hành động</button>
+              //       <button onClick={() => navigate('/search?category=comedy')}>Hài</button>
+              //     </div>
+              //   </div>
+              // </div>
+
+
+
+              <div className="no-results-wrapper">
+                <div className="no-results">
+                  <div className="no-results-icon">🔍</div>
+                  <h3>Không tìm thấy kết quả cho "{activeFilters.query}"</h3>
+                  <p className="no-results-message">
+                    Rất tiếc, chúng tôi không tìm thấy bất kỳ phim nào phù hợp với từ khóa tìm kiếm của bạn.
+                  </p>
+                </div>
+
+
                 <div className="search-suggestions">
                   <h4>Gợi ý:</h4>
                   <ul>
@@ -367,7 +405,9 @@ export default function Search() {
                     <button onClick={() => navigate('/search?category=comedy')}>Hài</button>
                   </div>
                 </div>
+
               </div>
+
             )
           )}
         </>
@@ -375,40 +415,3 @@ export default function Search() {
     </div>
   );
 }
-=======
-import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-
-const useQueryParams = () => {
-  const { search } = useLocation();
-  return new URLSearchParams(search);
-};
-
-export default function SearchPage() {
-  const queryParams = useQueryParams();
-  const query = queryParams.get('query') || '';
-  const genre = queryParams.get('category') || null;
-  const year = queryParams.get('year') || null;
-
-  const [results, setResults] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await searchMovies(query, genre, year, 1, 20);
-      setResults(data);
-    };
-    if (query || genre || year) {
-      fetchData();
-    }
-  }, [query, genre, year]);
-
-  return (
-    <div>
-      <h2>Kết quả tìm kiếm</h2>
-      {results.map(movie => (
-        <div key={movie.id}>{movie.title}</div>
-      ))}
-    </div>
-  );
-}
->>>>>>> main

@@ -14,6 +14,7 @@
 import { useState } from 'react';
 import '../styles/MovieItem.css';
 
+
 function MovieItem({
   movie,
   onMovieClick,
