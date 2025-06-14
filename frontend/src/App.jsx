@@ -3,6 +3,7 @@ import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import { getCurrentUser, logout, isAuthenticated, checkMongoDBStatus } from './api/authApi';
 import { attemptAutoLogin, clearManualLogoutFlag, setManualLogout } from './utils/autoLogin';
 import { USER_DATA_KEY } from './config/constants';
+import { Search as SearchIcon } from "lucide-react";
 import './App.css';
 
 /**
@@ -19,15 +20,18 @@ function App() {
   const [usingFallbackData, setUsingFallbackData] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  // Search state variables - synchronized with URL parameters
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
-  const [searchResults, setSearchResults] = useState([]); // nếu muốn hiện kết quả tìm kiếm
-
+  const [isFocused, setIsFocused] = useState(false);
+  const [recentSearches, setRecentSearches] = useState([]);
   // Force refresh user data from localStorage
   const refreshUserFromStorage = () => {
     console.log('Refreshing user data from localStorage...');
     const storedUserData = localStorage.getItem(USER_DATA_KEY);
+    // Danh sách từ khóa gợi ý - bạn có thể lấy từ API hoặc định nghĩa tĩnh
+
 
     if (storedUserData) {
       try {
@@ -143,6 +147,53 @@ function App() {
 
     checkAuth();
   }, [location.pathname, navigate, location.state]);
+  const suggestedKeywords = [
+    'Hereditary', 'Hercules', 'Heartland: Season 1', 'He\'s Just Not That Into You',
+    'Heart Eyes', 'Heat', 'Hello Kitty\'s Furry Tale Theater', 'Hello Kitty: Super Style!',
+    'Hell on Wheels', 'Henry Cavill'
+  ];
+  // const genres = [
+  //   { value: "", label: "Thể loại" },
+  //   { value: "action", label: "Phim Hành Động" },
+  //   { value: "comedy", label: "Phim Hài" },
+  //   { value: "drama", label: "Chính kịch" },
+  //   { value: "horror", label: "Phim Kinh Dị" },
+  //   { value: "", label: "Phim Bí Ẩn" },
+
+  //   { value: "animation", label: "Phim Hoạt Hình" },
+  //   { value: "sci-fi", label: "Khoa học viễn tưởng" },
+  //   { value: "romance", label: "Lãng mạn" }
+  // ];
+
+  const genres = [
+    { value: "Phim Hành Động", label: "Hành Động" },
+    { value: "Phim Hài", label: "Hài" },
+    // { value: "Chính kịch", label: "Chính kịch" },
+    { value: "Phim Kinh Dị", label: "Kinh Dị" },
+    { value: "Phim Bí Ẩn", label: "Phim Bí Ẩn" },
+
+    { value: "Phim Hoạt Hình", label: "Hoạt Hình" },
+    { value: "Phim Giả Tượng", label: "Khoa học viễn tưởng" },
+    { value: "Phim Lãng mạn", label: "Lãng mạn" }
+  ];
+
+  // Year options for the year filter dropdown
+  const yearOptions = [
+    { value: "", label: "Năm" },
+    { value: "2025", label: "2025" },
+    { value: "2024", label: "2024" },
+    { value: "2023", label: "2023" },
+    { value: "2022", label: "2022" },
+    { value: "2021", label: "2021" },
+    { value: "2020", label: "2020" },
+    { value: "2019", label: "2019" },
+    { value: "2018", label: "2018" },
+    { value: "2017", label: "2017" },
+    { value: "2010s", label: "2010-2019" },
+    { value: "2000s", label: "2000-2009" },
+    { value: "1990s", label: "1990-1999" },
+    { value: "classic", label: "Trước 1990" }
+  ];
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -293,45 +344,127 @@ function App() {
     }
   };
 
-  // Handle genre selection
-  // const handleGenreChange = (e) => {
-  //   if (e.target.value) {
-  //     navigate(`/?category=${e.target.value}`);
-  //   }
-  // };
 
-  const handleGenreChange = (e) => {
-    const genre = e.target.value || null;
-    setSelectedGenre(genre);
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const query = queryParams.get('query') || '';
+    const genre = queryParams.get('category') || '';
+    const year = queryParams.get('year') || '';
+
+    // Only update state if values are different to prevent unnecessary re-renders
+    if (query !== searchQuery) setSearchQuery(query);
+    if (genre !== selectedGenre) setSelectedGenre(genre);
+    if (year !== selectedYear) setSelectedYear(year);
+  }, [location.search]);
+
+  // Load recent searches from localStorage on initial mount
+  useEffect(() => {
+    const savedSearches = localStorage.getItem('recent_searches');
+    if (savedSearches) {
+      try {
+        setRecentSearches(JSON.parse(savedSearches).slice(0, 5));
+      } catch (error) {
+        console.error('Error parsing recent searches:', error);
+      }
+    }
+  }, []);
+
+  // Save search to recent searches when performing search
+  const saveToRecentSearches = (query) => {
+    if (!query) return;
+
+    const updatedSearches = [query, ...recentSearches.filter(item => item !== query)].slice(0, 5);
+    setRecentSearches(updatedSearches);
+    localStorage.setItem('recent_searches', JSON.stringify(updatedSearches));
+  };
+
+  // Handle search form submission
+  const handleSearch = () => {
+    if (!searchQuery && !selectedGenre && !selectedYear) return;
 
     const params = new URLSearchParams();
-    if (searchQuery) params.set("query", searchQuery);
-    if (genre) params.set("category", genre);
+    if (searchQuery) {
+      params.set("query", searchQuery);
+      saveToRecentSearches(searchQuery);
+    }
+    if (selectedGenre) params.set("category", selectedGenre);
+    if (selectedYear) params.set("year", selectedYear);
 
     navigate(`/search?${params.toString()}`);
   };
 
-  const handleInputChange = (event) => {
-    setSearchQuery(event.target.value);
+  // Handle Enter key press in search input
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
-  // const handleSearch = async () => {
-  //   try {
-  //     console.log('Tìm kiếm với từ khóa:', searchQuery);
-  //     const movies = await searchMovies(searchQuery, selectedGenre, selectedYear, 1, 20);
-  //     setSearchResults(movies);  // setSearchResults là state để lưu kết quả phim
-  //   } catch (error) {
-  //     console.error("Lỗi khi tìm kiếm phim:", error);
-  //   }
-  // };
+  // Handle search suggestion click
+  const handleSuggestionClick = (suggestion) => {
+    setSearchQuery(suggestion);
+    saveToRecentSearches(suggestion);
 
-  const handleSearch = () => {
     const params = new URLSearchParams();
+    params.set("query", suggestion);
+    if (selectedGenre) params.set("category", selectedGenre);
+    if (selectedYear) params.set("year", selectedYear);
+
+    navigate(`/search?${params.toString()}`);
+  };
+
+  // Handle genre selection change
+  const handleGenreChange = (e) => {
+    const genre = e.target.value || '';
+    setSelectedGenre(genre);
+
+    const params = new URLSearchParams(location.search);
+    if (genre) {
+      params.set("category", genre);
+    } else {
+      params.delete("category");
+    }
+    if (searchQuery) params.set("query", searchQuery);
+    // if (selectedYear) params.set("year", selectedYear);
+
+    navigate(`/search?${params.toString()}`);
+  };
+
+  // Handle year selection change
+  const handleYearChange = (e) => {
+    const year = e.target.value || null;
+    setSelectedYear(year);
+
+    const params = new URLSearchParams(location.search);
+    if (year) {
+      params.set("year", year);
+    } else {
+      params.delete("year");
+    }
     if (searchQuery) params.set("query", searchQuery);
     if (selectedGenre) params.set("category", selectedGenre);
 
     navigate(`/search?${params.toString()}`);
   };
+
+  // Clear search query
+  const clearSearch = () => {
+    setSearchQuery('');
+    const params = new URLSearchParams(location.search);
+    params.delete("query");
+
+    if (params.toString()) {
+      navigate(`/search?${params.toString()}`);
+    } else {
+      setIsFocused(false);
+    }
+  };
+
+  // Handle input change
+  const handleInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
 
   return (
     <div className="app">
@@ -341,38 +474,123 @@ function App() {
           <Link to="/" className="navbar-logo">MOVIGO</Link>
           <div className="navbar-links">
             <Link to="/" className="nav-link">Trang chủ</Link>
-            <Link to="/search" className="nav-link">Tìm kiếm</Link>
+            <Link to="/search" className="nav-link">Danh sách</Link>
+
+            {/* Improved Genre dropdown */}
             <div className="genre-select-container">
               <select
                 className="genre-select"
                 onChange={handleGenreChange}
-                // defaultValue=""
-                value={selectedGenre ?? ""}
+                value={selectedGenre || ""}
               >
-                <option value="" >Thể loại</option>
-                <option value="action">Hành động</option>
-                <option value="comedy">Hài</option>
-                <option value="drama">Chính kịch</option>
-                <option value="horror">Kinh dị</option>
-                <option value="animation">Hoạt hình</option>
+                <option value="" disabled hidden>
+                  Thể loại
+                </option>
+                {genres.map(genre => (
+                  <option key={genre.value} value={genre.value}>
+                    {genre.label}
+                  </option>
+                ))}
               </select>
             </div>
-            <div className="search-input-container">
-              <input
-                type="text"
-                className="search-input"
-                placeholder="Nhập từ khóa..."
-                value={searchQuery}
-                onChange={handleInputChange}
-              />
-              <button className="search-btn" onClick={handleSearch}>
-                <i className="search-icon">&#128269;</i>
-              </button>
+
+            {/* Added Year dropdown */}
+            <div className="year-select-container">
+              <select
+                className="year-select"
+                onChange={handleYearChange}
+                value={selectedYear || ""}
+              >
+                {yearOptions.map(year => (
+                  <option key={year.value} value={year.value}>
+                    {year.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Improved search container */}
+            <div className="search-wrapper">
+              <div className="search-container">
+                <div className="search-icon">
+                  <SearchIcon size={18} className="search-icon-svg" />
+                </div>
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="Nhập vào titles"
+                  value={searchQuery}
+                  onChange={handleInputChange}
+                  onKeyPress={handleKeyPress}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+                />
+                {searchQuery && (
+                  <button
+                    className="clear-search-btn"
+                    onClick={clearSearch}
+                    aria-label="Clear search"
+                  >
+                    ×
+                  </button>
+                )}
+
+                {/* Added search button */}
+                <button
+                  className="search-button"
+                  onClick={handleSearch}
+                  aria-label="Search"
+                >
+                  <SearchIcon size={16} />
+                </button>
+              </div>
+
+              {/* Enhanced search suggestions */}
+              {isFocused && (
+                <div className="search-suggestions">
+                  {recentSearches.length > 0 && (
+                    <div className="recent-searches">
+                      <p className="suggestion-title">Recent Searches:</p>
+                      <div className="keyword-tags">
+                        {recentSearches.map((term, index) => (
+                          <span
+                            key={`recent-${index}`}
+                            className="keyword-tag recent-tag"
+                            onClick={() => handleSuggestionClick(term)}
+                          >
+                            {term}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="explore-section">
+                    <p className="suggestion-title">More to explore:</p>
+                    <div className="keyword-tags">
+                      {suggestedKeywords
+                        .filter(keyword => !searchQuery ||
+                          keyword.toLowerCase().includes(searchQuery.toLowerCase()))
+                        .slice(0, 8)
+                        .map((keyword, index) => (
+                          <span
+                            key={`suggest-${index}`}
+                            className="keyword-tag"
+                            onClick={() => handleSuggestionClick(keyword)}
+                          >
+                            {keyword}
+                          </span>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
+
+        {/* User menu section */}
         <div className="navbar-right">
-          {/* User menu section */}
           <div className="user-menu">
             <div className="user-avatar" onClick={goToProfile}>
               <span>👤 {user ? user.full_name : 'Đăng nhập'}</span>
@@ -389,7 +607,23 @@ function App() {
 
       {/* Main content */}
       <main className="main-content">
-        <Outlet context={{ user, isLoggedIn, refreshUserFromStorage, usingFallbackData, retryMongoDBConnection }} />
+        <Outlet context={{
+          user,
+          isLoggedIn,
+          refreshUserFromStorage,
+          usingFallbackData,
+          retryMongoDBConnection,
+          // Pass search context to child routes
+          searchContext: {
+            query: searchQuery,
+            genre: selectedGenre,
+            year: selectedYear,
+            setSearchQuery,
+            setSelectedGenre,
+            setSelectedYear,
+            handleSearch
+          }
+        }} />
       </main>
 
       {/* Footer */}

@@ -1,6 +1,6 @@
 /**
  * Home Page Component
- * 
+ *
  * Trang chủ của ứng dụng Netflix clone, hiển thị:
  * - Banner phim nổi bật
  * - Danh sách phim ngẫu nhiên
@@ -23,26 +23,29 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [popularMovies, setPopularMovies] = useState([]);
+
 
   useEffect(() => {
     // Hàm để tải dữ liệu từ API
     const fetchData = async () => {
       try {
         setLoading(true);
-        
+
         // Lấy danh sách phim ngẫu nhiên
         const randomMoviesData = await getRandomMovies(10);
         setRandomMovies(randomMoviesData);
-        
+
         // Lấy danh sách phim được xem nhiều nhất
         const mostViewedMoviesData = await getMostViewedMovies(10);
         setMostViewedMovies(mostViewedMoviesData);
-        
+
+
         // Chọn một phim để hiển thị banner
         if (randomMoviesData.length > 0) {
           setFeaturedMovie(randomMoviesData[0]);
         }
-        
+
         setLoading(false);
       } catch (err) {
         console.error('Error fetching movies:', err);
@@ -91,7 +94,13 @@ function Home() {
           movies={mostViewedMovies}
           onMovieClick={handleMovieClick}
         />
-        
+
+        <MovieRow
+          title="Phim phổ biến"
+          movies={popularMovies}
+          onMovieClick={handleMovieClick}
+        />
+
         {/* Thêm các danh sách phim theo thể loại khác ở đây */}
       </div>
     </div>

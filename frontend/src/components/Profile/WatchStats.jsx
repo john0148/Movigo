@@ -181,9 +181,7 @@ const WatchStats = () => {
       </div>
 
       <div className="watch-stats-chart">
-        <div className="chart-container">
-          <Bar data={chartData} options={options} />
-        </div>
+        <Bar data={chartData} options={options} />
       </div>
     </div>
   );
