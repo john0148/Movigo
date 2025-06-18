@@ -22,12 +22,13 @@ from .schemas.auth import TokenPayload
 from .schemas.user import UserInDB
 from .services.tmdb_client import get_tmdb_client, TMDBClient
 from .services.movie_sync_service import get_movie_sync_service, MovieSyncService
+from .core.config import Settings
 
 logger = logging.getLogger(__name__)
 
 # OAuth2 scheme for token authentication
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_PREFIX}/auth/login")
-TMDB_API_KEY = "12b062a4565a76aa9b24f20c65b03135"
+
 # Dependency to get MovieCRUD instance
 def get_movie_crud():
     """
@@ -169,7 +170,7 @@ async def get_admin_user(user: UserInDB = Depends(get_current_user)):
 async def get_tmdb_service() -> TMDBClient:
     """Dependency to get the TMDB client"""
 
-    return await get_tmdb_client(TMDB_API_KEY)
+    return await get_tmdb_client(Settings.TMDB_API_KEY)
 
 
 async def get_movie_collection() -> AsyncIOMotorCollection:

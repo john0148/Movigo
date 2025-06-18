@@ -101,6 +101,16 @@
   color: #888;
 }
 
+<<<<<<< Updated upstream
+=======
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+>>>>>>> Stashed changes
 /* User Avatar Circle styles */
 .user-avatar-circle {
   width: 40px;
@@ -346,7 +356,11 @@
 .search-wrapper {
   position: relative;
   width: 100%;
+<<<<<<< Updated upstream
   max-width: 400px; 
+=======
+  max-width: 400px;
+>>>>>>> Stashed changes
   margin: 0 auto;
   z-index: 101;
   display: block;

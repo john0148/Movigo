@@ -32,7 +32,6 @@ function App() {
     const storedUserData = localStorage.getItem(USER_DATA_KEY);
     // Danh sách từ khóa gợi ý - bạn có thể lấy từ API hoặc định nghĩa tĩnh
 
-
     if (storedUserData) {
       try {
         const userData = JSON.parse(storedUserData);
@@ -588,6 +587,8 @@ function App() {
             </div>
           </div>
         </div>
+
+        {/* User menu section */}
 
         {/* User menu section */}
         <div className="navbar-right">

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../styles/FeaturedBanner.css';
+import { baseImageUrl } from '../config/constants';
 
 function FeaturedBanner({ movie, onWatch }) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -26,7 +27,6 @@ function FeaturedBanner({ movie, onWatch }) {
   };
 
   if (!movie) return null;
-  const baseImageUrl = 'https://image.tmdb.org/t/p/original';
 
   // Sử dụng ảnh backdrop nếu có, ngược lại dùng poster
   const imagePath = movie.backdrop_path || movie.poster_path;

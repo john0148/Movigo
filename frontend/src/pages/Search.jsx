@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 
 /**
  * Search Page Component
@@ -5,6 +6,8 @@
  * Hiển thị kết quả tìm kiếm 
  */
 
+=======
+>>>>>>> Stashed changes
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { searchMovies } from '../api/movieApi';
@@ -348,6 +351,7 @@ export default function Search() {
               )}
             </>
           ) : (
+<<<<<<< Updated upstream
             activeFilters.query && (
               // <div className="no-results">
               //   <div className="no-results-icon">🔍</div>
@@ -363,6 +367,29 @@ export default function Search() {
               //       <li>Thử sử dụng từ khóa khác</li>
               //     </ul>
               //   </div>
+=======
+            // activeFilters.query && (
+              <div className="no-results">
+                <div className="no-results-icon">🔍</div>
+                
+                <h3>
+                  {activeFilters.query
+                    ? `Không tìm thấy kết quả cho "${activeFilters.query}"`
+                    : "Không tìm thấy kết quả"}
+                </h3>
+
+                <p className="no-results-message">
+                  Rất tiếc, chúng tôi không tìm thấy bất kỳ phim nào phù hợp với từ khóa tìm kiếm của bạn.
+                </p>
+                {/* <div className="search-suggestions">
+                  <h4>Gợi ý:</h4>
+                  <ul>
+                    <li>Kiểm tra lỗi chính tả</li>
+                    <li>Thử sử dụng ít từ khóa hơn</li>
+                    <li>Thử sử dụng từ khóa khác</li>
+                  </ul>
+                </div> */}
+>>>>>>> Stashed changes
 
               //   <div className="popular-suggestions">
               //     <h4>Hoặc khám phá các phim phổ biến:</h4>
@@ -385,6 +412,7 @@ export default function Search() {
                     Rất tiếc, chúng tôi không tìm thấy bất kỳ phim nào phù hợp với từ khóa tìm kiếm của bạn.
                   </p>
                 </div>
+<<<<<<< Updated upstream
               
               
                   <div className="search-suggestions">
@@ -405,13 +433,20 @@ export default function Search() {
                       <button onClick={() => navigate('/search?category=comedy')}>Hài</button>
                     </div>
                   </div>
+=======
+>>>>>>> Stashed changes
 
               </div>
 
             )
-          )}
+          // )
+          }
         </>
       )}
     </div>
   );
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

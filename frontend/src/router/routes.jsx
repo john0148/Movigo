@@ -53,7 +53,6 @@ const router = createBrowserRouter([
         path: 'profile/vip',
         element: <ProtectedRoute><VipRegister /></ProtectedRoute>
       },
-      { path: 'search', element: <Search /> },
       { path: '*', element: <NotFound /> }
     ]
   }

@@ -78,10 +78,17 @@
 } */
 
 .search-results {
+<<<<<<< Updated upstream
   display: grid;
   justify-content: start; 
   gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(160px, 200px));
+=======
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 180px)); 
+    justify-content: center;
+    gap: 1.5rem;
+>>>>>>> Stashed changes
 }
 
 .loading-container,
@@ -160,6 +167,7 @@
     background-color: #0056b3;
 }
 
+<<<<<<< Updated upstream
 .no-results-wrapper {
   position: relative;       
   max-width: 650px;
@@ -271,3 +279,82 @@
   background-color: #0056b3;
 } 
 
+=======
+.no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 3rem auto;
+    gap: 12px;
+}
+
+.no-results-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.no-results-message {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.search-suggestions {
+    /* margin-top: 2rem; */
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.search-suggestions h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+/* 
+.search-suggestions ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin: 0;
+    text-align: left;
+}
+
+.search-suggestions li {
+    margin-bottom: 0.5rem;
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.4;
+} */
+
+.popular-suggestions {
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.popular-suggestions h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.popular-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.popular-tags button {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-weight: 500;
+}
+
+.popular-tags button:hover {
+    background-color: #e0e0e0;
+}
+>>>>>>> Stashed changes

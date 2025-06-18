@@ -87,6 +87,10 @@ const MovieDetail = () => {
     console.log(`Watching movie ${movieData.id}`);
   };
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('vi-VN');
