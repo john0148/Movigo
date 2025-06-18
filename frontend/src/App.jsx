@@ -20,26 +20,17 @@ function App() {
   const [usingFallbackData, setUsingFallbackData] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-<<<<<<< HEAD
   // Search state variables - synchronized with URL parameters
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
   const [recentSearches, setRecentSearches] = useState([]);
-=======
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedGenre, setSelectedGenre] = useState(null);
-  const [selectedYear, setSelectedYear] = useState(null);
-  const [searchResults, setSearchResults] = useState([]); // nếu muốn hiện kết quả tìm kiếm
-
->>>>>>> main
   // Force refresh user data from localStorage
   const refreshUserFromStorage = () => {
     console.log('Refreshing user data from localStorage...');
     const storedUserData = localStorage.getItem(USER_DATA_KEY);
     // Danh sách từ khóa gợi ý - bạn có thể lấy từ API hoặc định nghĩa tĩnh
-
 
     if (storedUserData) {
       try {
@@ -160,17 +151,29 @@ function App() {
     'Heart Eyes', 'Heat', 'Hello Kitty\'s Furry Tale Theater', 'Hello Kitty: Super Style!',
     'Hell on Wheels', 'Henry Cavill'
   ];
-  const genres = [
-    { value: "", label: "Thể loại" },
-    { value: "action", label: "Phim Hành Động" },
-    { value: "comedy", label: "Phim Hài" },
-    { value: "drama", label: "Chính kịch" },
-    { value: "horror", label: "Phim Kinh Dị" },
-    { value: "", label: "Phim Bí Ẩn" },
+  // const genres = [
+  //   { value: "", label: "Thể loại" },
+  //   { value: "action", label: "Phim Hành Động" },
+  //   { value: "comedy", label: "Phim Hài" },
+  //   { value: "drama", label: "Chính kịch" },
+  //   { value: "horror", label: "Phim Kinh Dị" },
+  //   { value: "", label: "Phim Bí Ẩn" },
 
-    { value: "animation", label: "Phim Hoạt Hình" },
-    { value: "sci-fi", label: "Khoa học viễn tưởng" },
-    { value: "romance", label: "Lãng mạn" }
+  //   { value: "animation", label: "Phim Hoạt Hình" },
+  //   { value: "sci-fi", label: "Khoa học viễn tưởng" },
+  //   { value: "romance", label: "Lãng mạn" }
+  // ];
+
+  const genres = [
+    { value: "Phim Hành Động", label: "Hành Động" },
+    { value: "Phim Hài", label: "Hài" },
+    // { value: "Chính kịch", label: "Chính kịch" },
+    { value: "Phim Kinh Dị", label: "Kinh Dị" },
+    { value: "Phim Bí Ẩn", label: "Phim Bí Ẩn" },
+
+    { value: "Phim Hoạt Hình", label: "Hoạt Hình" },
+    { value: "Phim Giả Tượng", label: "Khoa học viễn tưởng" },
+    { value: "Phim Lãng mạn", label: "Lãng mạn" }
   ];
 
   // Year options for the year filter dropdown
@@ -340,13 +343,12 @@ function App() {
     }
   };
 
-<<<<<<< HEAD
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const query = queryParams.get('query') || '';
-    const genre = queryParams.get('category') || null;
-    const year = queryParams.get('year') || null;
+    const genre = queryParams.get('category') || '';
+    const year = queryParams.get('year') || '';
 
     // Only update state if values are different to prevent unnecessary re-renders
     if (query !== searchQuery) setSearchQuery(query);
@@ -386,54 +388,15 @@ function App() {
     }
     if (selectedGenre) params.set("category", selectedGenre);
     if (selectedYear) params.set("year", selectedYear);
-=======
-  // Handle genre selection
-  // const handleGenreChange = (e) => {
-  //   if (e.target.value) {
-  //     navigate(`/?category=${e.target.value}`);
-  //   }
-  // };
-
-  const handleGenreChange = (e) => {
-    const genre = e.target.value || null;
-    setSelectedGenre(genre);
-
-    const params = new URLSearchParams();
-    if (searchQuery) params.set("query", searchQuery);
-    if (genre) params.set("category", genre);
->>>>>>> main
 
     navigate(`/search?${params.toString()}`);
   };
 
-<<<<<<< HEAD
   // Handle Enter key press in search input
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleSearch();
     }
-=======
-  const handleInputChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  // const handleSearch = async () => {
-  //   try {
-  //     console.log('Tìm kiếm với từ khóa:', searchQuery);
-  //     const movies = await searchMovies(searchQuery, selectedGenre, selectedYear, 1, 20);
-  //     setSearchResults(movies);  // setSearchResults là state để lưu kết quả phim
-  //   } catch (error) {
-  //     console.error("Lỗi khi tìm kiếm phim:", error);
-  //   }
-  // };
-
-  const handleSearch = () => {
-    const params = new URLSearchParams();
-    if (searchQuery) params.set("query", searchQuery);
-    if (selectedGenre) params.set("category", selectedGenre);
-
-    navigate(`/search?${params.toString()}`);
->>>>>>> main
   };
 
   // Handle search suggestion click
@@ -451,7 +414,7 @@ function App() {
 
   // Handle genre selection change
   const handleGenreChange = (e) => {
-    const genre = e.target.value || null;
+    const genre = e.target.value || '';
     setSelectedGenre(genre);
 
     const params = new URLSearchParams(location.search);
@@ -461,7 +424,7 @@ function App() {
       params.delete("category");
     }
     if (searchQuery) params.set("query", searchQuery);
-    if (selectedYear) params.set("year", selectedYear);
+    // if (selectedYear) params.set("year", selectedYear);
 
     navigate(`/search?${params.toString()}`);
   };
@@ -517,9 +480,11 @@ function App() {
               <select
                 className="genre-select"
                 onChange={handleGenreChange}
-<<<<<<< HEAD
                 value={selectedGenre || ""}
               >
+                <option value="" disabled hidden>
+                  Thể loại
+                </option>
                 {genres.map(genre => (
                   <option key={genre.value} value={genre.value}>
                     {genre.label}
@@ -619,33 +584,11 @@ function App() {
                   </div>
                 </div>
               )}
-=======
-                // defaultValue=""
-                value={selectedGenre ?? ""}
-              >
-                <option value="" >Thể loại</option>
-                <option value="action">Hành động</option>
-                <option value="comedy">Hài</option>
-                <option value="drama">Chính kịch</option>
-                <option value="horror">Kinh dị</option>
-                <option value="animation">Hoạt hình</option>
-              </select>
-            </div>
-            <div className="search-input-container">
-              <input
-                type="text"
-                className="search-input"
-                placeholder="Nhập từ khóa..."
-                value={searchQuery}
-                onChange={handleInputChange}
-              />
-              <button className="search-btn" onClick={handleSearch}>
-                <i className="search-icon">&#128269;</i>
-              </button>
->>>>>>> main
             </div>
           </div>
         </div>
+
+        {/* User menu section */}
 
         {/* User menu section */}
         <div className="navbar-right">

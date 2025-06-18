@@ -13,6 +13,7 @@
 
 import { useState } from 'react';
 import '../styles/MovieItem.css';
+import { BASE_IMAGE_URL } from '../config/constants';
 
 function MovieItem({
   movie,
@@ -28,7 +29,6 @@ function MovieItem({
       onMovieClick(movie.id);
     }
   };
-  const BASE_IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
   // Handle watch button click
   const handleWatchClick = (e) => {
     e.stopPropagation(); // Prevent triggering the poster click
