@@ -23,6 +23,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  overflow: visible;
 }
 
 .navbar-left {
@@ -46,7 +47,7 @@
 
 .nav-link {
   color: white;
-  margin: 0 10px;
+  margin: 0 20px;
   text-decoration: none;
 }
 
@@ -100,77 +101,6 @@
   color: #888;
 }
 
-/* Khung nhập dữ liệu (input) */
-.search-input-container {
-<<<<<<< HEAD
-  margin-left: 20px;
-  /* Khoảng cách giữa genre select và input */
-=======
-  margin-left: 20px; /* Khoảng cách giữa genre select và input */
->>>>>>> main
-  align-items: center;
-  margin-left: 10px;
-}
-
-.search-input {
-  padding: 8px 12px;
-  font-size: 14px;
-<<<<<<< HEAD
-  border: 1px solid #444;
-  /* Viền màu tối cho khung nhập */
-  border-radius: 4px;
-  background-color: #333;
-  color: white;
-  width: 300px;
-  /* Đặt chiều rộng cho input */
-=======
-  border: 1px solid #444; /* Viền màu tối cho khung nhập */
-  border-radius: 4px;
-  background-color: #333;
-  color: white;
-  width: 300px; /* Đặt chiều rộng cho input */
->>>>>>> main
-  outline: none;
-  transition: border-color 0.3s;
-}
-
-/* Khi hover hoặc focus vào input */
-.search-input:hover,
-.search-input:focus {
-<<<<<<< HEAD
-  border-color: #E50914;
-  /* Viền chuyển sang đỏ khi focus */
-  background-color: #444;
-}
-
-=======
-  border-color: #E50914; /* Viền chuyển sang đỏ khi focus */
-  background-color: #444;
-}
->>>>>>> main
-.search-btn {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  margin-left: 8px;
-}
-<<<<<<< HEAD
-
-=======
->>>>>>> main
-.search-icon {
-  font-size: 18px;
-  color: #fff;
-}
-<<<<<<< HEAD
-
-=======
->>>>>>> main
-.search-btn:hover .search-icon {
-  color: #fff !important;
-}
-
-<<<<<<< HEAD
 .search-results {
   display: flex;
   flex-direction: column;
@@ -178,8 +108,6 @@
   padding: 20px;
 }
 
-=======
->>>>>>> main
 /* User Avatar Circle styles */
 .user-avatar-circle {
   width: 40px;
@@ -349,6 +277,45 @@
   font-size: 10px;
 }
 
+.year-select-container {
+  position: relative;
+  margin: 0 10px;
+}
+
+.year-select {
+  appearance: none;
+  background-color: #333;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  min-width: 120px;
+  outline: none;
+  transition: background-color 0.3s;
+}
+
+.year-select:hover {
+  background-color: #444;
+}
+
+.year-select:focus {
+  background-color: #555;
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.3);
+}
+
+.year-select-container::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #aaa;
+  pointer-events: none;
+  font-size: 10px;
+}
+
 /* We can leave the following CSS rules in place since they might be used elsewhere
    but we're no longer using them for MongoDB connection warnings */
 
@@ -386,17 +353,23 @@
 .search-wrapper {
   position: relative;
   width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  z-index: 101;
+  display: block;
 }
 
 .search-container {
+  position: relative;
+  overflow: visible;
   display: flex;
   align-items: center;
   background-color: #000000;
   border: 1px solid rgba(255, 255, 255, 0.85);
   border-radius: 4px;
-  overflow: hidden;
   padding: 0 10px;
   transition: all 0.2s ease;
+  z-index: 20;
 }
 
 .search-container:focus-within {
@@ -438,11 +411,25 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 4px;
   left: 0;
-  margin-top: 2px;
+  margin-top: 4px;
   position: absolute;
   right: 0;
-  width: 100%;
-  z-index: 100;
+  z-index: 200;
+  max-height: 250px;
+  overflow-y: auto;
+  top: 100%;
+  border-top: none;
+}
+
+.suggestion-title {
+  color: #ccc;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.search-suggestions.hidden {
+  display: none;
 }
 
 .explore-section {
@@ -473,5 +460,9 @@
 }
 
 .keyword-tag:hover {
+  background-color: #555;
+}
+
+.recent-tag {
   background-color: #555;
 }
