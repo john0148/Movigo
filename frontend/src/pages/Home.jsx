@@ -16,6 +16,9 @@ import FeaturedBanner from '../components/FeaturedBanner';
 import LoadingSpinner from '../components/LoadingSpinner';
 import '../styles/Home.css';
 
+import { Link } from "react-router-dom";
+
+
 function Home() {
   const [randomMovies, setRandomMovies] = useState([]);
   const [mostViewedMovies, setMostViewedMovies] = useState([]);
@@ -103,6 +106,16 @@ function Home() {
 
         {/* Thêm các danh sách phim theo thể loại khác ở đây */}
       </div>
+
+      {/* Nút test xem player */}
+      <div style={{ textAlign: "center", margin: "20px" }}>
+        <Link to="/watch/682ddfbd39d76f25df990c45">
+          <button style={{ padding: "10px 20px", fontSize: "16px" }}>
+            Xem thử phim test
+          </button>
+        </Link>
+      </div>
+      
     </div>
   );
 }

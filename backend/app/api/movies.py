@@ -2,6 +2,8 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, Path
 from bson import ObjectId
 import logging
+from fastapi.responses import StreamingResponse
+import httpx
 
 from ..db.models.movie import MovieModel
 from ..crud.movie import (
@@ -9,16 +11,17 @@ from ..crud.movie import (
     get_movie_by_id,
     get_top_movies_by_views,
     increment_movie_view_count,
-    get_related_movies
+    get_related_movies,
     )
+from ..crud.movie_link import MovieLinkCRUD
 from ..schemas.movie import MovieOut, MovieList, MovieResponse
 
 from ..core.security import get_current_user
 from ..services.movie_service import MovieService
 from ..dependencies import get_movie_service
 from ..schemas.user import UserInDB
-
-
+from ..schemas.movie_link import MovieLinkBase, MovieLinkInDB, MovieLinkResponse
+from ..db.database import get_database
 
 
 """
@@ -218,3 +221,35 @@ async def read_related_movies(
 
     related = await get_related_movies(movie, limit)
     return related
+
+@router.get("/{movie_id}/drive-url", response_model=MovieLinkResponse)
+async def get_drive_link(movie_id: str, db=Depends(get_database)):
+    movie_link_crud = MovieLinkCRUD(db)
+    movie_link = await movie_link_crud.get_by_movie_id(movie_id)
+
+    if not movie_link:
+        raise HTTPException(status_code=404, detail="Drive link not found")
+
+    return movie_link
+
+# @router.get("/stream/{movie_id}")
+# async def stream_movie(movie_id: str, db=Depends(get_database)):
+#     movie_link_crud = MovieLinkCRUD(db)
+#     movie_link = await movie_link_crud.get_by_movie_id(movie_id)
+
+#     if not movie_link or not movie_link.drive_url:
+#         raise HTTPException(status_code=404, detail="Drive link not found")
+
+#     drive_url = str(movie_link.drive_url)
+
+#     async with httpx.AsyncClient() as client:
+#         response = await client.get(drive_url, follow_redirects=True)
+
+#         if response.status_code != 200:
+#             raise HTTPException(status_code=502, detail="Failed to fetch Google Drive content")
+
+#         return StreamingResponse(
+#             iter([response.content]),
+#             media_type="video/mp4"
+#         )
+

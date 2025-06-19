@@ -7,8 +7,10 @@
 
 // API URLs
 export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
-export const baseImageUrl = 'https://image.tmdb.org/t/p/original';
-export const BASE_IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
+// export const baseImageUrl = 'https://image.tmdb.org/t/p/original';
+// export const BASE_IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
+export const baseImageUrl = 'https://i.ibb.co/';
+export const BASE_IMAGE_URL = 'https://i.ibb.co/';
 
 // Authentication
 export const AUTH_TOKEN_KEY = 'auth_token';
@@ -47,6 +49,35 @@ export const MOVIE_GENRES = [
   { id: 'war', name: 'Chiến tranh' },
   { id: 'western', name: 'Cao bồi' }
 ];
+
+export const genresMovie = [
+  { value: "Phim Hài", label: "Hài Hước" },
+  { value: "Phim Hành Động", label: "Hành Động" },
+  { value: "Phim Hình Sự", label: "Hình Sự" },
+  { value: "Phim Chính Kịch", label: "Chính Kịch" },
+  { value: "Phim Cổ Trang", label: "Cổ Trang" },
+  { value: "Phim Võ Thuật", label: "Võ Thuật" },
+  { value: "Phim Tâm Lý", label: "Tâm Lý" },
+  { value: "Phim Tình Cảm", label: "Tình Cảm" },
+  { value: "Phim Hoạt Hình", label: "Hoạt Hình" }
+];
+
+export const yearOptions = [
+    { value: "", label: "Năm" },
+    { value: "2025", label: "2025" },
+    { value: "2024", label: "2024" },
+    { value: "2023", label: "2023" },
+    { value: "2022", label: "2022" },
+    // { value: "2021", label: "2021" },
+    // { value: "2020", label: "2020" },
+    // { value: "2019", label: "2019" },
+    // { value: "2018", label: "2018" },
+    // { value: "2017", label: "2017" },
+    // { value: "2010s", label: "2010-2019" },
+    // { value: "2000s", label: "2000-2009" },
+    // { value: "1990s", label: "1990-1999" },
+    // { value: "classic", label: "Trước 1990" }
+  ];
 
 // Pagination defaults
 export const DEFAULT_PAGE_SIZE = 20;
