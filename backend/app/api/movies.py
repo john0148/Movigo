@@ -14,7 +14,11 @@ from ..crud.movie import (
     get_related_movies,
     )
 from ..crud.movie_link import MovieLinkCRUD
+from ..crud.rating import RatingCRUD
+from ..crud.character import CharacterCRUD
 from ..schemas.movie import MovieOut, MovieList, MovieResponse
+from ..schemas.rating import RatingOut, RatingCreate
+from ..schemas.character import CharacterInDB
 
 from ..core.security import get_current_user
 from ..services.movie_service import MovieService
@@ -232,24 +236,22 @@ async def get_drive_link(movie_id: str, db=Depends(get_database)):
 
     return movie_link
 
-# @router.get("/stream/{movie_id}")
-# async def stream_movie(movie_id: str, db=Depends(get_database)):
-#     movie_link_crud = MovieLinkCRUD(db)
-#     movie_link = await movie_link_crud.get_by_movie_id(movie_id)
+@router.get("/{movie_id}/ratings", response_model=list[RatingOut])
+async def get_ratings(movie_id: str, db=Depends(get_database)):
+    rating_crud = RatingCRUD(db)
+    ratings = await rating_crud.get_by_movie_id(movie_id)
+    return ratings
 
-#     if not movie_link or not movie_link.drive_url:
-#         raise HTTPException(status_code=404, detail="Drive link not found")
+@router.post("/{movie_id}/ratings", response_model=RatingOut)
+async def create_rating(movie_id: str, rating: RatingCreate, db=Depends(get_database)):
+    rating_crud = RatingCRUD(db)
+    rating_out = await rating_crud.create(movie_id, rating)
+    return rating_out
 
-#     drive_url = str(movie_link.drive_url)
+@router.get("/{movie_id}/characters", response_model=List[CharacterInDB])
+async def get_characters(movie_id: str, db=Depends(get_database)):
+    character_crud = CharacterCRUD(db)
+    characters = await character_crud.get_by_movie_id(movie_id)
+    return characters
 
-#     async with httpx.AsyncClient() as client:
-#         response = await client.get(drive_url, follow_redirects=True)
-
-#         if response.status_code != 200:
-#             raise HTTPException(status_code=502, detail="Failed to fetch Google Drive content")
-
-#         return StreamingResponse(
-#             iter([response.content]),
-#             media_type="video/mp4"
-#         )
 

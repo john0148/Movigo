@@ -1,0 +1,550 @@
+[{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e894"
+  },
+  "movie_id": "682ddfb539d76f25df990c40",
+  "role": "Diễn viên chính",
+  "name": "Vương Bảo Cường",
+  "char": "A Quỷ",
+  "image": "JwQ2R0pT/vuongbaocuong.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e895"
+  },
+  "movie_id": "682ddfb539d76f25df990c40",
+  "role": "Diễn viên chính",
+  "name": "Lưu Hạo Nhiên",
+  "char": "Tần Phúc",
+  "image": "v4kQ8Ljr/luuhaonhien.png["
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e896"
+  },
+  "movie_id": "682ddfb539d76f25df990c40",
+  "role": "Diễn viên phụ",
+  "name": "Chu Nhuận Phát\n",
+  "char": "Bạch Hiên Linh",
+  "image": "GQDrLS5n/chunhuanphat.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e897"
+  },
+  "movie_id": "682ddfb539d76f25df990c40",
+  "role": "Diễn viên phụ",
+  "name": "Trương Tân Thành",
+  "char": "Bạch Chấn Bang",
+  "image": "Fq5YLvx4/truongtanthanh.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e898"
+  },
+  "movie_id": "682ddfb539d76f25df990c40",
+  "role": "Diễn viên phụ",
+  "name": "Nhạc Vân Bằng",
+  "char": "Phí Dương Cổ",
+  "image": "s9fq2cSs/nhacvanbang.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e899"
+  },
+  "movie_id": "682ddfb539d76f25df990c40",
+  "role": "Đạo diễn",
+  "name": "Trần Tư Thành",
+  "char": "",
+  "image": "/zHf9YHPX/trantuthanh.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e89a"
+  },
+  "movie_id": "682ddfb939d76f25df990c41",
+  "role": "Diễn viên chính",
+  "name": "Shi Xuanru",
+  "char": "",
+  "image": "9mbgzcqQ/xuanru.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e89b"
+  },
+  "movie_id": "682ddfb939d76f25df990c41",
+  "role": "Diễn viên chính",
+  "name": "En Jing",
+  "char": "",
+  "image": "xt6PzqsS/En-Jing.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e89c"
+  },
+  "movie_id": "682ddfb939d76f25df990c41",
+  "role": "Diễn viên chính",
+  "name": "Đỗ Dịch Hành",
+  "char": "",
+  "image": "hxC8HFW7/dodichhanh.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e89d"
+  },
+  "movie_id": "682ddfb939d76f25df990c41",
+  "role": "Diễn viên phụ",
+  "name": "Yu Xiaowan",
+  "char": "",
+  "image": "hxQqy1QC/Yu-Xiaowan.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e89e"
+  },
+  "movie_id": "682ddfb939d76f25df990c41",
+  "role": "Diễn viên phụ",
+  "name": "Zhong Lei",
+  "char": "",
+  "image": "tw2YcsRL/Zhong-Lei.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e89f"
+  },
+  "movie_id": "682ddfb939d76f25df990c41",
+  "role": "Đạo diễn",
+  "name": "Guo Yulong",
+  "char": "",
+  "image": "8gzZQHZs/Guo-Yulong.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8a0"
+  },
+  "movie_id": "682ddfbd39d76f25df990c42",
+  "role": "Diễn viên chính",
+  "name": "Jason Statham",
+  "char": "Arthur Bishop (Sát thủ thợ máy)",
+  "image": "N2n3BC1w/jason.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8a1"
+  },
+  "movie_id": "682ddfbd39d76f25df990c42",
+  "role": "Diễn viên chính",
+  "name": "Jessica Alba",
+  "char": "Gina Thorne (Bạn gái của Bishop)",
+  "image": "Z6Sj8xdD/jessica.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8a2"
+  },
+  "movie_id": "682ddfbd39d76f25df990c42",
+  "role": "Diễn viên chính",
+  "name": "Tommy Lee Jones",
+  "char": "Max Adams (Tay trùm vũ khí)",
+  "image": "yMqJVkD/tommy.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8a3"
+  },
+  "movie_id": "682ddfbd39d76f25df990c42",
+  "role": "Diễn viên phụ",
+  "name": "Michelle Yeoh",
+  "char": "Mei (Bạn cũ của Bishop)",
+  "image": "TqP5XVSB/michelle.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8a4"
+  },
+  "movie_id": "682ddfbd39d76f25df990c42",
+  "role": "Diễn viên phụ",
+  "name": "Sam Hazeldine",
+  "char": "Riah Crain (Kẻ thù của Bishop)",
+  "image": "RG2N1GzJ/sam.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8a5"
+  },
+  "movie_id": "682ddfbd39d76f25df990c42",
+  "role": "Đạo diễn",
+  "name": "Dennis Gansel",
+  "char": "",
+  "image": "svvyc1FC/dennis.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8a6"
+  },
+  "movie_id": "682ddfbd39d76f25df990c43",
+  "role": "Diễn viên chính",
+  "name": "Cổ Thiên Lạc",
+  "char": "Lạc Nhất Ngôn",
+  "image": "gZCjh2gp/cothienlac.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8a7"
+  },
+  "movie_id": "682ddfbd39d76f25df990c43",
+  "role": "Diễn viên phụ",
+  "name": "Lưu Tuấn Khiêm",
+  "char": "Nghi phạm Khâu Tuấn Văn",
+  "image": "ZbwKW3G/luutuankhiem.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8a8"
+  },
+  "movie_id": "682ddfbd39d76f25df990c43",
+  "role": "Diễn viên phụ",
+  "name": "Lâm Gia Đống",
+  "char": "Nhân vật bí ẩn hỗ trợ Lạc Nhất Ngôn",
+  "image": "Zz9zyqmn/lamgiadong.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8ab"
+  },
+  "movie_id": "682ddfbd39d76f25df990c43",
+  "role": "Đạo diễn",
+  "name": "Ngụy Gia Đông",
+  "char": "",
+  "image": "nNHM5YbM/nguygiadong.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8ac"
+  },
+  "movie_id": "682ddfbd39d76f25df990c44",
+  "role": "Diễn viên chính",
+  "name": "Dahyun",
+  "char": "Seon-ah",
+  "image": "qMjxnzBG/Dahyun.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8ad"
+  },
+  "movie_id": "682ddfbd39d76f25df990c44",
+  "role": "Diễn viên chính",
+  "name": "Jinyoung",
+  "char": "Jin-woo",
+  "image": "nsCZkMCF/Jinyoung.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8ae"
+  },
+  "movie_id": "682ddfbd39d76f25df990c44",
+  "role": "Diễn viên phụ",
+  "name": "Yeo Jin Goo",
+  "char": "Nam sinh trong nhóm bạn thân",
+  "image": "cX84Sdhz/Yeo-Jin-Goo.webp"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8af"
+  },
+  "movie_id": "682ddfbd39d76f25df990c44",
+  "role": "Diễn viên phụ",
+  "name": "Chae Soo Bin",
+  "char": "Bạn thân của Han Ji Won",
+  "image": "fVHC0LmD/Chae-Soo-Bin.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8b0"
+  },
+  "movie_id": "682ddfbd39d76f25df990c44",
+  "role": "Diễn viên phụ",
+  "name": "Lee Dong Hwi",
+  "char": "Thầy giáo chủ nhiệm",
+  "image": "wNhnLQnS/Lee-Dong-Hwi.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8b1"
+  },
+  "movie_id": "682ddfbd39d76f25df990c44",
+  "role": "Đạo diễn",
+  "name": "Cho Young Myeong",
+  "char": "",
+  "image": "NnV6kwMK/Cho-Young-Myeong.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8b2"
+  },
+  "movie_id": "682ddfbd39d76f25df990c45",
+  "role": "Diễn viên chính",
+  "name": "Trương Vũ Kỳ",
+  "char": "Đông Phương Bất Bại giả",
+  "image": "Qjc9jhZs/truongvuky.png"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8b3"
+  },
+  "movie_id": "682ddfbd39d76f25df990c45",
+  "role": "Diễn viên phụ",
+  "name": "Hoàng Hi Ngạn",
+  "char": "Lệnh Hồ Xung",
+  "image": "chH2hjdB/hoanghingan.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8b4"
+  },
+  "movie_id": "682ddfbd39d76f25df990c45",
+  "role": "Diễn viên phụ",
+  "name": "Trương Lục",
+  "char": "Nhạc Bất Quần",
+  "image": "QF9W51gQ/truongluc.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8b5"
+  },
+  "movie_id": "682ddfbd39d76f25df990c45",
+  "role": "Diễn viên phụ",
+  "name": "Tuyên Lộ",
+  "char": "Nhậm Doanh Doanh",
+  "image": "bgqYc86Z/tuyenlo.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8b6"
+  },
+  "movie_id": "682ddfbd39d76f25df990c45",
+  "role": "Diễn viên phụ",
+  "name": "Hồng Kim Bảo",
+  "char": "Phong Thanh Dương",
+  "image": "1YvtJd3d/hongkimbao.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8b7"
+  },
+  "movie_id": "682ddfbd39d76f25df990c45",
+  "role": "Đạo diễn",
+  "name": "Vương Tinh",
+  "char": "",
+  "image": "0jZNXy7N/vuongtinh.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8bd"
+  },
+  "movie_id": "682ddfbd39d76f25df990c46",
+  "role": "Đạo diễn",
+  "name": "Gun Phansuwon",
+  "char": "",
+  "image": "zLSm98w/gun.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8be"
+  },
+  "movie_id": "682ddfbd39d76f25df990c47",
+  "role": "Diễn viên chính",
+  "name": "Yoo Ah In",
+  "char": "Tae In",
+  "image": "bg85ccdg/Yoo-Ah-In.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8bf"
+  },
+  "movie_id": "682ddfbd39d76f25df990c47",
+  "role": "Diễn viên chính",
+  "name": "Yoo Jae Myung",
+  "char": "Chang Bok",
+  "image": "nM6wX86N/Yoo-Jae-Myung.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8c3"
+  },
+  "movie_id": "682ddfbd39d76f25df990c47",
+  "role": "Đạo diễn",
+  "name": "EuiJeong Hong",
+  "char": "",
+  "image": "R47LNf6P/Eui-Jeong-Hong.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8c4"
+  },
+  "movie_id": "682ddfbd39d76f25df990c48",
+  "role": "Diễn viên chính",
+  "name": "Nick Kunatip",
+  "char": "",
+  "image": "WWWdy3fs/Nick-Kunatip.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8c5"
+  },
+  "movie_id": "682ddfbd39d76f25df990c48",
+  "role": "Diễn viên chính",
+  "name": "Jazz Padung",
+  "char": "",
+  "image": "4nw2F9hr/Jazz-Padung.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8c6"
+  },
+  "movie_id": "682ddfbd39d76f25df990c48",
+  "role": "Diễn viên chính",
+  "name": "Thep Pitak",
+  "char": "",
+  "image": "b9pjJN6/Thep-Pitak.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8c7"
+  },
+  "movie_id": "682ddfbd39d76f25df990c48",
+  "role": "Diễn viên phụ",
+  "name": "Rinrada Thurapan",
+  "char": "",
+  "image": "nN8DqKt3/Rinrada.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8c9"
+  },
+  "movie_id": "682ddfbd39d76f25df990c48",
+  "role": "Đạo diễn",
+  "name": "Poj Arnon",
+  "char": "",
+  "image": "mVX5nWN8/Poj-Arnon.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8ca"
+  },
+  "movie_id": "682ddfbd39d76f25df990c49",
+  "role": "Diễn viên chính",
+  "name": "Kim Woo-hyuk",
+  "char": "",
+  "image": "B2V5dbwC/Kim-Woo-hyuk.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8cb"
+  },
+  "movie_id": "682ddfbd39d76f25df990c49",
+  "role": "Diễn viên chính",
+  "name": "Ha Jae-sook",
+  "char": "",
+  "image": "fdhzS6Kr/Ha-Jae-sook.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8cc"
+  },
+  "movie_id": "682ddfbd39d76f25df990c49",
+  "role": "Diễn viên chính",
+  "name": "An Seong-won",
+  "char": "",
+  "image": "yBbHM0kR/An-Seong-won.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8cd"
+  },
+  "movie_id": "682ddfbd39d76f25df990c49",
+  "role": "Diễn viên phụ",
+  "name": "Lee Noah",
+  "char": "",
+  "image": "qYwT0kHM/Lee-Noah.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8ce"
+  },
+  "movie_id": "682ddfbd39d76f25df990c49",
+  "role": "Diễn viên phụ",
+  "name": "Park Jung-won",
+  "char": "",
+  "image": "c0trKT4/Park-Jung-won.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8cf"
+  },
+  "movie_id": "682ddfbd39d76f25df990c49",
+  "role": "Đạo diễn",
+  "name": "Nam Dae Joong",
+  "char": "",
+  "image": "9H1q80YJ/Nam-Dae-joong.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8d0"
+  },
+  "movie_id": "682ddfbd39d76f25df990c4a",
+  "role": "Diễn viên chính",
+  "name": "Ra Mi-ran",
+  "char": "Joo Sang-sook",
+  "image": "YxcdPst/ramiran.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8d1"
+  },
+  "movie_id": "682ddfbd39d76f25df990c4a",
+  "role": "Diễn viên chính",
+  "name": "Kim Moo-yul ",
+  "char": "Park Hee-cheol",
+  "image": "Mkrp7q15/kimmooyul.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8d2"
+  },
+  "movie_id": "682ddfbd39d76f25df990c4a",
+  "role": "Diễn viên chính",
+  "name": "Na Moon-hee",
+  "char": "Kim Ok-hee",
+  "image": "sJwxN7vh/namoonhee.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8d3"
+  },
+  "movie_id": "682ddfbd39d76f25df990c4a",
+  "role": "Diễn viên phụ",
+  "name": "Yoon Kyung-ho",
+  "char": "Bong Man-sik",
+  "image": "XkVJ6CYr/Yoon-Kyung-ho.jpg"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8d4"
+  },
+  "movie_id": "682ddfbd39d76f25df990c4a",
+  "role": "Diễn viên phụ",
+  "name": "On Joo-wan",
+  "char": "Song Jung-sik",
+  "image": "hF2qpDW7/On-Joo-wan.png"
+},
+{
+  "_id": {
+    "$oid": "6856c965a81628a518d7e8d5"
+  },
+  "movie_id": "682ddfbd39d76f25df990c4a",
+  "role": "Đạo diễn",
+  "name": "Jang Yoo-jeong",
+  "char": "",
+  "image": "dwM0W7gx/Jang-Yoo-jeong.jpg"
+}]

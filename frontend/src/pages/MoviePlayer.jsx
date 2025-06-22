@@ -4,42 +4,31 @@ import axios from "axios";
 
 export default function MoviePlayer() {
   const { id: movieId } = useParams();
-  const [driveUrl, setDriveUrl] = useState("");
+  const [fileId, setFileId] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchDriveUrl = async () => {
+    const fetchDriveFileId = async () => {
       try {
         const res = await axios.get(
           `http://localhost:8000/api/v1/movies/${movieId}/drive-url`
         );
-        setDriveUrl(res.data.drive_url);
+        setFileId(res.data.drive_url);
       } catch (err) {
-        console.error("Lỗi khi lấy link Google Drive:", err);
+        console.error("Lỗi khi lấy file ID Google Drive:", err);
         setError("Không tìm được video.");
       }
     };
 
-    fetchDriveUrl();
+    fetchDriveFileId();
   }, [movieId]);
 
   if (error) {
     return <div style={{ textAlign: "center", marginTop: "2rem" }}>{error}</div>;
   }
 
-  if (!driveUrl) {
-    return <div style={{ textAlign: "center", marginTop: "2rem" }}>Đang tải video...</div>;
-  }
-
-  // Lấy Google Drive File ID từ driveUrl
-  const fileId = driveUrl.match(/id=([^&]+)/)?.[1];
-
   if (!fileId) {
-    return (
-      <div style={{ textAlign: "center", marginTop: "2rem", color: "red" }}>
-        Không lấy được Google Drive ID từ link.
-      </div>
-    );
+    return <div style={{ textAlign: "center", marginTop: "2rem" }}>Đang tải video...</div>;
   }
 
   return (

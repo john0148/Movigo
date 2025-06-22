@@ -1,0 +1,310 @@
+[{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3c5"
+  },
+  "movie_id": "682ddfb539d76f25df990c40",
+  "user_id": "681e2be47edc856a739b0dd0",
+  "name": "Alice Tran",
+  "star_number": 3,
+  "comment": "Nội dung hơi chậm, nhưng vẫn ổn.",
+  "created_at": "2024-11-06 15:51:23"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3c6"
+  },
+  "movie_id": "682ddfb539d76f25df990c40",
+  "user_id": "681e2be47edc856a739b0dd1",
+  "name": "John Nguyen",
+  "star_number": 4,
+  "comment": "Phim đẹp, cốt truyện ổn.",
+  "created_at": "2024-02-25 16:33:46"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3c7"
+  },
+  "movie_id": "682ddfb939d76f25df990c41",
+  "user_id": "681e2be47edc856a739b0dd2",
+  "name": "Minh Anh",
+  "star_number": 5,
+  "comment": "Rất tuyệt vời, thích từng khung hình!",
+  "created_at": "2023-08-06 17:42:15"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3c8"
+  },
+  "movie_id": "682ddfb939d76f25df990c41",
+  "user_id": "681e2be47edc856a739b0dd3",
+  "name": "David Le",
+  "star_number": 3,
+  "comment": "Kỹ xảo chưa thật sự tốt.",
+  "created_at": "2024-08-16 16:35:23"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3c9"
+  },
+  "movie_id": "682ddfb939d76f25df990c41",
+  "user_id": "681e2be47edc856a739b0dd4",
+  "name": "Linda Pham",
+  "star_number": 4,
+  "comment": "Nội dung hấp dẫn, hình ảnh đẹp.",
+  "created_at": "2023-10-15 23:13:27"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3ca"
+  },
+  "movie_id": "682ddfbd39d76f25df990c42",
+  "user_id": "681e2be47edc856a739b0dd5",
+  "name": "Nam Vu",
+  "star_number": 5,
+  "comment": "Bộ phim rất hay, hình ảnh đẹp và nội dung lôi cuốn!",
+  "created_at": "2024-11-11 15:49:56"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3cb"
+  },
+  "movie_id": "682ddfbd39d76f25df990c42",
+  "user_id": "681e2be47edc856a739b0dd6",
+  "name": "Emma Dang",
+  "star_number": 3,
+  "comment": "Có vài chỗ chưa hợp lý lắm.",
+  "created_at": "2023-07-05 05:27:45"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3cc"
+  },
+  "movie_id": "682ddfbd39d76f25df990c43",
+  "user_id": "681e2be47edc856a739b0dd7",
+  "name": "Tony Ho",
+  "star_number": 4,
+  "comment": "Phim đáng xem, dàn diễn viên tốt.",
+  "created_at": "2025-04-27 02:05:33"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3cd"
+  },
+  "movie_id": "682ddfbd39d76f25df990c43",
+  "user_id": "681e2be47edc856a739b0dd8",
+  "name": "Hanh Le",
+  "star_number": 5,
+  "comment": "Một tác phẩm xuất sắc!",
+  "created_at": "2024-12-04 01:04:31"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3ce"
+  },
+  "movie_id": "682ddfbd39d76f25df990c44",
+  "user_id": "681e2be47edc856a739b0dd9",
+  "name": "Peter Nguyen",
+  "star_number": 3,
+  "comment": "Cốt truyện hơi đơn giản.",
+  "created_at": "2023-08-25 07:50:30"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3cf"
+  },
+  "movie_id": "682ddfbd39d76f25df990c44",
+  "user_id": "681e2be47edc856a739b0dda",
+  "name": "Sophia Vo",
+  "star_number": 4,
+  "comment": "Phim khá hay, đáng xem.",
+  "created_at": "2024-07-18 05:33:31"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3d0"
+  },
+  "movie_id": "682ddfbd39d76f25df990c44",
+  "user_id": "681e2be47edc856a739b0ddb",
+  "name": "Kevin Pham",
+  "star_number": 5,
+  "comment": "Quá xuất sắc, rất recommend!",
+  "created_at": "2024-04-12 15:08:08"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3d1"
+  },
+  "movie_id": "682ddfbd39d76f25df990c45",
+  "user_id": "681e2be47edc856a739b0ddc",
+  "name": "Anna Tran",
+  "star_number": 3,
+  "comment": "Nội dung chưa thực sự cuốn hút.",
+  "created_at": "2024-11-07 16:46:16"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3d2"
+  },
+  "movie_id": "682ddfbd39d76f25df990c45",
+  "user_id": "681e2be47edc856a739b0ddd",
+  "name": "Tommy Le",
+  "star_number": 4,
+  "comment": "Tổng thể ổn, trải nghiệm tốt.",
+  "created_at": "2024-12-25 08:23:06"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3d3"
+  },
+  "movie_id": "682ddfbd39d76f25df990c45",
+  "user_id": "681e2be47edc856a739b0dde",
+  "name": "Lisa Nguyen",
+  "star_number": 5,
+  "comment": "Đáng xem lại nhiều lần!",
+  "created_at": "2025-07-14 01:16:02"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3d4"
+  },
+  "movie_id": "682ddfbd39d76f25df990c46",
+  "user_id": "681e2be47edc856a739b0ddf",
+  "name": "Michael Hoang",
+  "star_number": 3,
+  "comment": "Nội dung hơi chậm, nhưng vẫn ổn.",
+  "created_at": "2023-12-12 10:01:19"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3d5"
+  },
+  "movie_id": "682ddfbd39d76f25df990c46",
+  "user_id": "681e2be47edc856a739b0dd10",
+  "name": "Jessica Dang",
+  "star_number": 4,
+  "comment": "Phim đẹp, cốt truyện ổn.",
+  "created_at": "2024-07-27 19:21:27"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3d6"
+  },
+  "movie_id": "682ddfbd39d76f25df990c47",
+  "user_id": "681e2be47edc856a739b0dd11",
+  "name": "Phong Vu",
+  "star_number": 5,
+  "comment": "Rất tuyệt vời, thích từng khung hình!",
+  "created_at": "2025-05-07 21:01:50"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3d7"
+  },
+  "movie_id": "682ddfbd39d76f25df990c47",
+  "user_id": "681e2be47edc856a739b0dd12",
+  "name": "Tina Huynh",
+  "star_number": 3,
+  "comment": "Kỹ xảo chưa thật sự tốt.",
+  "created_at": "2023-07-10 19:08:55"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3d8"
+  },
+  "movie_id": "682ddfbd39d76f25df990c47",
+  "user_id": "681e2be47edc856a739b0dd13",
+  "name": "Victor Tran",
+  "star_number": 4,
+  "comment": "Nội dung hấp dẫn, hình ảnh đẹp.",
+  "created_at": "2025-08-14 06:24:26"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3d9"
+  },
+  "movie_id": "682ddfbd39d76f25df990c48",
+  "user_id": "681e2be47edc856a739b0dd14",
+  "name": "Alice Tran",
+  "star_number": 5,
+  "comment": "Bộ phim rất hay, hình ảnh đẹp và nội dung lôi cuốn!",
+  "created_at": "2023-04-17 18:47:39"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3da"
+  },
+  "movie_id": "682ddfbd39d76f25df990c48",
+  "user_id": "681e2be47edc856a739b0dd15",
+  "name": "John Nguyen",
+  "star_number": 3,
+  "comment": "Có vài chỗ chưa hợp lý lắm.",
+  "created_at": "2024-03-16 16:39:34"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3db"
+  },
+  "movie_id": "682ddfbd39d76f25df990c49",
+  "user_id": "681e2be47edc856a739b0dd16",
+  "name": "Minh Anh",
+  "star_number": 4,
+  "comment": "Phim đáng xem, dàn diễn viên tốt.",
+  "created_at": "2023-05-25 12:31:41"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3dc"
+  },
+  "movie_id": "682ddfbd39d76f25df990c49",
+  "user_id": "681e2be47edc856a739b0dd17",
+  "name": "David Le",
+  "star_number": 5,
+  "comment": "Một tác phẩm xuất sắc!",
+  "created_at": "2023-11-14 18:50:10"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3dd"
+  },
+  "movie_id": "682ddfbd39d76f25df990c49",
+  "user_id": "681e2be47edc856a739b0dd18",
+  "name": "Linda Pham",
+  "star_number": 3,
+  "comment": "Cốt truyện hơi đơn giản.",
+  "created_at": "2025-12-28 18:15:40"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3de"
+  },
+  "movie_id": "682ddfbd39d76f25df990c4a",
+  "user_id": "681e2be47edc856a739b0dd19",
+  "name": "Nam Vu",
+  "star_number": 4,
+  "comment": "Phim khá hay, đáng xem.",
+  "created_at": "2023-07-11 09:04:48"
+},
+{
+  "_id": {
+    "$oid": "6856ba2b3a9934b24d22c3df"
+  },
+  "movie_id": "682ddfbd39d76f25df990c4a",
+  "user_id": "681e2be47edc856a739b0dd1a",
+  "name": "Emma Dang",
+  "star_number": 5,
+  "comment": "Quá xuất sắc, rất recommend!",
+  "created_at": "2024-10-27 15:38:04"
+},
+{
+  "_id": {
+    "$oid": "6857e8d81c89f7e4a978d9be"
+  },
+  "user_id": "681e2cbdb479d7093cf44c9e",
+  "name": "thnhcng",
+  "star_number": 5,
+  "comment": "cười mấy ngày mấy đêm với phim này",
+  "movie_id": "682ddfbd39d76f25df990c48",
+  "created_at": {
+    "$date": "2025-06-22T11:28:24.698Z"
+  }
+}]

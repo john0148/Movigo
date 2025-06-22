@@ -9,7 +9,7 @@ from typing import Optional
 
 class MovieLinkBase(BaseModel):
     """Base schema for a movie link mapping"""
-    drive_url: HttpUrl = Field(..., description="Google Drive direct stream URL")
+    drive_url: str = Field(..., description="Google Drive file ID")
 
 
 class MovieLinkInDB(MovieLinkBase):
@@ -26,7 +26,7 @@ class MovieLinkInDB(MovieLinkBase):
 class MovieLinkResponse(BaseModel):
     """Schema for response when requesting a movie link"""
     movie_id: str = Field(..., description="Movie ID")
-    drive_url: HttpUrl = Field(..., description="Google Drive direct stream URL")
+    drive_url: str = Field(..., description="Google Drive file ID")
 
     class Config:
         from_attributes = True

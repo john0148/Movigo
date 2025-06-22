@@ -26,24 +26,6 @@ class MovieLinkCRUD:
         self.db = database
         self.collection = database.movie_link
     
-    # async def get_by_movie_id(self, movie_id: str) -> Optional[MovieLinkInDB]:
-    #     # Thử tìm với string
-    #     movie_link = await self.collection.find_one({"movie_id": movie_id})
-
-    #     # Nếu không thấy, thử với ObjectId
-    #     if not movie_link:
-    #         try:
-    #             movie_link = await self.collection.find_one({"movie_id": ObjectId(movie_id)})
-    #         except Exception:
-    #             pass
-
-    #     # Nếu vẫn không có, trả None
-    #     if not movie_link:
-    #         return None
-
-    #     movie_link["id"] = str(movie_link.pop("_id"))
-    #     return MovieLinkInDB(**movie_link)
-    
     async def get_by_movie_id(self, movie_id: str) -> Optional[MovieLinkInDB]:
         logger.info(f"Finding movie link for movie_id={movie_id}")
 

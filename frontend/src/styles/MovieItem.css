@@ -1,193 +1,333 @@
-/**
- * Movie Item Component Styles
- * 
- * Shared styles for movie items with support for both row and list display modes.
- * Includes hover effects, responsive design, and proper loading states.
- */
+/* MovieItem.css - Modern redesign with sleek aesthetics */
 
-/* Base movie item styles */
 .movie-item {
   position: relative;
-  transition: transform 0.3s ease;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Row mode (horizontal layout) */
+/* Row mode - horizontal scrolling */
 .movie-item.row-mode {
-  min-width: 16.66%; /* 6 items per row by default */
-  padding: 0 4px;
+  flex: 0 0 auto;
+  margin-right: 20px;
+  width: 220px;
+  border-radius: 16px;
 }
 
-/* List mode (vertical layout) */
+.movie-item.row-mode:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* List mode - vertical grid */
 .movie-item.list-mode {
   width: 100%;
-  margin-bottom: 16px;
-  display: flex;
+  margin-bottom: 24px;
+  border-radius: 20px;
 }
 
-.list-mode .movie-poster-container {
-  width: 200px;
-  flex-shrink: 0;
+.movie-item.list-mode:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.5);
 }
 
-/* Container for the poster image */
+/* Poster container - Fixed aspect ratios */
 .movie-poster-container {
   position: relative;
   width: 100%;
-  height: 0;
-  padding-top: 150%; /* 2:3 aspect ratio */
   overflow: hidden;
-  border-radius: 4px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  cursor: pointer;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
 }
 
-.list-mode .movie-poster-container {
-  padding-top: 0;
-  height: 300px;
+.movie-item.row-mode .movie-poster-container {
+  aspect-ratio: 2/3; /* Standard movie poster ratio */
+  height: 330px; /* Fixed height for consistency */
 }
 
-/* Placeholder while image is loading */
+.movie-item.list-mode .movie-poster-container {
+  aspect-ratio: 16/9; /* Landscape ratio for list view */
+  height: 200px; /* Fixed height for consistency */
+}
+
+/* Enhanced placeholder */
 .movie-poster-placeholder {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #2a2a2a;
+  background: linear-gradient(135deg, #1a1a1a, #2a2a2a, #1a1a1a);
+  background-size: 200% 200%;
+  animation: shimmer 2s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
 }
 
-/* Movie poster image */
+.movie-poster-placeholder::before {
+  content: "🎬";
+  font-size: 3em;
+  opacity: 0.3;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Movie poster with enhanced effects - Consistent sizing */
 .movie-poster {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  filter: brightness(1) contrast(1.1) saturate(1.1);
+  display: block;
 }
 
 .movie-poster.loaded {
   opacity: 1;
 }
 
-/* Overlay shown on hover */
+.movie-item:hover .movie-poster {
+  filter: brightness(0.6) contrast(1.2) saturate(1.3);
+  transform: scale(1.05);
+}
+
+/* Premium overlay design */
 .movie-overlay {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
-  width: 100%;
-  padding: 60px 10px 10px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.1) 30%,
+    rgba(0, 0, 0, 0.6) 70%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
   opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none; /* Thêm dòng này */
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  color: white;
+  backdrop-filter: blur(8px);
 }
 
+.movie-item:hover .movie-overlay,
 .movie-overlay.always-show {
   opacity: 1;
+  backdrop-filter: blur(12px);
 }
 
-/* Movie title in overlay */
+/* Enhanced movie title */
 .movie-title {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin: 0 0 10px;
-  color: white;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #ffffff, #e0e0e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Movie details in list mode */
+.movie-item.row-mode .movie-title {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.movie-item.list-mode .movie-title {
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+/* Stylish movie details */
 .movie-details {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 10px;
-  font-size: 0.85rem;
-  color: #b3b3b3;
+  margin-bottom: 20px;
+  font-size: 12px;
 }
 
-/* Watch button */
-.watch-button {
+.movie-year,
+.movie-duration,
+.movie-rating {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
   padding: 6px 12px;
-  background-color: #e50914;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.movie-rating {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+  color: #ffd700;
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+/* Premium watch button */
+.watch-button {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  box-shadow: 0 6px 20px rgba(238, 90, 36, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.watch-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.watch-button:hover::before {
+  left: 100%;
+}
+
+.movie-item.row-mode .watch-button {
+  padding: 10px 20px;
+  font-size: 12px;
+  border-radius: 20px;
+}
+
+.movie-item.list-mode .watch-button {
+  padding: 14px 28px;
+  font-size: 15px;
 }
 
 .watch-button:hover {
-  background-color: #f40612;
+  background: linear-gradient(135deg, #ff5252, #ff3d00);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(238, 90, 36, 0.6);
 }
 
-/* Hover effects */
-.movie-item:hover {
-  transform: scale(1.05);
-  z-index: 10;
+.watch-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 15px rgba(238, 90, 36, 0.4);
 }
 
-.movie-item:hover .movie-overlay {
-  opacity: 1;
-}
-
-/* Responsive design */
-@media (max-width: 1400px) {
+/* Enhanced responsive design - Consistent sizes */
+@media (max-width: 1024px) {
   .movie-item.row-mode {
-    min-width: 20%; /* 5 per row */
-  }
-}
-
-@media (max-width: 1100px) {
-  .movie-item.row-mode {
-    min-width: 25%; /* 4 per row */
+    width: 200px;
+    margin-right: 16px;
   }
   
-  .list-mode .movie-poster-container {
+  .movie-item.row-mode .movie-poster-container {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .movie-item.row-mode {
     width: 180px;
+    margin-right: 14px;
+  }
+  
+  .movie-item.row-mode .movie-poster-container {
     height: 270px;
   }
-}
-
-@media (max-width: 800px) {
-  .movie-item.row-mode {
-    min-width: 33.33%; /* 3 per row */
+  
+  .movie-item.list-mode .movie-title {
+    font-size: 18px;
   }
   
-  .list-mode .movie-poster-container {
-    width: 150px;
-    height: 225px;
+  .movie-overlay {
+    padding: 20px;
+  }
+  
+  .movie-details {
+    font-size: 11px;
+    gap: 6px;
+  }
+  
+  .watch-button {
+    padding: 10px 20px;
+    font-size: 13px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 480px) {
   .movie-item.row-mode {
-    min-width: 50%; /* 2 per row */
+    width: 160px;
+    margin-right: 12px;
   }
   
-  .list-mode .movie-poster-container {
-    width: 120px;
-    height: 180px;
+  .movie-item.row-mode .movie-poster-container {
+    height: 240px;
+  }
+  
+  .movie-overlay {
+    padding: 16px;
   }
   
   .movie-title {
-    font-size: 0.8rem;
+    font-size: 14px;
+  }
+  
+  .movie-details {
+    margin-bottom: 16px;
+  }
+  
+  .watch-button {
+    padding: 8px 16px;
+    font-size: 12px;
   }
 }
 
-@media (max-width: 400px) {
-  .movie-item.row-mode {
-    min-width: 70%; /* 1.5 per row */
-  }
-  
-  .list-mode .movie-poster-container {
-    width: 100px;
-    height: 150px;
-  }
-} 
+/* Premium hover effects */
+.movie-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.movie-item:hover::after {
+  opacity: 1;
+}

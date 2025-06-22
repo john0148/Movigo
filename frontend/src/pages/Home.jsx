@@ -108,13 +108,13 @@ function Home() {
       </div>
 
       {/* Nút test xem player */}
-      <div style={{ textAlign: "center", margin: "20px" }}>
-        <Link to="/watch/682ddfbd39d76f25df990c45">
+      {/* <div style={{ textAlign: "center", margin: "20px" }}>
+        <Link to="/watch/682ddfbd39d76f25df990c42">
           <button style={{ padding: "10px 20px", fontSize: "16px" }}>
             Xem thử phim test
           </button>
         </Link>
-      </div>
+      </div> */}
       
     </div>
   );

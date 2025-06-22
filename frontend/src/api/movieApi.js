@@ -72,6 +72,7 @@ export const getFeaturedMovies = async (limit = 10) => {
 export const getMovieDetails = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/${id}`);
+    console.log(`Movie details for ID ${id}:`, response.data);
     return response.data;
   } catch (error) {
     return handleApiError(error, 'Không thể lấy thông tin chi tiết phim');
@@ -181,5 +182,66 @@ export const fetchRelatedMovies = async (movieId, limit = 6) => {
     throw error;
   }
 };
+
+
+export const getRatingsByMovieId = async (movieId) => {
+  try {
+    const response = await axios.get(`${API_URL}/${movieId}/ratings`);
+    return response.data;
+  } catch (error) {
+    return handleApiError(error, 'Không thể lấy đánh giá');
+  }
+};
+
+// export const postRating = async (movieId, ratingData) => {
+//   try {
+//     const response = await axios.post(`${API_URL}/${movieId}/ratings`, ratingData);
+//     return response.data;
+//   } catch (error) {
+//     return handleApiError(error, 'Không thể gửi đánh giá');
+//   }
+// };
+
+export const postRating = async (movieId, ratingData) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/${movieId}/ratings`,
+      ratingData,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return handleApiError(error, 'Không thể gửi đánh giá');
+  }
+};
+
+
+// export const postRating = async (movieId, ratingData) => {
+//   try {
+//     const response = await axios.post(`${API_URL}/${movieId}/ratings`, ratingData, {
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem('access_token')}`, 
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     return handleApiError(error, 'Không thể gửi đánh giá');
+//   }
+// };
+
+
+export const getCharactersByMovieId = async (movieId) => {
+  try {
+    const response = await axios.get(`${API_URL}/${movieId}/characters`);
+    return response.data;
+  } catch (error) {
+    return handleApiError(error, 'Không tìm thấy thông tin');
+  }
+};
+
 
 

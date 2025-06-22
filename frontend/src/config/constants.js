@@ -7,11 +7,8 @@
 
 // API URLs
 export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
-// export const baseImageUrl = 'https://image.tmdb.org/t/p/original';
-// export const BASE_IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
 export const baseImageUrl = 'https://i.ibb.co/';
 export const BASE_IMAGE_URL = 'https://i.ibb.co/';
-
 // Authentication
 export const AUTH_TOKEN_KEY = 'auth_token';
 export const REFRESH_TOKEN_KEY = 'refresh_token';
