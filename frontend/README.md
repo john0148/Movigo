@@ -172,3 +172,29 @@ Nếu gặp lỗi kết nối MongoDB, hãy kiểm tra:
 4. MongoDB đang chạy trên port mặc định (27017)
 
 Backend endpoint `/api/v1/mongodb-status` có thể được sử dụng để kiểm tra và debug kết nối MongoDB.
+
+## Firebase Setup (Tùy chọn)
+
+Để sử dụng Google Authentication, bạn cần cấu hình Firebase:
+
+1. Tạo project Firebase tại [Firebase Console](https://console.firebase.google.com/)
+2. Enable Authentication > Google Sign-in provider
+3. Tạo file `.env` trong thư mục frontend:
+
+```env
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+VITE_FIREBASE_MESSAGE_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=G-your_measurement_id
+```
+
+4. Restart development server:
+
+```bash
+npm run dev
+```
+
+**Lưu ý:** Ứng dụng vẫn hoạt động bình thường nếu không cấu hình Firebase. Google Login button sẽ bị disabled và hiển thị "Firebase chưa cấu hình".

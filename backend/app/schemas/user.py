@@ -42,6 +42,13 @@ class GoogleToken(BaseModel):
     credential: str = Field(..., description="Google ID token")
 
 
+class FirebaseToken(BaseModel):
+    """
+    Firebase auth token từ client
+    """
+    id_token: str = Field(..., description="Firebase ID token")
+
+
 class UserBase(BaseModel):
     """Base user schema with common attributes"""
     email: EmailStr = Field(..., description="User email address")

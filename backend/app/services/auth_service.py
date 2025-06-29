@@ -7,6 +7,9 @@ from fastapi.security import OAuth2PasswordBearer
 from bson import ObjectId
 import httpx
 import json
+import firebase_admin
+from firebase_admin import auth as firebase_auth
+from firebase_admin import credentials
 
 from ..schemas.user import UserCreate
 from ..crud.user import get_user_by_email, create_user, get_user_by_id, update_user
@@ -26,6 +29,28 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # OAuth2 Bearer token
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+
+# Initialize Firebase Admin SDK
+try:
+    # Cách 1: Sử dụng service account key file
+    import os
+    service_account_path = os.path.join(os.path.dirname(__file__), "..", "..", "serviceAccountKey.json")
+    
+    if not firebase_admin._apps:
+        if os.path.exists(service_account_path):
+            cred = credentials.Certificate(service_account_path)
+            firebase_admin.initialize_app(cred)
+            print("Firebase Admin SDK initialized successfully with service account key")
+        else:
+            print(f"Service account key not found at: {service_account_path}")
+            print("Please download your service account key from Firebase Console and place it at the above path")
+            # Fallback to default credentials if service account key not found
+            firebase_admin.initialize_app()
+            print("Firebase Admin SDK initialized with default credentials")
+except Exception as e:
+    print(f"Warning: Firebase Admin SDK initialization failed: {e}")
+    print("Firebase authentication will not work without proper configuration")
+    print("Please check your service account key file and Firebase project settings")
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """
@@ -169,6 +194,57 @@ async def verify_google_token(google_token: str) -> Optional[Dict[str, Any]]:
         return None
     except Exception as e:
         print(f"Google token verification error: {e}")
+        return None
+
+async def verify_firebase_token(firebase_id_token: str) -> Optional[Dict[str, Any]]:
+    """
+    Xác thực Firebase ID token và lấy thông tin user
+    """
+    try:
+        # Verify Firebase ID token
+        decoded_token = firebase_auth.verify_id_token(firebase_id_token)
+        
+        # Lấy thông tin user từ Firebase token
+        email = decoded_token.get("email")
+        if not email:
+            print("No email found in Firebase token")
+            return None
+        
+        # Kiểm tra user đã tồn tại chưa
+        existing_user = await get_user_by_email(email)
+        if existing_user:
+            # Cập nhật is_google_auth nếu chưa đúng
+            if not existing_user.get("is_google_auth"):
+                await update_user(existing_user["_id"], {"is_google_auth": True})
+                # Reload user data
+                existing_user = await get_user_by_email(email)
+            from ..crud.user import UserCRUD
+            return UserCRUD.model_to_dict(existing_user)
+        
+        # Tạo user mới với thông tin từ Firebase
+        user_data = {
+            "email": email,
+            "full_name": decoded_token.get("name"),
+            "is_google_auth": True,
+            "subscription_plan": "basic",
+            "avatar_url": decoded_token.get("picture")
+        }
+        
+        print(f"Creating new user from Firebase token: {email}")
+        db_user = await create_user(user_data)
+        if db_user:
+            from ..crud.user import UserCRUD
+            return UserCRUD.model_to_dict(db_user)
+        return None
+        
+    except firebase_auth.InvalidIdTokenError:
+        print("Invalid Firebase ID token")
+        return None
+    except firebase_auth.ExpiredIdTokenError:
+        print("Expired Firebase ID token")
+        return None
+    except Exception as e:
+        print(f"Firebase token verification error: {e}")
         return None
 
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> Dict[str, Any]:

@@ -10,7 +10,9 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { login, loginWithGoogle, checkMongoDBStatus } from '../../api/authApi';
+import { Eye, EyeOff } from 'lucide-react';
+import { login, checkMongoDBStatus } from '../../api/authApi';
+import { useAuth } from '../../context/AuthContext';
 import { showErrorToast } from '../../utils/errorHandler';
 import '../../styles/Auth.css';
 
@@ -22,6 +24,7 @@ function Login() {
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [usingFallbackData, setUsingFallbackData] = useState(false);
   const [checkingMongoDB, setCheckingMongoDB] = useState(false);
@@ -29,11 +32,17 @@ function Login() {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const { loginWithGoogle: firebaseLoginWithGoogle, isLoading: authLoading, firebaseError } = useAuth();
 
   // Navigate to register page
   const handleRegisterClick = (e) => {
     e.preventDefault();
     navigate('/register');
+  };
+
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   // Kiểm tra xem có message được chuyển từ trang đăng ký không
@@ -147,19 +156,22 @@ function Login() {
     navigate(redirectTo);
   };
 
-  // Xử lý đăng nhập với Google
+  // Xử lý đăng nhập với Google Firebase
   const handleGoogleLogin = async () => {
-    setLoading(true);
     try {
-      // Khởi tạo đăng nhập Google
-      await loginWithGoogle();
-
+      setLoading(true);
+      
+      // Sử dụng Firebase Google auth từ context
+      await firebaseLoginWithGoogle();
+      
+      console.log('Google login successful, navigating...');
+      
       // Chuyển hướng đến trang chủ sau khi đăng nhập thành công
       const redirectTo = location.state?.from || '/';
       navigate(redirectTo);
     } catch (error) {
       console.error('Đăng nhập Google thất bại:', error);
-      showErrorToast(error.message);
+      showErrorToast(error.message || 'Đăng nhập Google thất bại');
     } finally {
       setLoading(false);
     }
@@ -198,15 +210,25 @@ function Login() {
 
             <div className="form-group">
               <label htmlFor="password">Mật khẩu</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Nhập mật khẩu"
-                className={errors.password ? 'error' : ''}
-              />
+              <div className="password-input-container">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Nhập mật khẩu"
+                  className={errors.password ? 'error' : ''}
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={togglePasswordVisibility}
+                  aria-label={showPassword ? "Ẩn mật khẩu" : "Hiển thị mật khẩu"}
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
               {errors.password && <div className="error-message">{errors.password}</div>}
             </div>
 
@@ -239,10 +261,16 @@ function Login() {
               type="button"
               className="google-button"
               onClick={handleGoogleLogin}
-              disabled={loading}
+              disabled={loading || authLoading || !!firebaseError}
+              title={firebaseError ? 'Firebase chưa được cấu hình' : ''}
             >
               <img src="/assets/google-icon.svg" alt="Google" className="google-icon" />
-              Đăng nhập với Google
+              {firebaseError 
+                ? 'Firebase chưa cấu hình' 
+                : (loading || authLoading) 
+                  ? 'Đang xử lý...' 
+                  : 'Đăng nhập với Google'
+              }
             </button>
           </form>
 

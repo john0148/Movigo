@@ -25,6 +25,8 @@ MANIFEST
 # Virtual Environments
 backend/venv/
 backend/env/
+backend/serviceAccountKey.json
+backend/.env
 venv/
 env/
 .venv/
@@ -67,6 +69,7 @@ lerna-debug.log*
 # React build
 frontend/build/
 frontend/dist/
+frontend/.env
 
 # Logs
 *.log

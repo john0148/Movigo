@@ -77,14 +77,22 @@ For detailed API documentation, visit the `/api/v1/docs` endpoint when the serve
 ### Installation
 1. Clone the repository
 2. Install dependencies:
-   ```
+   ```bash
    cd backend
-   poetry install
+   pip install -r requirements.txt
    ```
-3. Create a `.env` file based on `.env.example`
-4. Start the development server:
+3. **Setup Firebase (Required for Google Login):**
+   ```bash
+   # Quick setup guide
+   cat FIREBASE_QUICK_SETUP.md
+   
+   # Test Firebase setup
+   python test_firebase.py
    ```
-   poetry run uvicorn app.main:app --reload
+4. Create a `.env` file based on `.env.example`
+5. Start the development server:
+   ```bash
+   uvicorn app.main:app --reload
    ```
 
 ### Environment Variables

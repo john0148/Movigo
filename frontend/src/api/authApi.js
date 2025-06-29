@@ -139,7 +139,32 @@ export const login = async (credentials) => {
 };
 
 /**
- * Đăng nhập bằng Google
+ * Đăng nhập bằng Google với Firebase token
+ * @param {string} firebaseToken Firebase ID token
+ * @returns {Promise<Object>} Dữ liệu xác thực (access_token, refresh_token, user)
+ */
+export const loginWithFirebaseToken = async (firebaseToken) => {
+  try {
+    console.log('Sending Firebase token to backend for authentication');
+    
+    // Gửi Firebase ID token đến backend để xác thực
+    const response = await axios.post(`${API_URL}/firebase-auth`, { 
+      id_token: firebaseToken 
+    });
+
+    console.log('Backend authentication successful:', response.data);
+    
+    // Lưu dữ liệu xác thực
+    setAuthData(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Firebase token authentication failed:', error);
+    return handleApiError(error, 'Đăng nhập với Google thất bại');
+  }
+};
+
+/**
+ * Đăng nhập bằng Google (Legacy - deprecated)
  * @returns {Promise<Object>} Dữ liệu xác thực (access_token, refresh_token, user)
  */
 export const loginWithGoogle = async () => {
