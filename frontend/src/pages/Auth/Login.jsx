@@ -30,6 +30,12 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Navigate to register page
+  const handleRegisterClick = (e) => {
+    e.preventDefault();
+    navigate('/register');
+  };
+
   // Kiểm tra xem có message được chuyển từ trang đăng ký không
   useEffect(() => {
     if (location.state?.message) {
@@ -241,7 +247,14 @@ function Login() {
           </form>
 
           <div className="auth-footer">
-            Chưa có tài khoản? <Link to="/register" className="auth-link">Đăng ký ngay</Link>
+            Chưa có tài khoản?
+            <span
+              className="auth-link"
+              onClick={handleRegisterClick}
+              style={{ cursor: 'pointer' }}
+            >
+              Đăng ký ngay
+            </span>
           </div>
         </div>
       </div>
