@@ -97,7 +97,7 @@ const ProfileMain = () => {
   return (
     <div className="profile-page-container">
       <div className="profile-header">
-        <h1 style={{ color: '#000000' }}>Hồ sơ của tôi</h1>
+        <h1>Hồ sơ của tôi</h1>
       </div>
 
       <div className="profile-sections">
