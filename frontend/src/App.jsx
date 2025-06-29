@@ -15,6 +15,12 @@ import { genresMovie, yearOptions } from './config/constants';
  * - Container cho các routes con
  */
 function App() {
+  console.log('ENV', {
+    API_KEY: import.meta.env.VITE_FIREBASE_API_KEY,
+    AUTH_DOMAIN: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    PROJECT_ID: import.meta.env.VITE_FIREBASE_PROJECT_ID
+  });
+  
   const navigate = useNavigate();
   const location = useLocation();
   const { user, isLoggedIn, logout, isLoading: authLoading } = useAuth();
