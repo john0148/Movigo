@@ -2,6 +2,8 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, Path
 from bson import ObjectId
 import logging
+from fastapi.responses import StreamingResponse
+import httpx
 
 from ..db.models.movie import MovieModel
 from ..crud.movie import (
@@ -9,16 +11,21 @@ from ..crud.movie import (
     get_movie_by_id,
     get_top_movies_by_views,
     increment_movie_view_count,
-    get_related_movies
+    get_related_movies,
     )
+from ..crud.movie_link import MovieLinkCRUD
+from ..crud.rating import RatingCRUD
+from ..crud.character import CharacterCRUD
 from ..schemas.movie import MovieOut, MovieList, MovieResponse
+from ..schemas.rating import RatingOut, RatingCreate
+from ..schemas.character import CharacterInDB
 
 from ..core.security import get_current_user
 from ..services.movie_service import MovieService
 from ..dependencies import get_movie_service
 from ..schemas.user import UserInDB
-
-
+from ..schemas.movie_link import MovieLinkBase, MovieLinkInDB, MovieLinkResponse
+from ..db.database import get_database
 
 
 """
@@ -218,3 +225,33 @@ async def read_related_movies(
 
     related = await get_related_movies(movie, limit)
     return related
+
+@router.get("/{movie_id}/drive-url", response_model=MovieLinkResponse)
+async def get_drive_link(movie_id: str, db=Depends(get_database)):
+    movie_link_crud = MovieLinkCRUD(db)
+    movie_link = await movie_link_crud.get_by_movie_id(movie_id)
+
+    if not movie_link:
+        raise HTTPException(status_code=404, detail="Drive link not found")
+
+    return movie_link
+
+@router.get("/{movie_id}/ratings", response_model=list[RatingOut])
+async def get_ratings(movie_id: str, db=Depends(get_database)):
+    rating_crud = RatingCRUD(db)
+    ratings = await rating_crud.get_by_movie_id(movie_id)
+    return ratings
+
+@router.post("/{movie_id}/ratings", response_model=RatingOut)
+async def create_rating(movie_id: str, rating: RatingCreate, db=Depends(get_database)):
+    rating_crud = RatingCRUD(db)
+    rating_out = await rating_crud.create(movie_id, rating)
+    return rating_out
+
+@router.get("/{movie_id}/characters", response_model=List[CharacterInDB])
+async def get_characters(movie_id: str, db=Depends(get_database)):
+    character_crud = CharacterCRUD(db)
+    characters = await character_crud.get_by_movie_id(movie_id)
+    return characters
+
+

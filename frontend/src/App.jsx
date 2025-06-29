@@ -5,6 +5,7 @@ import { attemptAutoLogin, clearManualLogoutFlag, setManualLogout } from './util
 import { USER_DATA_KEY } from './config/constants';
 import { Search as SearchIcon } from "lucide-react";
 import './App.css';
+import { genresMovie, yearOptions } from './config/constants';
 
 /**
  * App Component
@@ -150,48 +151,6 @@ function App() {
     'Hereditary', 'Hercules', 'Heartland: Season 1', 'He\'s Just Not That Into You',
     'Heart Eyes', 'Heat', 'Hello Kitty\'s Furry Tale Theater', 'Hello Kitty: Super Style!',
     'Hell on Wheels', 'Henry Cavill'
-  ];
-  // const genres = [
-  //   { value: "", label: "Thể loại" },
-  //   { value: "action", label: "Phim Hành Động" },
-  //   { value: "comedy", label: "Phim Hài" },
-  //   { value: "drama", label: "Chính kịch" },
-  //   { value: "horror", label: "Phim Kinh Dị" },
-  //   { value: "", label: "Phim Bí Ẩn" },
-
-  //   { value: "animation", label: "Phim Hoạt Hình" },
-  //   { value: "sci-fi", label: "Khoa học viễn tưởng" },
-  //   { value: "romance", label: "Lãng mạn" }
-  // ];
-
-  const genres = [
-    { value: "Phim Hành Động", label: "Hành Động" },
-    { value: "Phim Hài", label: "Hài" },
-    // { value: "Chính kịch", label: "Chính kịch" },
-    { value: "Phim Kinh Dị", label: "Kinh Dị" },
-    { value: "Phim Bí Ẩn", label: "Phim Bí Ẩn" },
-
-    { value: "Phim Hoạt Hình", label: "Hoạt Hình" },
-    { value: "Phim Giả Tượng", label: "Khoa học viễn tưởng" },
-    { value: "Phim Lãng mạn", label: "Lãng mạn" }
-  ];
-
-  // Year options for the year filter dropdown
-  const yearOptions = [
-    { value: "", label: "Năm" },
-    { value: "2025", label: "2025" },
-    { value: "2024", label: "2024" },
-    { value: "2023", label: "2023" },
-    { value: "2022", label: "2022" },
-    { value: "2021", label: "2021" },
-    { value: "2020", label: "2020" },
-    { value: "2019", label: "2019" },
-    { value: "2018", label: "2018" },
-    { value: "2017", label: "2017" },
-    { value: "2010s", label: "2010-2019" },
-    { value: "2000s", label: "2000-2009" },
-    { value: "1990s", label: "1990-1999" },
-    { value: "classic", label: "Trước 1990" }
   ];
 
   useEffect(() => {
@@ -473,6 +432,7 @@ function App() {
           <Link to="/" className="navbar-logo">MOVIGO</Link>
           <div className="navbar-links">
             <Link to="/" className="nav-link">Trang chủ</Link>
+            {/* <Link to="/search" className="nav-link">Danh sách</Link> */}
             <Link to="/search" className="nav-link">Danh sách</Link>
 
             {/* Improved Genre dropdown */}
@@ -485,7 +445,7 @@ function App() {
                 <option value="" disabled hidden>
                   Thể loại
                 </option>
-                {genres.map(genre => (
+                {genresMovie.map(genre => (
                   <option key={genre.value} value={genre.value}>
                     {genre.label}
                   </option>

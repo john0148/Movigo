@@ -1,443 +1,297 @@
 [{
-  "_id": "0a2a6e10-a47c-441d-9ab8-50562e80cbc7",
-  "title": "Movie 1",
-  "description": "This is a description for Movie 1. An exciting film that will keep you entertained.",
-  "genres": [
-    "Action",
-    "Horror",
-    "Sci-Fi"
-  ],
-  "release_year": 2018,
-  "duration_minutes": 97,
-  "poster_url": "/assets/posters/movie1.jpg",
-  "video_url": "/assets/videos/movie1.mp4",
-  "view_count": 4053,
-  "rating": 2,
-  "is_featured": true,
-  "created_at": {
-    "$date": "2025-05-06T00:43:25.041Z"
+  "_id": {
+    "$oid": "682ddfb539d76f25df990c40"
   },
-  "updated_at": {
-    "$date": "2025-05-06T00:43:25.041Z"
-  }
-},
-{
-  "_id": "f6891511-8421-41c9-939a-3dde4f300683",
-  "title": "Movie 2",
-  "description": "This is a description for Movie 2. An exciting film that will keep you entertained.",
+  "title": "Thám tử phố tàu 1900",
+  "overview": "Thám Tử Phố Tàu 1900 xoay quanh câu chuyện vào năm 1900, khi Fei Yanggu, một quan chức nhà Thanh, được cử tới San Francisco với nhiệm vụ bắt giữ các nhà cách mạng Tôn Văn và Trịnh Thế Lương. Trong lúc này, một vụ án mạng kinh hoàng xảy ra tại Chinatown khi Alice, con gái của nghị sĩ Grant, bị sát hại cùng với một ông lão người Mỹ bản địa. Bạch Chấn Bang, con trai của thủ lĩnh hội Xie Sheng, trở thành nghi phạm chính. Tuy nhiên, nghị sĩ Grant lại lợi dụng sự kiện này để thúc đẩy chính sách bài Hoa. Trong nỗ lực cứu con trai và bảo vệ cộng đồng người Hoa, Bạch Huyền Lĩnh nhờ cậy Tần Phúc, một thiên tài suy luận, để điều tra vụ án. Tần Phúc kết hợp với A Quỷ, một thợ săn lai Hoa-Mỹ đang tìm cách báo thù cho cha nuôi của mình. Trong hành trình tìm kiếm hung thủ, họ phát hiện thêm nhiều vụ giết người tương tự và theo dấu manh mối dẫn đến nhà nghị sĩ Grant, nơi chứa đựng những bằng chứng quyết định.",
+  "release_date": "2025-01-01",
   "genres": [
-    "Horror",
-    "Comedy"
+    "Phim Hành Động",
+    "Phim Hài"
   ],
-  "release_year": 2024,
-  "duration_minutes": 101,
-  "poster_url": "/assets/posters/movie2.jpg",
-  "video_url": "/assets/videos/movie2.mp4",
-  "view_count": 7147,
-  "rating": 1.6,
-  "is_featured": true,
-  "created_at": {
-    "$date": "2025-05-06T00:43:25.041Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-06T00:43:25.041Z"
-  }
-},
-{
-  "_id": "c80c46fa-d899-4f28-92d4-6b32955cf4c1",
-  "title": "Movie 3",
-  "description": "This is a description for Movie 3. An exciting film that will keep you entertained.",
-  "genres": [
-    "Romance",
-    "Thriller"
-  ],
-  "release_year": 1994,
-  "duration_minutes": 123,
-  "poster_url": "/assets/posters/movie3.jpg",
-  "video_url": "/assets/videos/movie3.mp4",
-  "view_count": 1115,
-  "rating": 1.3,
+  "runtime": 136,
+  "vote_average": 7.5,
+  "vote_count": 200,
+  "poster_path": "/MDPzNC9s/thamtuphotauposter.jpg",
+  "backdrop_path": "/8gk7LcdV/thamtuphotaubackdrop.jpg",
+  "tmdb_id": 0,
   "is_featured": false,
+  "trailer_url": null,
   "created_at": {
-    "$date": "2025-05-06T00:43:25.041Z"
+    "$date": "2025-06-19T00:00:00.000Z"
   },
   "updated_at": {
-    "$date": "2025-05-06T00:43:25.041Z"
-  }
+    "$date": "2025-06-19T00:00:00.000Z"
+  },
+  "view_count": 0
 },
 {
-  "_id": "dc6fccb7-f762-40df-8be3-f50f68c3bcd3",
-  "title": "Movie 4",
-  "description": "This is a description for Movie 4. An exciting film that will keep you entertained.",
+  "_id": {
+    "$oid": "682ddfb939d76f25df990c41"
+  },
+  "title": "Con Đường Tơ Lụa: Huyền Án Tây Hán 2025",
+  "overview": "Vào những năm đầu của triều đại Tây Hán, một trận hỏa hoạn kinh hoàng đã thiêu rụi số lụa hoàng gia được định làm cống phẩm cho Hung Nô—một thảm họa đã thổi bùng lên sự hỗn loạn trên khắp Tây Vực. Giang Du, một sứ giả ưu tú của triều đình, được phái đi theo sắc lệnh bí mật để điều tra vụ đốt phá và ngăn chặn một cuộc khủng hoảng ở biên giới. Trong khi đó, Cannu yêu dấu của anh, một thợ dệt lụa trở thành anh hùng dân gian, tập hợp người dân Shiquan để bổ sung số cống phẩm đã mất và cứu đế chế khỏi sự ô nhục. Khi Giang Du một mình mạo hiểm vào Tây Vực đầy hiểm nguy, anh phải đối mặt với một lựa chọn bất khả thi: trung thành với số phận của nhà Hán… hay lời thì thầm của trái tim mình",
+  "release_date": "2025-01-01",
   "genres": [
-    "Romance",
-    "Comedy"
+    "Phim Hành Động",
+    "Phim Tâm Lý"
   ],
-  "release_year": 2002,
-  "duration_minutes": 149,
-  "poster_url": "/assets/posters/movie4.jpg",
-  "video_url": "/assets/videos/movie4.mp4",
-  "view_count": 5686,
-  "rating": 2.5,
+  "runtime": 100,
+  "vote_average": 7.1,
+  "vote_count": 279,
+  "poster_path": "/XrbX6mV6/conduongtoluaposter.jpg",
+  "backdrop_path": "/XrbX6mV6/conduongtoluaposter.jpg",
+  "tmdb_id": 574475,
   "is_featured": false,
+  "trailer_url": null,
   "created_at": {
-    "$date": "2025-05-06T00:43:25.041Z"
+    "$date": "2025-05-21T14:14:17.684Z"
   },
   "updated_at": {
-    "$date": "2025-05-06T00:43:25.041Z"
-  }
+    "$date": "2025-05-21T14:14:17.684Z"
+  },
+  "view_count": 0
 },
 {
-  "_id": "59813cb1-f8c9-4c8d-976c-3acd6d819ac2",
-  "title": "Movie 5",
-  "description": "This is a description for Movie 5. An exciting film that will keep you entertained.",
+  "_id": {
+    "$oid": "682ddfbd39d76f25df990c42"
+  },
+  "title": "SÁT THỦ THỢ MÁY: NGÀY TÁI XUẤT",
+  "overview": "Sát thủ nguy hiểm Arthur Bishop (Jason Statham) muốn gác lại quá khứ của mình và bắt đầu một cuộc sống mới. Nhưng khi kẻ thù đáng gờm nhất của Arthur bắt cóc bạn gái anh, Arthur phải thực hiện 3 vụ ám sát và làm cho chúng chỉ giống như những tai nạn",
   "genres": [
-    "Romance",
-    "Animation"
+    "Phim Hành Động"
   ],
-  "release_year": 2005,
-  "duration_minutes": 104,
-  "poster_url": "/assets/posters/movie5.jpg",
-  "video_url": "/assets/videos/movie5.mp4",
-  "view_count": 7667,
-  "rating": 4.1,
+  "release_date": "2025-01-01",
+  "runtime": 98,
+  "vote_average": 8.328,
+  "vote_count": 883,
+  "poster_path": "/9mGzfKHj/satthuthomayposter.png",
+  "backdrop_path": "/jk558GhJ/satthuthomaybackdrop.jpg",
+  "tmdb_id": 447273,
   "is_featured": false,
+  "trailer_url": null,
   "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
+    "$date": "2025-05-21T14:14:21.366Z"
   },
   "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
+    "$date": "2025-05-21T14:14:21.366Z"
+  },
+  "view_count": 0
 },
 {
-  "_id": "72bd8212-709a-4b52-a215-1c60b47c2b78",
-  "title": "Movie 6",
-  "description": "This is a description for Movie 6. An exciting film that will keep you entertained.",
+  "_id": {
+    "$oid": "682ddfbd39d76f25df990c43"
+  },
+  "title": "Huyết án truy hành",
+  "overview": "Vào một đêm mưa tầm tã, thi thể của Gia Kỳ, con gái của cảnh sát Lạc Nhất Ngôn, được phát hiện trong tình trạng đã tử vong. Mặc dù có nhiều nghi vấn xung quanh cái chết của cô, nhưng do thiếu bằng chứng xác thực, nghi phạm Khâu Tuấn Văn đã được thả tự do. Sự kiện này đã khiến Lạc Nhất Ngôn quyết định rời bỏ ngành cảnh sát, nhưng những cái chết bí ẩn vẫn tiếp tục xảy ra. Ông nhận ra rằng nhiều cô gái khác cũng đã bị sát hại một cách dã man với phương thức tương tự, điều này khiến ông tin rằng kẻ giết người vẫn đang tự do ngoài vòng pháp luật. Trong quá trình điều tra, Lạc Nhất Ngôn dần tìm ra nhân chứng duy nhất có thể cung cấp thông tin về hung thủ. Tuy nhiên, điều đáng tiếc là nhân chứng này lại là một cô bé bị thiểu năng trí tuệ, điều này tạo ra không ít khó khăn trong việc thu thập thông tin. Những biến cố liên tiếp ập đến đã khiến Lạc Nhất Ngôn, một người cha và người chồng, gần như gục ngã trước nỗi đau mất mát và sự bất lực trong việc tìm kiếm công lý cho con gái mình.Trước tình hình căng thẳng và áp lực ngày càng gia tăng, Lạc Nhất Ngôn phải đối mặt với một quyết định khó khăn: liệu ông có chấp nhận buông bỏ hiện thực tàn khốc này hay sẽ đứng lên, chiến đấu để giành lại công lý cho Gia Kỳ, cô con gái đã bị sát hại một cách thảm thương? Sự kiên trì và quyết tâm của ông sẽ quyết định không chỉ số phận của bản thân mà còn là hy vọng cho những nạn nhân khác trong cuộc chiến chống lại cái ác.",
   "genres": [
-    "Thriller",
-    "Romance"
+    "Phim Hình Sự",
+    "Phim Chính Kịch"
   ],
-  "release_year": 2012,
-  "duration_minutes": 128,
-  "poster_url": "/assets/posters/movie6.jpg",
-  "video_url": "/assets/videos/movie6.mp4",
-  "view_count": 3372,
-  "rating": 3.8,
+  "release_date": "2025-01-01",
+  "runtime": 83,
+  "vote_average": 6.5,
+  "vote_count": 723,
+  "poster_path": "/QF96mpFf/huyetantruyhanhposter.jpg",
+  "backdrop_path": "/PZrY34Cj/huyetantruyhanhbackdrop.jpg",
+  "tmdb_id": 447273,
   "is_featured": false,
+  "trailer_url": null,
   "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
+    "$date": "2025-05-21T14:14:21.366Z"
   },
   "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
+    "$date": "2025-05-21T14:14:21.366Z"
+  },
+  "view_count": 0
 },
 {
-  "_id": "7f4151bf-7352-4e5c-bb53-0dc83931ea7b",
-  "title": "Movie 7",
-  "description": "This is a description for Movie 7. An exciting film that will keep you entertained.",
+  "_id": {
+    "$oid": "682ddfbd39d76f25df990c44"
+  },
+  "title": "Cô Gái Năm Ấy Chúng Ta Cùng Theo Đuổi 2025 (Bản Hàn)",
+  "overview": "Một nhóm bạn thân học tại một trường tư thục đều phải lòng cô học sinh ngôi sao đầy nắng, Sun-ah. Thành viên duy nhất trong nhóm không nói rằng mình như vậy là Jin-woo, nhưng cuối cùng anh cũng yêu cô.",
+  "release_date": "2025-01-01",
   "genres": [
-    "Horror",
-    "Action"
+    "Phim Hài",
+    "Phim Chính Kịch",
+    "Phim Tình Cảm"
   ],
-  "release_year": 2004,
-  "duration_minutes": 130,
-  "poster_url": "/assets/posters/movie7.jpg",
-  "video_url": "/assets/videos/movie7.mp4",
-  "view_count": 1694,
-  "rating": 1.9,
+  "runtime": 91,
+  "vote_average": 8.9,
+  "vote_count": 456,
+  "poster_path": "/27YcsVHR/cogainamayposter.jpg",
+  "backdrop_path": "/zWkxKMsp/cogainamaybackdrop.jpg",
+  "tmdb_id": 0,
   "is_featured": false,
+  "trailer_url": null,
   "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
+    "$date": "2025-06-19T00:00:00.000Z"
   },
   "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
+    "$date": "2025-06-19T00:00:00.000Z"
+  },
+  "view_count": 0
 },
 {
-  "_id": "e7901a20-1e87-420c-815d-ce4ed719eba3",
-  "title": "Movie 8",
-  "description": "This is a description for Movie 8. An exciting film that will keep you entertained.",
+  "_id": {
+    "$oid": "682ddfbd39d76f25df990c45"
+  },
+  "title": "Tân Tiếu Ngạo Giang Hồ: Đông Phương Bất Bại 2025",
+  "overview": "Tân Tiếu Ngạo Giang Hồ: Đông Phương Bất Bại Invincible Swordsman 2025 dựa trên tiểu thuyết Tiếu Ngạo Giang Hồ của nhà văn Kim Dung, 1 bản làm lại và vẫn tập trung vào nhân vật Lệnh Hồ Xung, đại đệ tử phái Hoa Sơn. Anh là người phóng khoáng, yêu tự do và vô tình bị cuốn vào những âm mưu tranh đoạt quyền lực trong giang hồ. Đặc biệt phim khai thác sâu mối quan hệ giữa Lệnh Hồ Xung và Đông Phương Bất Bại giáo chủ Nhật Nguyệt Thần Giáo, một nhân vật bí ẩn với võ công cao cường.",
+  "release_date": "2025-01-01",
   "genres": [
-    "Thriller"
+    "Phim Võ Thuật",
+    "Phim Cổ Trang"
   ],
-  "release_year": 1996,
-  "duration_minutes": 117,
-  "poster_url": "/assets/posters/movie8.jpg",
-  "video_url": "/assets/videos/movie8.mp4",
-  "view_count": 8867,
-  "rating": 1.6,
+  "runtime": 118,
+  "vote_average": 7.8,
+  "vote_count": 152,
+  "poster_path": "/d0mXkBjm/tantieungaoposter.jpg",
+  "backdrop_path": "/tPC0M1xH/tantieungaobackdrop.webp",
+  "tmdb_id": 0,
   "is_featured": false,
+  "trailer_url": null,
   "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
+    "$date": "2025-06-19T00:00:00.000Z"
   },
   "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
+    "$date": "2025-06-19T00:00:00.000Z"
+  },
+  "view_count": 0
 },
 {
-  "_id": "0cf3be15-4c4f-438d-b8a8-4eb9f045ac02",
-  "title": "Movie 9",
-  "description": "This is a description for Movie 9. An exciting film that will keep you entertained.",
+  "_id": {
+    "$oid": "682ddfbd39d76f25df990c46"
+  },
+  "title": "HUYỀN THOẠI MUAY THÁI: 9 MẢNH GHÉP THẦN KÌ",
+  "overview": "Huyền Thoại Muay Thái: 9 Mảnh Ghép Thần Kì là câu chuyện về cuộc phiêu lưu của chàng trai tên Ott. Sứ mạng của cậu là giải cứu quê hương mình, thành phố Ramathep, thoát khỏi sự nô lệ của quỷ khổng lồ Dahayaksa. Ott đã luyện tập chăm chỉ võ công Muay Thái bị thất truyền nhiều năm từ Lão Sư Phụ. Cậu có nhiệm vụ mang thần khí '9 Satra' đến cho người thừa kế của Ramathep để bảo vệ vương quốc của mình. Cùng với các người bạn Xiaolan (cô gái cướp biển người Trung Quốc), Vata (hoàng tử của Vương quốc Khỉ) và Red Asura (Người khổng lồ đỏ). Liệu Ott có thể hoàn thành được nhiệm vụ và giải cứu vương quốc khỏi thế lực bóng tối?",
+  "release_date": "2025-01-01",
   "genres": [
-    "Thriller",
-    "Sci-Fi",
-    "Action"
+    "Phim Hoạt Hình",
+    "Phim Võ Thuật"
   ],
-  "release_year": 1996,
-  "duration_minutes": 161,
-  "poster_url": "/assets/posters/movie9.jpg",
-  "video_url": "/assets/videos/movie9.mp4",
-  "view_count": 6499,
-  "rating": 1.6,
+  "runtime": 0,
+  "vote_average": 8.2,
+  "vote_count": 189,
+  "poster_path": "/hxJWRB2S/muaythaiposter.jpg",
+  "backdrop_path": "/VW15vLrc/muaythaibackdrop.jpg",
+  "tmdb_id": 0,
   "is_featured": false,
+  "trailer_url": null,
   "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
+    "$date": "2025-06-19T00:00:00.000Z"
   },
   "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
+    "$date": "2025-06-19T00:00:00.000Z"
+  },
+  "view_count": 0
 },
 {
-  "_id": "1ca716cd-c1e8-4138-9b18-4e6ed81f0e4b",
-  "title": "Movie 10",
-  "description": "This is a description for Movie 10. An exciting film that will keep you entertained.",
+  "_id": {
+    "$oid": "682ddfbd39d76f25df990c47"
+  },
+  "title": "NGƯỜI DỌN DẸP",
+  "overview": "Phim xoay quanh hai người đàn ông là Tae In (Yoo Ah In) và Chang Bok (Yoo Jae Myung) làm công việc dọn dẹp cho một băng nhóm tội phạm. Cả hai vô tình bị cuốn vào sự cố bất ngờ cùng một đứa trẻ bị bắt cóc. Và sau đó, những tình tiết gay cấn và hấp dẫn xảy ra giữa một người thanh niên không nói được, một ông chú chỉ biết làm theo những gì được bảo như cái máy tự động và một đứa trẻ 11 tuổi ngây thơ trong sáng.",
+  "release_date": "2025-01-01",
   "genres": [
-    "Sci-Fi",
-    "Action"
+    "Phim Tâm Lý",
+    "Phim Hành Động"
   ],
-  "release_year": 1997,
-  "duration_minutes": 101,
-  "poster_url": "/assets/posters/movie10.jpg",
-  "video_url": "/assets/videos/movie10.mp4",
-  "view_count": 4412,
-  "rating": 1.7,
+  "runtime": 100,
+  "vote_average": 8,
+  "vote_count": 210,
+  "poster_path": "/SDc7vJJp/nguoidondepbackdrop.jpg",
+  "backdrop_path": "/SDc7vJJp/nguoidondepbackdrop.jpg",
+  "tmdb_id": 0,
   "is_featured": false,
+  "trailer_url": null,
   "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
+    "$date": "2025-06-19T00:00:00.000Z"
   },
   "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
+    "$date": "2025-06-19T00:00:00.000Z"
+  },
+  "view_count": 0
 },
 {
-  "_id": "6ba0e59d-62a9-43a6-bab7-efd36ed77c9c",
-  "title": "Movie 11",
-  "description": "This is a description for Movie 11. An exciting film that will keep you entertained.",
+  "_id": {
+    "$oid": "682ddfbd39d76f25df990c48"
+  },
+  "title": "CHUYẾN XE BÁ ĐẠO",
+  "overview": "Phim xoay quanh chuyến xe buýt mang số 888 của tài xế tên Pon. Công việc của anh rất buồn tẻ. Đến một ngày, mọi thứ thay đổi khi Pon phải tiếp đón rất nhiều vị khách lên xe số 888. Điều đáng nói, những hành khách này rất kỳ quái. Sau đó, nhiều tình huống dở khóc dở cười xảy ra ngay trên chuyến xe. Với những chi tiết hài hước, Chuyến xe bá đạo sẽ khiến khán giả cười không ngừng nghỉ trong hơn 90 phút của bộ phim.",
+  "release_date": "2025-01-01",
   "genres": [
-    "Animation",
-    "Comedy"
+    "Phim Hài",
+    "Phim Tâm Lý"
   ],
-  "release_year": 2020,
-  "duration_minutes": 154,
-  "poster_url": "/assets/posters/movie11.jpg",
-  "video_url": "/assets/videos/movie11.mp4",
-  "view_count": 7572,
-  "rating": 2.9,
+  "runtime": 90,
+  "vote_average": 7.3,
+  "vote_count": 95,
+  "poster_path": "G3BSwsPr/chuyenxebadaoposter.jpg",
+  "backdrop_path": "/DH6MMnn5/chuyenxebadaobackdrop.jpg",
+  "tmdb_id": 0,
   "is_featured": false,
+  "trailer_url": null,
   "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
+    "$date": "2025-06-19T00:00:00.000Z"
   },
   "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
+    "$date": "2025-06-19T00:00:00.000Z"
+  },
+  "view_count": 0
 },
 {
-  "_id": "3cf258c7-4ac3-4b9d-a949-26c963efd720",
-  "title": "Movie 12",
-  "description": "This is a description for Movie 12. An exciting film that will keep you entertained.",
+  "_id": {
+    "$oid": "682ddfbd39d76f25df990c49"
+  },
+  "title": "THIẾU GIA KỸ PHƯỜNG",
+  "overview": "Thiếu Gia Kỹ Phường (Homme Fatale) 2019 xoay quanh Heo Saek – chàng trai thông minh, hài hước, trở thành kỹ nam đầu tiên thời Joseon và cuốn hút biết bao phụ nữ bằng tài năng cùng vẻ ngoài nổi bật. Trong bối cảnh xã hội phong kiến với nhiều định kiến giai cấp, Heo Saek gặp Hae Won – cô tiểu thư xinh đẹp, tư duy tiến bộ. Tình yêu của họ bị thử thách bởi những rào cản khắc nghiệt giữa truyền thống và khát vọng tự do cá nhân.",
+  "release_date": "2025-01-01",
   "genres": [
-    "Horror"
+    "Phim Hài",
+    "Phim Tình Cảm"
   ],
-  "release_year": 2015,
-  "duration_minutes": 103,
-  "poster_url": "/assets/posters/movie12.jpg",
-  "video_url": "/assets/videos/movie12.mp4",
-  "view_count": 9328,
-  "rating": 1.2,
+  "runtime": 115,
+  "vote_average": 7.9,
+  "vote_count": 170,
+  "poster_path": "/XfmCZ7MQ/thieugiakyphuongposter.jpg",
+  "backdrop_path": "/whn1j4BF/thieugiakyphuongbackdrop.jpg",
+  "tmdb_id": 0,
   "is_featured": false,
+  "trailer_url": null,
   "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
+    "$date": "2025-06-19T00:00:00.000Z"
   },
   "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
+    "$date": "2025-06-19T00:00:00.000Z"
+  },
+  "view_count": 0
 },
 {
-  "_id": "aaec092e-413d-4846-bd12-887089fa5cd2",
-  "title": "Movie 13",
-  "description": "This is a description for Movie 13. An exciting film that will keep you entertained.",
+  "_id": {
+    "$oid": "682ddfbd39d76f25df990c4a"
+  },
+  "title": "BÀ HOÀNG NÓI DỐI",
+  "overview": "Bà Hoàng Nói Dối - Honest Candidate 2020 là một bộ phim hài hước và chính trị, kể về câu chuyện của một nữ chính trị gia tài giỏi nhưng luôn nói dối và lừa dối người dân. Bà Hoàng đã trở thành ứng cử viên cho một vị trí quan trọng trong chính quyền địa phương. Dù có tài năng và kỹ năng lãnh đạo, bà Hoàng lại có một thói quen đáng ngạc nhiên - nói dối. Bà Hoàng luôn tìm mọi cách để lừa dối người dân và đạt được mục tiêu cá nhân của mình.",
+  "release_date": "2025-01-01",
   "genres": [
-    "Romance",
-    "Horror"
+    "Phim Hài",
+    "Phim Tình Cảm"
   ],
-  "release_year": 2004,
-  "duration_minutes": 163,
-  "poster_url": "/assets/posters/movie13.jpg",
-  "video_url": "/assets/videos/movie13.mp4",
-  "view_count": 2193,
-  "rating": 4.5,
+  "runtime": 100,
+  "vote_average": 7.5,
+  "vote_count": 120,
+  "poster_path": "/qLWJnsS2/bahoangnoidoiposter.jpg",
+  "backdrop_path": "/RkQDDP77/bahoangnoidoibackdrop.jpg",
+  "tmdb_id": 0,
   "is_featured": false,
+  "trailer_url": null,
   "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
+    "$date": "2025-06-19T00:00:00.000Z"
   },
   "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
-},
-{
-  "_id": "de67e165-6c90-4326-b212-184670d026cb",
-  "title": "Movie 14",
-  "description": "This is a description for Movie 14. An exciting film that will keep you entertained.",
-  "genres": [
-    "Sci-Fi",
-    "Thriller",
-    "Drama"
-  ],
-  "release_year": 2003,
-  "duration_minutes": 158,
-  "poster_url": "/assets/posters/movie14.jpg",
-  "video_url": "/assets/videos/movie14.mp4",
-  "view_count": 5312,
-  "rating": 2.5,
-  "is_featured": false,
-  "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
+    "$date": "2025-06-19T00:00:00.000Z"
   },
-  "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
-},
-{
-  "_id": "375fdd7a-ca4c-4277-a991-e5366dbbe8cc",
-  "title": "Movie 15",
-  "description": "This is a description for Movie 15. An exciting film that will keep you entertained.",
-  "genres": [
-    "Comedy"
-  ],
-  "release_year": 2000,
-  "duration_minutes": 162,
-  "poster_url": "/assets/posters/movie15.jpg",
-  "video_url": "/assets/videos/movie15.mp4",
-  "view_count": 1742,
-  "rating": 3.8,
-  "is_featured": true,
-  "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
-},
-{
-  "_id": "4a6bc72a-daba-491b-b4d5-906dc1550c58",
-  "title": "Movie 16",
-  "description": "This is a description for Movie 16. An exciting film that will keep you entertained.",
-  "genres": [
-    "Comedy",
-    "Drama",
-    "Horror"
-  ],
-  "release_year": 2017,
-  "duration_minutes": 118,
-  "poster_url": "/assets/posters/movie16.jpg",
-  "video_url": "/assets/videos/movie16.mp4",
-  "view_count": 4604,
-  "rating": 3.7,
-  "is_featured": true,
-  "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
-},
-{
-  "_id": "34a97702-5758-493a-a8b0-715cba78b7c6",
-  "title": "Movie 17",
-  "description": "This is a description for Movie 17. An exciting film that will keep you entertained.",
-  "genres": [
-    "Comedy"
-  ],
-  "release_year": 2011,
-  "duration_minutes": 138,
-  "poster_url": "/assets/posters/movie17.jpg",
-  "video_url": "/assets/videos/movie17.mp4",
-  "view_count": 6175,
-  "rating": 2.1,
-  "is_featured": false,
-  "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
-},
-{
-  "_id": "ca3ae9e3-aab7-48f3-b30c-23a2e36aefe3",
-  "title": "Movie 18",
-  "description": "This is a description for Movie 18. An exciting film that will keep you entertained.",
-  "genres": [
-    "Animation",
-    "Action",
-    "Drama"
-  ],
-  "release_year": 2014,
-  "duration_minutes": 123,
-  "poster_url": "/assets/posters/movie18.jpg",
-  "video_url": "/assets/videos/movie18.mp4",
-  "view_count": 8345,
-  "rating": 4,
-  "is_featured": false,
-  "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
-},
-{
-  "_id": "18bfc238-c3e6-4ae3-b6cb-7cf9df80fd22",
-  "title": "Movie 19",
-  "description": "This is a description for Movie 19. An exciting film that will keep you entertained.",
-  "genres": [
-    "Comedy",
-    "Drama",
-    "Thriller"
-  ],
-  "release_year": 1993,
-  "duration_minutes": 154,
-  "poster_url": "/assets/posters/movie19.jpg",
-  "video_url": "/assets/videos/movie19.mp4",
-  "view_count": 316,
-  "rating": 1.1,
-  "is_featured": false,
-  "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
-},
-{
-  "_id": "40990f7d-ccf5-4a59-95b0-bf4899170229",
-  "title": "Movie 20",
-  "description": "This is a description for Movie 20. An exciting film that will keep you entertained.",
-  "genres": [
-    "Thriller",
-    "Animation",
-    "Drama"
-  ],
-  "release_year": 2015,
-  "duration_minutes": 135,
-  "poster_url": "/assets/posters/movie20.jpg",
-  "video_url": "/assets/videos/movie20.mp4",
-  "view_count": 3179,
-  "rating": 4.4,
-  "is_featured": false,
-  "created_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  },
-  "updated_at": {
-    "$date": "2025-05-06T00:43:25.042Z"
-  }
+  "view_count": 0
 }]
