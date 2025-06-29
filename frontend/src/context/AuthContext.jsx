@@ -8,6 +8,7 @@ import {
 import { auth } from '../config/firebase';
 import { loginWithFirebaseToken } from '../api/authApi';
 import { showErrorToast } from '../utils/errorHandler';
+import { USER_DATA_KEY, AUTH_TOKEN_KEY } from '../config/constants';
 
 const AuthContext = createContext();
 
@@ -25,7 +26,37 @@ export const AuthProvider = ({ children }) => {
   const [isFirebaseActive, setIsFirebaseActive] = useState(false);
   const [firebaseError, setFirebaseError] = useState(null);
 
+  // Function để set user từ normal login
+  const setUserFromNormalLogin = (userData) => {
+    console.log('Setting user from normal login:', userData?.email);
+    setUser(userData);
+  };
+
+  // Function để check localStorage và restore user state
+  const checkLocalStorageForUser = () => {
+    const token = localStorage.getItem(AUTH_TOKEN_KEY);
+    const userData = localStorage.getItem(USER_DATA_KEY);
+    
+    if (token && userData) {
+      try {
+        const parsedUserData = JSON.parse(userData);
+        console.log('Restored user from localStorage:', parsedUserData?.email);
+        setUser(parsedUserData);
+        return parsedUserData;
+      } catch (error) {
+        console.error('Error parsing user data from localStorage:', error);
+        // Clear invalid data
+        localStorage.removeItem(USER_DATA_KEY);
+        localStorage.removeItem(AUTH_TOKEN_KEY);
+      }
+    }
+    return null;
+  };
+
   useEffect(() => {
+    // Đầu tiên check localStorage cho normal login
+    const localUser = checkLocalStorageForUser();
+    
     // Check if Firebase is configured properly
     if (!auth) {
       console.warn('Firebase not configured properly. Running in development mode without Firebase.');
@@ -62,7 +93,10 @@ export const AuthProvider = ({ children }) => {
           setUser(null);
         }
       } else {
-        setUser(null);
+        // Nếu không có Firebase user, check localStorage
+        if (!localUser) {
+          setUser(null);
+        }
       }
       
       setIsLoading(false);
@@ -128,7 +162,9 @@ export const AuthProvider = ({ children }) => {
     isLoggedIn: !!user,
     firebaseError,
     loginWithGoogle,
-    logout
+    logout,
+    setUserFromNormalLogin, // Thêm function này để normal login có thể update state
+    checkLocalStorageForUser // Thêm function này để check localStorage
   };
 
   return (

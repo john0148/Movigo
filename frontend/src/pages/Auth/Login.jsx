@@ -32,7 +32,7 @@ function Login() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { loginWithGoogle: firebaseLoginWithGoogle, isLoading: authLoading, firebaseError } = useAuth();
+  const { loginWithGoogle: firebaseLoginWithGoogle, isLoading: authLoading, firebaseError, setUserFromNormalLogin } = useAuth();
 
   // Navigate to register page
   const handleRegisterClick = (e) => {
@@ -127,6 +127,14 @@ function Login() {
         password: formData.password,
         remember_me: formData.rememberMe
       });
+
+      console.log('Login successful, authData:', authData);
+
+      // Update AuthContext với user data từ response
+      if (authData && authData.user) {
+        setUserFromNormalLogin(authData.user);
+        console.log('Updated AuthContext with user:', authData.user.email);
+      }
 
       // Kiểm tra xem có đang sử dụng dữ liệu fallback hay không
       if (authData && authData.access_token && authData.access_token.startsWith('mock-token')) {
