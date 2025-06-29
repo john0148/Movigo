@@ -16,9 +16,11 @@ from ..crud.movie import (
 from ..crud.movie_link import MovieLinkCRUD
 from ..crud.rating import RatingCRUD
 from ..crud.character import CharacterCRUD
+from ..crud.comment import CommentCRUD
 from ..schemas.movie import MovieOut, MovieList, MovieResponse
 from ..schemas.rating import RatingOut, RatingCreate
 from ..schemas.character import CharacterInDB
+from ..schemas.comment import CommentResponse
 
 from ..core.security import get_current_user
 from ..services.movie_service import MovieService
@@ -235,6 +237,10 @@ async def get_drive_link(movie_id: str, db=Depends(get_database)):
         raise HTTPException(status_code=404, detail="Drive link not found")
 
     return movie_link
+@router.get("/{movie_id}/comment", response_model=List[CommentResponse])
+async def get_comments_by_movie_id(movie_id: str, db=Depends(get_database)):
+    comment_crud = CommentCRUD(db)
+    return await comment_crud.get_by_movie_id(movie_id)
 
 @router.get("/{movie_id}/ratings", response_model=list[RatingOut])
 async def get_ratings(movie_id: str, db=Depends(get_database)):

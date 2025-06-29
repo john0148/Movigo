@@ -1,15 +1,8 @@
-/**
- * FeaturedBanner Component Styles
- *
- * Định nghĩa các kiểu CSS cho component FeaturedBanner.
- * Bao gồm styles cho banner, nội dung, buttons và hiệu ứng.
- */
 
-/* Container chính cho banner */
 .featured-banner {
   position: relative;
   width: 100%;
-  height: 80vh;
+  height: 200vh;
   max-height: 800px;
   min-height: 500px;
   color: white;
@@ -71,6 +64,7 @@
 /* Container cho nội dung banner */
 .banner-content {
   position: absolute;
+    margin-top: 2rem;
   bottom: 30%;
   left: 4%;
   width: 50%;
@@ -81,9 +75,11 @@
 /* Tiêu đề phim */
 .banner-title {
   font-size: 3rem;
+
   font-weight: 800;
   margin: 0 0 15px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  
 }
 
 /* Thông tin bổ sung về phim */
@@ -99,6 +95,8 @@
 
 /* Mô tả phim */
 .banner-description {
+  max-width: 90%;
+
   font-size: 1.1rem;
   line-height: 1.5;
   margin-bottom: 20px;
@@ -184,6 +182,7 @@
   }
 
   .banner-description {
+
     font-size: 1rem;
     max-width: 100%;
   }

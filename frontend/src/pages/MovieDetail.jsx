@@ -1,30 +1,27 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate  } from 'react-router-dom';
+
 import { Heart, Calendar, Clock, Eye, Play, Star, ArrowRight, Users, Award } from 'lucide-react';
 import '../styles/MovieDetail.css'; // Import file CSS
-import { getMovieDetails, fetchRelatedMovies, incrementMovieView, postRating } from '../api/movieApi';
+import { getMovieDetails, fetchRelatedMovies, incrementMovieView } from '../api/movieApi';
 import { baseImageUrl ,BASE_IMAGE_URL} from '../config/constants';
 import { MovieRatings } from '../components/MovieDetail/MovieRatings'
 import { MovieCharacters } from '../components/MovieDetail/MovieCharacters';
 import { getUserProfile } from '../api/userApi';
-
 const MovieDetail = () => {
   const { id } = useParams();
-  
+
   const [loading, setLoading] = useState(true);
   const [movie, setMovie] = useState(null);
   const [relatedMoviesData, setRelatedMoviesData] = useState([]);
   const [error, setError] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
-
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [reviewText, setReviewText] = useState('');
   const [reviewStars, setReviewStars] = useState(5);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [reloadRatings, setReloadRatings] = useState(false);
-
-
-
+  const navigate = useNavigate();
   const handleSubmitReview = async () => {
     if (!reviewText.trim()) {
       alert('Vui lòng nhập nội dung đánh giá');
@@ -76,7 +73,6 @@ const MovieDetail = () => {
       setIsSubmitting(false);
     }
   };
-
   useEffect(() => {
     const fetchUserProfile = async () => {
       const user = JSON.parse(localStorage.getItem('user'));
@@ -93,7 +89,6 @@ const MovieDetail = () => {
 
     fetchUserProfile();
   }, []);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -130,9 +125,10 @@ const MovieDetail = () => {
     }
   }, [id]);
  
-  const handleWatchMovie = () => {
-    console.log(`Watching movie ${movie?.id}`);
-  };
+const handleWatchMovie = () => {
+  console.log(`Watching movie ${movie?.id}`);
+  navigate(`/watch/${movie?.id}`);
+};
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -345,8 +341,7 @@ const MovieDetail = () => {
           <MovieCharacters movieId={id} />
         </div>
       </div>
-
-      {/* Reviews Section */}
+          {/* Reviews Section */}
       <div className="content-section">
         <div className="section-container">
           <div className="section-header">
