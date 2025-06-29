@@ -48,10 +48,18 @@ async def create_user(user_data: Dict[str, Any]) -> Dict[str, Any]:
     user_data["updated_at"] = datetime.now()
     user_data["is_active"] = True
     
-    # Set max_devices dựa trên subscription_plan
-    if user_data.get("subscription_plan") == "premium":
+    # Normalize subscription field name to subscription_type for database storage
+    if "subscription_plan" in user_data:
+        user_data["subscription_type"] = user_data.pop("subscription_plan")
+    
+    # Ensure subscription_type has default value
+    if "subscription_type" not in user_data:
+        user_data["subscription_type"] = "basic"
+    
+    # Set max_devices dựa trên subscription_type
+    if user_data.get("subscription_type") == "premium":
         user_data["max_devices"] = 4
-    elif user_data.get("subscription_plan") == "standard":
+    elif user_data.get("subscription_type") == "standard":
         user_data["max_devices"] = 2
     else:
         user_data["max_devices"] = 1
@@ -255,7 +263,8 @@ class UserCRUD:
             user_id = str(user.get("_id", ""))
             email = user.get("email", "")
             full_name = user.get("full_name", "")
-            subscription_plan = user.get("subscription_plan", "basic")
+            # Handle both subscription_type (from DB) and subscription_plan
+            subscription_plan = user.get("subscription_plan") or user.get("subscription_type", "basic")
             avatar_url = user.get("avatar_url", "")
             max_devices = user.get("max_devices", 1)
             role = user.get("role", "user")
@@ -266,10 +275,10 @@ class UserCRUD:
             created_at = user.get("created_at", datetime.now())
         else:
             # Object with attributes
-            user_id = str(getattr(user, "id", ""))
+            user_id = str(getattr(user, "_id", "") or getattr(user, "id", ""))
             email = getattr(user, "email", "")
             full_name = getattr(user, "full_name", "")
-            subscription_plan = getattr(user, "subscription_plan", "basic")
+            subscription_plan = getattr(user, "subscription_plan", None) or getattr(user, "subscription_type", "basic")
             avatar_url = getattr(user, "avatar_url", "")
             max_devices = getattr(user, "max_devices", 1)
             role = getattr(user, "role", "user")

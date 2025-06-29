@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Body, status
 from fastapi.security import OAuth2PasswordRequestForm
 import jwt
+from bson import ObjectId
 
 from ..schemas.user import UserCreate, UserOut, Token, GoogleToken
 from ..services.auth_service import (
@@ -12,6 +13,7 @@ from ..services.auth_service import (
     create_tokens_for_user,
     get_user_by_email
 )
+from ..crud.user import get_user_by_id
 from ..core.config import settings
 
 """
@@ -90,8 +92,8 @@ async def refresh_access_token(refresh_token: str = Body(..., embed=True)):
             settings.JWT_SECRET_KEY, 
             algorithms=[settings.JWT_ALGORITHM]
         )
-        email = payload.get("sub")
-        if email is None:
+        user_id = payload.get("sub")
+        if user_id is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid refresh token",
@@ -99,7 +101,7 @@ async def refresh_access_token(refresh_token: str = Body(..., embed=True)):
             )
         
         # Get user from database
-        user = await get_user_by_email(email)
+        user = await get_user_by_id(ObjectId(user_id))
         if not user:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,

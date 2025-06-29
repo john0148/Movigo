@@ -109,9 +109,9 @@ function App() {
         setUser(null);
         setUsingFallbackData(false);
 
-        // If not on the login page, redirect to login
-        if (!location.pathname.includes('/login')) {
-          console.log('Not on login page - redirecting to login');
+        // If not on the login or register page, redirect to login
+        if (!location.pathname.includes('/login') && !location.pathname.includes('/register')) {
+          console.log('Not on login/register page - redirecting to login');
           navigate('/login');
         }
         return;
@@ -138,8 +138,8 @@ function App() {
         setUser(null);
         setUsingFallbackData(false);
 
-        // If not on the login page, redirect to login
-        if (!location.pathname.includes('/login')) {
+        // If not on the login or register page, redirect to login
+        if (!location.pathname.includes('/login') && !location.pathname.includes('/register')) {
           navigate('/login');
         }
       }
@@ -182,8 +182,8 @@ function App() {
           setUsingFallbackData(false);
           setLoading(false);
 
-          // If not on login page, redirect
-          if (!location.pathname.includes('/login')) {
+          // If not on login or register page, redirect
+          if (!location.pathname.includes('/login') && !location.pathname.includes('/register')) {
             navigate('/login');
           }
           return;

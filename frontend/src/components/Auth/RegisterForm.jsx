@@ -34,17 +34,17 @@ const RegisterForm = () => {
       setError('Vui lòng nhập email');
       return false;
     }
-    
+
     if (!formData.password) {
       setError('Vui lòng nhập mật khẩu');
       return false;
     }
-    
+
     if (formData.password !== formData.confirmPassword) {
       setError('Mật khẩu xác nhận không khớp');
       return false;
     }
-    
+
     return true;
   };
 
@@ -53,20 +53,20 @@ const RegisterForm = () => {
       setError('Vui lòng nhập số điện thoại');
       return false;
     }
-    
+
     // Kiểm tra định dạng số điện thoại Việt Nam
     const phoneRegex = /^(0|\+84)(\d{9,10})$/;
     if (!phoneRegex.test(formData.phone)) {
       setError('Số điện thoại không hợp lệ');
       return false;
     }
-    
+
     return true;
   };
 
   const goToNextStep = () => {
     setError('');
-    
+
     if (step === 1 && validateStep1()) {
       setStep(2);
     } else if (step === 2 && validateStep2()) {
@@ -82,11 +82,27 @@ const RegisterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    
+
     try {
       setIsLoading(true);
-      await register(formData);
-      navigate('/login', { state: { message: 'Đăng ký thành công. Vui lòng đăng nhập.' } });
+
+      // Map plan to subscription_type cho backend
+      const submitData = {
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        subscription_type: formData.plan // Map plan -> subscription_type
+      };
+
+      await register(submitData);
+
+      // Hiển thị thông báo thành công ngay lập tức
+      alert('🎉 Đăng ký thành công!\n\nBạn sẽ được chuyển đến trang đăng nhập.');
+
+      // Chuyển đến trang login với thông báo
+      navigate('/login', {
+        state: { message: '✅ Đăng ký thành công! Vui lòng đăng nhập để tiếp tục.' }
+      });
     } catch (err) {
       console.error('Registration error:', err);
       setError(err.response?.data?.detail || 'Đăng ký không thành công');
@@ -98,15 +114,15 @@ const RegisterForm = () => {
   return (
     <div className="auth-form-container">
       <h2>Đăng ký tài khoản</h2>
-      
+
       {error && <div className="auth-error">{error}</div>}
-      
+
       <div className="register-steps">
         <div className={`step ${step >= 1 ? 'active' : ''}`}>1</div>
         <div className={`step ${step >= 2 ? 'active' : ''}`}>2</div>
         <div className={`step ${step >= 3 ? 'active' : ''}`}>3</div>
       </div>
-      
+
       <form onSubmit={handleSubmit} className="auth-form">
         {step === 1 && (
           <>
@@ -121,7 +137,7 @@ const RegisterForm = () => {
                 placeholder="Nhập email của bạn"
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="password">Mật khẩu</label>
               <input
@@ -133,7 +149,7 @@ const RegisterForm = () => {
                 placeholder="Nhập mật khẩu"
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
               <input
@@ -145,19 +161,19 @@ const RegisterForm = () => {
                 placeholder="Nhập lại mật khẩu"
               />
             </div>
-            
+
             <button type="button" className="auth-button" onClick={goToNextStep}>
               Tiếp theo
             </button>
-            
+
             <div className="auth-divider">
               <span>hoặc</span>
             </div>
-            
+
             <GoogleAuth isRegister />
           </>
         )}
-        
+
         {step === 2 && (
           <>
             <div className="form-group">
@@ -171,7 +187,7 @@ const RegisterForm = () => {
                 placeholder="Nhập số điện thoại của bạn"
               />
             </div>
-            
+
             <div className="form-actions">
               <button type="button" className="auth-button secondary" onClick={goBack}>
                 Quay lại
@@ -182,13 +198,13 @@ const RegisterForm = () => {
             </div>
           </>
         )}
-        
+
         {step === 3 && (
           <>
             <h3>Chọn gói dịch vụ</h3>
-            
+
             <div className="plan-options">
-              <div 
+              <div
                 className={`plan-option ${formData.plan === 'basic' ? 'selected' : ''}`}
                 onClick={() => handleChange({ target: { name: 'plan', value: 'basic' } })}
               >
@@ -196,8 +212,8 @@ const RegisterForm = () => {
                 <p>Xem trên 1 thiết bị, SD</p>
                 <p className="plan-price">79.000đ/tháng</p>
               </div>
-              
-              <div 
+
+              <div
                 className={`plan-option ${formData.plan === 'standard' ? 'selected' : ''}`}
                 onClick={() => handleChange({ target: { name: 'plan', value: 'standard' } })}
               >
@@ -205,8 +221,8 @@ const RegisterForm = () => {
                 <p>Xem trên 2 thiết bị, HD</p>
                 <p className="plan-price">179.000đ/tháng</p>
               </div>
-              
-              <div 
+
+              <div
                 className={`plan-option ${formData.plan === 'premium' ? 'selected' : ''}`}
                 onClick={() => handleChange({ target: { name: 'plan', value: 'premium' } })}
               >
@@ -215,7 +231,7 @@ const RegisterForm = () => {
                 <p className="plan-price">259.000đ/tháng</p>
               </div>
             </div>
-            
+
             <div className="form-actions">
               <button type="button" className="auth-button secondary" onClick={goBack}>
                 Quay lại
@@ -227,7 +243,7 @@ const RegisterForm = () => {
           </>
         )}
       </form>
-      
+
       <div className="auth-links">
         <a href="/login">Đã có tài khoản? Đăng nhập</a>
       </div>

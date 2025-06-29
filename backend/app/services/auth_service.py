@@ -108,8 +108,19 @@ async def register_new_user(user_data: UserCreate) -> Optional[Dict[str, Any]]:
     user_dict["hashed_password"] = hashed_password
     user_dict["is_google_auth"] = False
     
+    # Convert subscription_type to subscription_plan for consistency
+    if "subscription_type" in user_dict:
+        user_dict["subscription_plan"] = user_dict.pop("subscription_type")
+    
     # Tạo user mới
-    return await create_user(user_dict)
+    db_user = await create_user(user_dict)
+    
+    # Convert to proper format for response
+    if db_user:
+        from ..crud.user import UserCRUD
+        return UserCRUD.model_to_dict(db_user)
+    
+    return None
 
 async def verify_google_token(google_token: str) -> Optional[Dict[str, Any]]:
     """
@@ -137,7 +148,10 @@ async def verify_google_token(google_token: str) -> Optional[Dict[str, Any]]:
             # Cập nhật is_google_auth nếu chưa đúng
             if not existing_user.get("is_google_auth"):
                 await update_user(existing_user["_id"], {"is_google_auth": True})
-            return existing_user
+                # Reload user data
+                existing_user = await get_user_by_email(email)
+            from ..crud.user import UserCRUD
+            return UserCRUD.model_to_dict(existing_user)
         
         # Tạo user mới với thông tin từ Google
         user_data = {
@@ -148,7 +162,11 @@ async def verify_google_token(google_token: str) -> Optional[Dict[str, Any]]:
             "avatar_url": token_info.get("picture")
         }
         
-        return await create_user(user_data)
+        db_user = await create_user(user_data)
+        if db_user:
+            from ..crud.user import UserCRUD
+            return UserCRUD.model_to_dict(db_user)
+        return None
     except Exception as e:
         print(f"Google token verification error: {e}")
         return None
@@ -190,7 +208,9 @@ async def get_current_active_user(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Inactive user"
         )
-    return current_user
+    # Convert to proper format for response
+    from ..crud.user import UserCRUD
+    return UserCRUD.model_to_dict(current_user)
 
 async def create_tokens_for_user(user, is_google=False):
     """
@@ -201,21 +221,23 @@ async def create_tokens_for_user(user, is_google=False):
     
     # Handle both dict and object formats for user
     if isinstance(user, dict):
+        user_id = str(user.get("_id", ""))
         email = user.get("email", "")
         role = user.get("role", "user")
     else:
         # Assume it's an object with attributes
+        user_id = str(getattr(user, "_id", "") or getattr(user, "id", ""))
         email = getattr(user, "email", "")
         role = getattr(user, "role", "user")
     
-    # Create access token
+    # Create access token with user_id as subject
     access_token = create_access_token(
-        data={"sub": email, "role": role}
+        data={"sub": user_id, "email": email, "role": role}
     )
     
-    # Create refresh token (can have longer expiry)
+    # Create refresh token
     refresh_token = create_refresh_token(
-        data={"sub": email}
+        data={"sub": user_id}
     )
     
     return {
