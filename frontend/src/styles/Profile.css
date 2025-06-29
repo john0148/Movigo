@@ -1,9 +1,10 @@
 /* Profile Page Styles */
 
 .profile-page-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px 1rem;
+    background: #141414;
 }
 
 .profile-header {
@@ -130,6 +131,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
+    width: 100%;
 }
 
 .profile-link-card {
