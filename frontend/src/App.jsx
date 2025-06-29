@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
-import { getCurrentUser, logout, isAuthenticated, checkMongoDBStatus } from './api/authApi';
-import { attemptAutoLogin, clearManualLogoutFlag, setManualLogout } from './utils/autoLogin';
+import { getCurrentUser, isAuthenticated, checkMongoDBStatus } from './api/authApi';
+import { useAuth } from './context/AuthContext';
 import { USER_DATA_KEY } from './config/constants';
 import { Search as SearchIcon } from "lucide-react";
 import './App.css';
@@ -15,57 +15,46 @@ import { genresMovie, yearOptions } from './config/constants';
  * - Container cho các routes con
  */
 function App() {
-  const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [usingFallbackData, setUsingFallbackData] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, isLoggedIn, logout, isLoading: authLoading } = useAuth();
+  
+  const [usingFallbackData, setUsingFallbackData] = useState(false);
+  
   // Search state variables - synchronized with URL parameters
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
   const [recentSearches, setRecentSearches] = useState([]);
-  // Force refresh user data from localStorage
+  
+  // Danh sách từ khóa gợi ý
+  const suggestedKeywords = [
+    'Hereditary', 'Hercules', 'Heartland: Season 1', 'He\'s Just Not That Into You',
+    'Heart Eyes', 'Heat', 'Hello Kitty\'s Furry Tale Theater', 'Hello Kitty: Super Style!',
+    'Hell on Wheels', 'Henry Cavill'
+  ];
+
+  // Force refresh user data from localStorage for fallback support
   const refreshUserFromStorage = () => {
     console.log('Refreshing user data from localStorage...');
     const storedUserData = localStorage.getItem(USER_DATA_KEY);
-    // Danh sách từ khóa gợi ý - bạn có thể lấy từ API hoặc định nghĩa tĩnh
 
     if (storedUserData) {
       try {
         const userData = JSON.parse(storedUserData);
         console.log('Successfully loaded user data from localStorage:', userData.email);
 
-        // Make sure we log the subscription plan
-        if (userData.subscription_plan) {
-          console.log('User subscription plan:', userData.subscription_plan);
-        } else {
-          console.warn('User data missing subscription_plan');
-        }
-
         // Kiểm tra xem đang sử dụng dữ liệu fallback hay không
         const token = localStorage.getItem('auth_token');
         setUsingFallbackData(token && token.startsWith('mock-token'));
 
-        // Important: Update the state
-        setUser(userData);
-        setIsLoggedIn(true);
-
-        console.log('User state updated to logged in');
-
         return userData;
       } catch (error) {
         console.error('Error parsing user data from localStorage:', error);
-        setIsLoggedIn(false);
-        setUser(null);
       }
     } else {
-      // Nếu không có dữ liệu, đảm bảo state được reset
       console.warn('No user data found in localStorage');
-      setUser(null);
-      setIsLoggedIn(false);
       setUsingFallbackData(false);
     }
     return null;
@@ -77,15 +66,9 @@ function App() {
       const status = await checkMongoDBStatus();
 
       if (status.status === 'connected') {
-        // Nếu kết nối lại thành công, refresh user data
-        const userData = await getCurrentUser();
-        if (userData) {
-          setUser(userData);
-          setUsingFallbackData(false);
-          // Force reload để đảm bảo toàn bộ ứng dụng sử dụng dữ liệu mới
-          window.location.reload();
-          return true;
-        }
+        setUsingFallbackData(false);
+        window.location.reload();
+        return true;
       }
 
       return false;
@@ -95,201 +78,23 @@ function App() {
     }
   };
 
-  // Add an effect that runs when location changes
+  // Check fallback data usage on mount
   useEffect(() => {
-    // This will check authentication status whenever the route changes
-    const checkAuth = async () => {
-      // Check if we have a manual logout flag
-      const manualLogout = localStorage.getItem('manual_logout');
-
-      if (manualLogout) {
-        // Ensure we're logged out in the UI
-        console.log('Manual logout flag detected during route change - ensuring logged out state');
-        setIsLoggedIn(false);
-        setUser(null);
-        setUsingFallbackData(false);
-
-        // If not on the login or register page, redirect to login
-        if (!location.pathname.includes('/login') && !location.pathname.includes('/register')) {
-          console.log('Not on login/register page - redirecting to login');
-          navigate('/login');
-        }
-        return;
-      }
-
-      // Check if we're coming from the login page with refreshUser state
-      if (location.state?.refreshUser) {
-        console.log('Coming from login with refreshUser state - forcing user refresh');
-        refreshUserFromStorage();
-        // Clear the state to prevent repeated refreshes
-        window.history.replaceState({}, document.title);
-        return;
-      }
-
-      // Normal auth checking for authenticated users
-      const authenticated = isAuthenticated();
-      setIsLoggedIn(authenticated);
-
-      if (authenticated && !user) {
-        console.log('User is authenticated but state is missing - refreshing from storage');
-        refreshUserFromStorage();
-      } else if (!authenticated) {
-        console.log('User is not authenticated - clearing state');
-        setUser(null);
-        setUsingFallbackData(false);
-
-        // If not on the login or register page, redirect to login
-        if (!location.pathname.includes('/login') && !location.pathname.includes('/register')) {
-          navigate('/login');
-        }
-      }
-    };
-
-    checkAuth();
-  }, [location.pathname, navigate, location.state]);
-  const suggestedKeywords = [
-    'Hereditary', 'Hercules', 'Heartland: Season 1', 'He\'s Just Not That Into You',
-    'Heart Eyes', 'Heat', 'Hello Kitty\'s Furry Tale Theater', 'Hello Kitty: Super Style!',
-    'Hell on Wheels', 'Henry Cavill'
-  ];
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        setLoading(true);
-
-        // Clear the manual logout flag only when the app starts from scratch
-        // If it's just a page refresh after logout, we want to keep the flag
-        const isFirstLoad = !localStorage.getItem('_app_initialized');
-
-        if (isFirstLoad) {
-          // This is the very first time the app is loaded in this browser session
-          console.log('First app load detected - initializing app state');
-          localStorage.setItem('_app_initialized', 'true');
-
-          // Clear any manual logout flag from previous sessions
-          clearManualLogoutFlag();
-        } else {
-          console.log('App already initialized - keeping existing logout state');
-        }
-
-        // Check for manual logout flag first - this is our highest priority check
-        const manualLogout = localStorage.getItem('manual_logout');
-        if (manualLogout) {
-          console.log('Manual logout flag detected - staying logged out');
-          setUser(null);
-          setIsLoggedIn(false);
-          setUsingFallbackData(false);
-          setLoading(false);
-
-          // If not on login or register page, redirect
-          if (!location.pathname.includes('/login') && !location.pathname.includes('/register')) {
-            navigate('/login');
-          }
-          return;
-        }
-
-        // Kiểm tra nếu đã có user trong localStorage
-        const storedUserData = localStorage.getItem(USER_DATA_KEY);
-        if (storedUserData) {
-          try {
-            const userData = JSON.parse(storedUserData);
-            console.log('Found existing user in localStorage:', userData.email);
-            console.log('User subscription plan:', userData.subscription_plan);
-
-            // Kiểm tra xem đang sử dụng dữ liệu fallback hay không
-            const token = localStorage.getItem('auth_token');
-            setUsingFallbackData(token && token.startsWith('mock-token'));
-
-            setUser(userData);
-            setIsLoggedIn(true);
-            setLoading(false);
-            return;
-          } catch (error) {
-            console.error('Error parsing user data from localStorage:', error);
-          }
-        }
-
-        // Chỉ tự động đăng nhập khi không có người dùng nào
-        console.log('No user found in localStorage, attempting auto-login');
-        const loginResult = await attemptAutoLogin();
-
-        if (loginResult) {
-          // Wait a moment for localStorage to update
-          setTimeout(() => {
-            const userData = refreshUserFromStorage();
-            if (userData) {
-              console.log('Auto-login successful, user data loaded:', userData.email);
-              setIsLoggedIn(true);
-
-              // Kiểm tra xem đang sử dụng dữ liệu fallback hay không
-              const token = localStorage.getItem('auth_token');
-              setUsingFallbackData(token && token.startsWith('mock-token'));
-            } else {
-              console.error('User data not found in localStorage after auto-login');
-              setIsLoggedIn(false);
-              setUsingFallbackData(false);
-            }
-            setLoading(false);
-          }, 200);
-        } else {
-          console.error('Auto-login failed, trying to load user data anyway');
-          try {
-            const userData = await getCurrentUser();
-            if (userData) {
-              console.log('User data from getCurrentUser():', userData.email);
-              setUser(userData);
-              setIsLoggedIn(true);
-              setUsingFallbackData(false);
-            } else {
-              console.log('No user data available');
-              setUser(null);
-              setIsLoggedIn(false);
-              setUsingFallbackData(false);
-            }
-          } catch (error) {
-            console.error('Error getting user data:', error);
-            setUser(null);
-            setIsLoggedIn(false);
-            setUsingFallbackData(false);
-          }
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error('Error in fetchUser:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, [navigate, location.pathname]);
+    const token = localStorage.getItem('auth_token');
+    if (token && token.startsWith('mock-token')) {
+      setUsingFallbackData(true);
+    }
+  }, []);
 
   const handleLogout = async () => {
     try {
       console.log('Logging out user');
-
-      // First update the UI state so it's immediate
-      setUser(null);
-      setIsLoggedIn(false);
-      setUsingFallbackData(false);
-
-      // Then call the logout API (which sets manual logout flag)
       await logout();
-
-      // For extra safety, directly set the flag here too
-      localStorage.setItem('manual_logout', 'true');
-
-      // Force a hard redirect to login page (not using React Router)
-      window.location.href = '/login';
+      setUsingFallbackData(false);
+      navigate('/login');
     } catch (error) {
       console.error('Error during logout:', error);
-
-      // Even if there's an error, still try to clean up
-      setUser(null);
-      setIsLoggedIn(false);
-      setUsingFallbackData(false);
-      localStorage.setItem('manual_logout', 'true');
-      window.location.href = '/login';
+      navigate('/login');
     }
   };
 
@@ -301,7 +106,6 @@ function App() {
       navigate('/login');
     }
   };
-
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -383,7 +187,6 @@ function App() {
       params.delete("category");
     }
     if (searchQuery) params.set("query", searchQuery);
-    // if (selectedYear) params.set("year", selectedYear);
 
     navigate(`/search?${params.toString()}`);
   };
@@ -423,6 +226,14 @@ function App() {
     setSearchQuery(event.target.value);
   };
 
+  // Show loading if Firebase is still checking auth
+  if (authLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-white">Đang tải...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="app">
@@ -432,7 +243,6 @@ function App() {
           <Link to="/" className="navbar-logo">MOVIGO</Link>
           <div className="navbar-links">
             <Link to="/" className="nav-link">Trang chủ</Link>
-            {/* <Link to="/search" className="nav-link">Danh sách</Link> */}
             <Link to="/search" className="nav-link">Danh sách</Link>
 
             {/* Improved Genre dropdown */}
@@ -549,12 +359,10 @@ function App() {
         </div>
 
         {/* User menu section */}
-
-        {/* User menu section */}
         <div className="navbar-right">
           <div className="user-menu">
             <div className="user-avatar" onClick={goToProfile}>
-              <span>👤 {user ? user.full_name : 'Đăng nhập'}</span>
+              <span>👤 {isLoggedIn ? (user?.display_name || user?.email || user?.full_name || 'User') : 'Đăng nhập'}</span>
               {isLoggedIn && (
                 <div className="user-dropdown">
                   <Link to="/profileMain" className="dropdown-item">Hồ sơ</Link>

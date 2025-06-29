@@ -10,7 +10,9 @@
 
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { register, loginWithGoogle } from '../../api/authApi';
+import { Eye, EyeOff } from 'lucide-react';
+import { register } from '../../api/authApi';
+import { useAuth } from '../../context/AuthContext';
 import { SUBSCRIPTION_TYPES } from '../../config/constants';
 import { showErrorToast } from '../../utils/errorHandler';
 import '../../styles/Auth.css';
@@ -26,7 +28,20 @@ function Register() {
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
+  const { loginWithGoogle: firebaseLoginWithGoogle, isLoading: authLoading, firebaseError } = useAuth();
+
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  // Toggle confirm password visibility
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
 
   // Xử lý thay đổi input
   const handleChange = (e) => {
@@ -117,18 +132,21 @@ function Register() {
     }
   };
 
-  // Xử lý đăng ký bằng Google
+  // Xử lý đăng ký bằng Google Firebase
   const handleGoogleLogin = async () => {
-    setLoading(true);
     try {
-      // Khởi tạo đăng nhập Google
-      const response = await loginWithGoogle();
-
+      setLoading(true);
+      
+      // Sử dụng Firebase Google auth từ context
+      await firebaseLoginWithGoogle();
+      
+      console.log('Google registration successful, navigating...');
+      
       // Chuyển hướng đến trang chủ sau khi đăng nhập thành công
       navigate('/');
     } catch (error) {
-      console.error('Đăng nhập Google thất bại:', error);
-      showErrorToast(error.message);
+      console.error('Đăng ký Google thất bại:', error);
+      showErrorToast(error.message || 'Đăng ký Google thất bại');
     } finally {
       setLoading(false);
     }
@@ -182,10 +200,16 @@ function Register() {
                   type="button"
                   className="google-button"
                   onClick={handleGoogleLogin}
-                  disabled={loading}
+                  disabled={loading || authLoading || !!firebaseError}
+                  title={firebaseError ? 'Firebase chưa được cấu hình' : ''}
                 >
                   <img src="/assets/google-icon.svg" alt="Google" className="google-icon" />
-                  Đăng ký với Google
+                  {firebaseError 
+                    ? 'Firebase chưa cấu hình' 
+                    : (loading || authLoading) 
+                      ? 'Đang xử lý...' 
+                      : 'Đăng ký với Google'
+                  }
                 </button>
               </>
             ) : (
@@ -193,29 +217,49 @@ function Register() {
               <>
                 <div className="form-group">
                   <label htmlFor="password">Mật khẩu</label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="Tạo mật khẩu"
-                    className={errors.password ? 'error' : ''}
-                  />
+                  <div className="password-input-container">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      id="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="Tạo mật khẩu"
+                      className={errors.password ? 'error' : ''}
+                    />
+                    <button
+                      type="button"
+                      className="password-toggle-btn"
+                      onClick={togglePasswordVisibility}
+                      aria-label={showPassword ? "Ẩn mật khẩu" : "Hiển thị mật khẩu"}
+                    >
+                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
+                  </div>
                   {errors.password && <div className="error-message">{errors.password}</div>}
                 </div>
 
                 <div className="form-group">
                   <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
-                  <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    placeholder="Nhập lại mật khẩu"
-                    className={errors.confirmPassword ? 'error' : ''}
-                  />
+                  <div className="password-input-container">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      placeholder="Nhập lại mật khẩu"
+                      className={errors.confirmPassword ? 'error' : ''}
+                    />
+                    <button
+                      type="button"
+                      className="password-toggle-btn"
+                      onClick={toggleConfirmPasswordVisibility}
+                      aria-label={showConfirmPassword ? "Ẩn mật khẩu" : "Hiển thị mật khẩu"}
+                    >
+                      {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
+                  </div>
                   {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
                 </div>
 

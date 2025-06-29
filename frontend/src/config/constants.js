@@ -9,6 +9,35 @@
 export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
 export const baseImageUrl = 'https://i.ibb.co/';
 export const BASE_IMAGE_URL = 'https://i.ibb.co/';
+
+// Firebase Configuration
+export const FIREBASE_CONFIG = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGE_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+};
+
+// Validate Firebase config
+const validateFirebaseConfig = () => {
+  const requiredKeys = ['apiKey', 'authDomain', 'projectId'];
+  const missingKeys = requiredKeys.filter(key => !FIREBASE_CONFIG[key]);
+  
+  if (missingKeys.length > 0) {
+    console.error('❌ Missing Firebase environment variables:', missingKeys);
+    console.error('Please check your .env file and restart the dev server');
+    return false;
+  }
+  
+  console.log('✅ Firebase config validated successfully');
+  return true;
+};
+
+export const IS_FIREBASE_CONFIGURED = validateFirebaseConfig();
+
 // Authentication
 export const AUTH_TOKEN_KEY = 'auth_token';
 export const REFRESH_TOKEN_KEY = 'refresh_token';

@@ -121,6 +121,46 @@
   margin-top: 6px;
 }
 
+/* Password input container */
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Password toggle button */
+.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  z-index: 10;
+}
+
+.password-toggle-btn:hover {
+  color: #fff;
+}
+
+.password-toggle-btn:focus {
+  outline: none;
+  color: #fff;
+}
+
+/* Ensure password input has enough padding for the button */
+.password-input-container input {
+  padding-right: 45px;
+}
+
 /* Thông báo cảnh báo */
 .warning-message {
   background-color: rgba(224, 180, 0, 0.8);

@@ -3,13 +3,14 @@ from fastapi.security import OAuth2PasswordRequestForm
 import jwt
 from bson import ObjectId
 
-from ..schemas.user import UserCreate, UserOut, Token, GoogleToken
+from ..schemas.user import UserCreate, UserOut, Token, GoogleToken, FirebaseToken
 from ..services.auth_service import (
     authenticate_user,
     create_access_token,
     register_new_user,
     get_current_active_user,
     verify_google_token,
+    verify_firebase_token,
     create_tokens_for_user,
     get_user_by_email
 )
@@ -68,6 +69,24 @@ async def login_with_google(token_data: GoogleToken = Body(...)):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token Google không hợp lệ",
+        )
+    
+    # Đã xác thực thành công, tạo token
+    return await create_tokens_for_user(user_info, is_google=True)
+
+@router.post("/firebase-auth", response_model=Token)
+async def login_with_firebase(token_data: FirebaseToken = Body(...)):
+    """
+    Đăng nhập hoặc đăng ký bằng Firebase ID token
+    - Xác thực Firebase ID token
+    - Nếu email chưa tồn tại: tạo tài khoản mới
+    - Nếu email đã tồn tại: đăng nhập
+    """
+    user_info = await verify_firebase_token(token_data.id_token)
+    if not user_info:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Firebase token không hợp lệ",
         )
     
     # Đã xác thực thành công, tạo token

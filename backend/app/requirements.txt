@@ -13,3 +13,4 @@ httpx>=0.25.0
 aiofiles>=23.2.1
 python-dotenv>=1.0.0
 PyJWT
+firebase-admin>=6.0.0
