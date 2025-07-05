@@ -74,7 +74,7 @@ const LoginForm = () => {
     <div className="auth-form-container">
       <h2>Đăng nhập</h2>
 
-      {error && <div className="auth-error">{error}</div>}
+      {/* {error && <div className="auth-error">{error}</div>} */}
 
       <form onSubmit={handleSubmit} className="auth-form">
         <div className="form-group">
@@ -102,6 +102,8 @@ const LoginForm = () => {
             required
           />
         </div>
+        
+        {error && <div className="auth-error">{error}</div>}
 
         <button type="submit" className="auth-button" disabled={isLoading}>
           {isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}

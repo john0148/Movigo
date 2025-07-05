@@ -78,6 +78,21 @@
   width: 100%;
 }
 
+.auth-error {
+  color: #ff4d4f;           
+  background-color: inherit; 
+  border: 1px solid #ff4d4f; 
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-style: italic;  
+  text-align: center;      
+}
+
+
+
 /* Nhóm input */
 .form-group {
   margin-bottom: 16px;
