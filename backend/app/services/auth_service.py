@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Union
 import jwt
 from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status
@@ -39,32 +39,51 @@ def get_password_hash(password: str) -> str:
     """
     return pwd_context.hash(password)
 
-async def authenticate_user(email: str, password: str) -> Optional[Dict[str, Any]]:
-    """
-    Xác thực user với email và mật khẩu
-    """
+# async def authenticate_user(email: str, password: str) -> Optional[Dict[str, Any]]:
+#     """
+#     Xác thực user với email và mật khẩu
+#     """
+#     user = await get_user_by_email(email)
+#     if not user:
+#         return None
+    
+#     if not user["is_active"]:
+#         return None
+    
+#     # Kiểm tra nếu là tài khoản Google (không có mật khẩu)
+#     if user.get("is_google_auth") and not user.get("hashed_password") and not user.get("password"):
+#         return None
+    
+#     # Check if hashed_password exists in the user document
+#     if "hashed_password" not in user:
+#         # If not, check if there's a "password" field instead
+#         if "password" in user:
+#             # Use the password field as hashed_password
+#             user["hashed_password"] = user["password"]
+#         else:
+#             return None
+    
+#     if not verify_password(password, user["hashed_password"]):
+#         return None
+    
+#     return user
+
+async def authenticate_user(email: str, password: str) -> Union[str, Dict[str, Any]]:
     user = await get_user_by_email(email)
     if not user:
-        return None
+        return "user_not_found"
     
-    if not user["is_active"]:
-        return None
+    if not user.get("is_active", True):
+        return "inactive"
     
-    # Kiểm tra nếu là tài khoản Google (không có mật khẩu)
     if user.get("is_google_auth") and not user.get("hashed_password") and not user.get("password"):
-        return None
+        return "google_only"
     
-    # Check if hashed_password exists in the user document
     if "hashed_password" not in user:
-        # If not, check if there's a "password" field instead
-        if "password" in user:
-            # Use the password field as hashed_password
-            user["hashed_password"] = user["password"]
-        else:
-            return None
+        user["hashed_password"] = user.get("password", "")
     
     if not verify_password(password, user["hashed_password"]):
-        return None
+        return "wrong_password"
     
     return user
 

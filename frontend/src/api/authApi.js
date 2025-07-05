@@ -133,8 +133,14 @@ export const login = async (credentials) => {
 
     return response.data;
   } catch (error) {
-    console.error('Login function error:', error);
-    throw error;
+    // console.error('Login function error:', error);
+    // if (error.response?.data?.detail) {
+    //   throw new Error(error.response.data.detail);
+    // }
+    // throw error;
+    console.error("🟥 Lỗi đăng nhập:", error);
+    const message = error?.response?.data?.detail || "Đăng nhập thất bại";
+    throw new Error(message);  // rất quan trọng
   }
 };
 

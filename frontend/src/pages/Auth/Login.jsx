@@ -26,6 +26,7 @@ function Login() {
   const [usingFallbackData, setUsingFallbackData] = useState(false);
   const [checkingMongoDB, setCheckingMongoDB] = useState(false);
   const [mongoDBStatus, setMongoDBStatus] = useState(null);
+  const [loginError, setLoginError] = useState('');
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -127,8 +128,11 @@ function Login() {
         navigate(redirectTo);
       }
     } catch (error) {
-      console.error('Đăng nhập thất bại:', error);
-      showErrorToast(error.message || 'Đăng nhập thất bại');
+      // console.error('Đăng nhập thất bại:', error);
+      // showErrorToast(error.message || 'Đăng nhập thất bại');
+      console.error("🔴 Đăng nhập thất bại:", error.message);
+      setLoginError(error.message);
+      // showErrorToast(error.message); 
     } finally {
       setLoading(false);
     }
@@ -216,6 +220,10 @@ function Login() {
               </label>
               <Link to="/forgot-password" className="forgot-password">Quên mật khẩu?</Link>
             </div>
+    
+            {loginError && (
+              <div className="auth-error">{loginError}</div>
+            )}
 
             <button
               type="submit"

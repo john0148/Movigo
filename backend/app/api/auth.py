@@ -1,3 +1,4 @@
+from venv import logger
 from fastapi import APIRouter, Depends, HTTPException, Body, status
 from fastapi.security import OAuth2PasswordRequestForm
 import jwt
@@ -26,20 +27,43 @@ Xử lý các endpoints liên quan đến xác thực:
 
 router = APIRouter(tags=["authentication"])
 
+# @router.post("/login", response_model=Token)
+# async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+#     """
+#     Đăng nhập và nhận JWT token
+#     """
+#     user = await authenticate_user(form_data.username, form_data.password)
+#     if not user:
+#         raise HTTPException(
+#             status_code=status.HTTP_401_UNAUTHORIZED,
+#             detail="Email hoặc mật khẩu không đúng",
+#             headers={"WWW-Authenticate": "Bearer"},
+#         )
+    
+#     return await create_tokens_for_user(user)
+
 @router.post("/login", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    """
-    Đăng nhập và nhận JWT token
-    """
-    user = await authenticate_user(form_data.username, form_data.password)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Email hoặc mật khẩu không đúng",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    
+    if not form_data.username or not form_data.password:
+        raise HTTPException(status_code=400, detail="Chưa nhập email hoặc password")
+
+    result = await authenticate_user(form_data.username, form_data.password)
+
+    if result == "user_not_found":
+        raise HTTPException(status_code=401, detail="Tài khoản không tồn tại")
+    elif result == "wrong_password":
+        logger.info("Login failed: wrong password")
+        raise HTTPException(status_code=401, detail="Sai mật khẩu")
+    elif result == "inactive":
+        raise HTTPException(status_code=403, detail="Tài khoản đã bị vô hiệu hóa")
+    elif result == "google_only":
+        raise HTTPException(status_code=403, detail="Tài khoản này chỉ dùng Google đăng nhập")
+    elif not isinstance(result, dict):
+        raise HTTPException(status_code=401, detail="Không xác thực được")
+
+    user = result
     return await create_tokens_for_user(user)
+
 
 @router.post("/register", response_model=UserOut)
 async def register_user(user: UserCreate):

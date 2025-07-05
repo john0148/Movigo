@@ -10,11 +10,27 @@ import logging
 from typing import List, Optional, Dict, Any
 from datetime import datetime
 from bson import ObjectId
+import unicodedata
+import re
 
 from ..db.database import get_database
 from ..schemas.movie import MovieCreate, MovieUpdate, MovieInDB
 
 logger = logging.getLogger(__name__)
+
+def remove_vietnamese_tones(text: str) -> str:
+    text = unicodedata.normalize('NFD', text)
+    text = re.sub(r'[\u0300-\u036f]', '', text)
+    text = re.sub(r'đ', 'd', text)
+    text = re.sub(r'Đ', 'D', text)
+    return text
+
+def clean_query(query: str) -> str:
+    query = remove_vietnamese_tones(query.lower())
+    query = re.sub(r'[^\w\s]', '', query)           # Remove special characters
+    query = re.sub(r'\s+', ' ', query).strip()      # Remove extra whitespace
+    print("🎯 Normalized query:", query)
+    return query
 
 class MovieCRUD:
     """CRUD class for movie operations"""
@@ -41,6 +57,8 @@ class MovieCRUD:
         """
         now = datetime.utcnow()
         movie_data = obj_in.model_dump()
+        movie_data["normalized_title"] = clean_query(movie_data.get("title", ""))
+        movie_data["normalized_description"] = clean_query(movie_data.get("description", ""))
         movie_data.update({
             "view_count": 0,
             "created_at": now,
@@ -151,10 +169,16 @@ class MovieCRUD:
         search_query = {}
         # Build search query
         if query:
+            normalized = clean_query(query)
             search_query["$or"] = [
-                {"title": {"$regex": query, "$options": "i"}},
-                {"description": {"$regex": query, "$options": "i"}}
+                {"normalized_title": {"$regex": normalized, "$options": "i"}},
+                {"normalized_description": {"$regex": normalized, "$options": "i"}}
             ]
+            
+            # search_query["$or"] = [
+            #     {"title": {"$regex": query, "$options": "i"}},
+            #     {"description": {"$regex": query, "$options": "i"}}
+            # ]
 
         # Add filters if provided
         if genre:
