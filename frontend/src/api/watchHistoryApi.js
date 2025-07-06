@@ -38,9 +38,10 @@ export const getWatchHistory = async (page = 1, limit = 20) => {
     const response = await axios.get(`${API_URL}/history`, {
       params: { page, limit }
     });
-    return response.data;
+    return response.data.items;
   } catch (error) {
-    return handleApiError(error, 'Không thể lấy lịch sử xem phim');
+    handleApiError(error);
+    throw error;
   }
 };
 
@@ -70,5 +71,54 @@ export const deleteWatchHistoryEntry = async (entryId) => {
   } catch (error) {
     handleApiError(error, 'Không thể xóa mục lịch sử');
     return false;
+  }
+};
+
+// Watch Later APIs
+export const getWatchLater = async (page = 1, limit = 20) => {
+  try {
+    const response = await axios.get(`${API_URL}/later`, {
+      params: { page, limit }
+    });
+    return response.data.items;
+  } catch (error) {
+    handleApiError(error);
+    throw error;
+  }
+};
+
+export const addToWatchLater = async (movieId, movieDetails) => {
+  try {
+    const response = await axios.post(`${API_URL}/later`, {
+      movie_id: movieId,
+      movie_details: movieDetails
+    });
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+    throw error;
+  }
+};
+
+export const removeFromWatchLater = async (entryId) => {
+  try {
+    await axios.delete(`${API_URL}/later/${entryId}`);
+    return true;
+  } catch (error) {
+    handleApiError(error);
+    throw error;
+  }
+};
+
+export const addToWatchHistory = async (movieId, watchData) => {
+  try {
+    const response = await axios.post(`${API_URL}/history`, {
+      movie_id: movieId,
+      ...watchData
+    });
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+    throw error;
   }
 }; 

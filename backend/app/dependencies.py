@@ -11,11 +11,12 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
 from pydantic import ValidationError
 from datetime import datetime
-from motor.motor_asyncio import AsyncIOMotorCollection
+from motor.motor_asyncio import AsyncIOMotorCollection, AsyncIOMotorDatabase
 
 from .db.database import get_database
 from .crud.movie import MovieCRUD
 from .crud.watch_history import WatchHistoryCRUD
+from .crud.watch_later import WatchLaterCRUD
 from .services.movie_service import MovieService
 from .core.config import settings
 from .schemas.auth import TokenPayload
@@ -188,3 +189,17 @@ def get_movie_sync_service(
     # Không sử dụng await ở đây vì factory function trong movie_sync_service.py
     # đã trả về một instance của MovieSyncService trực tiếp, không phải coroutine
     return MovieSyncService(tmdb_client, movie_collection)
+
+async def get_watch_later_crud(
+    db: AsyncIOMotorDatabase = Depends(get_database)
+) -> WatchLaterCRUD:
+    """
+    Get WatchLaterCRUD instance.
+    
+    Args:
+        db: MongoDB database connection
+        
+    Returns:
+        WatchLaterCRUD instance
+    """
+    return WatchLaterCRUD(db)
