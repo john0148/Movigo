@@ -10,6 +10,7 @@ import logging
 from typing import List, Optional, Dict, Any
 from datetime import datetime, timedelta
 from bson import ObjectId
+from bson.errors import InvalidId
 
 from ..schemas.profile import WatchHistoryEntry
 
@@ -61,17 +62,25 @@ class WatchHistoryCRUD:
         Get a watch history entry by ID.
         
         Args:
-            entry_id: Watch history entry ID
+            entry_id: Watch history entry ID (can be ObjectId or UUID)
             
         Returns:
             Watch history entry if found, None otherwise
         """
-        entry = await self.collection.find_one({"_id": ObjectId(entry_id)})
-        if not entry:
-            return None
+        # Try to find by ObjectId first
+        try:
+            entry = await self.collection.find_one({"_id": ObjectId(entry_id)})
+            if entry:
+                entry["id"] = str(entry.pop("_id"))
+                return WatchHistoryEntry(**entry)
+        except InvalidId:
+            # If not a valid ObjectId, try finding by UUID
+            entry = await self.collection.find_one({"_id": entry_id})
+            if entry:
+                entry["id"] = entry.pop("_id")
+                return WatchHistoryEntry(**entry)
         
-        entry["id"] = str(entry.pop("_id"))
-        return WatchHistoryEntry(**entry)
+        return None
     
     async def get_by_user_and_movie(self, user_id: str, movie_id: str) -> Optional[WatchHistoryEntry]:
         """
@@ -141,7 +150,7 @@ class WatchHistoryCRUD:
         Update a watch history entry by ID.
         
         Args:
-            entry_id: Watch history entry ID
+            entry_id: Watch history entry ID (can be ObjectId or UUID)
             obj_in: Watch history data to update
             
         Returns:
@@ -154,10 +163,18 @@ class WatchHistoryCRUD:
         update_data = dict(obj_in)
         update_data["updated_at"] = datetime.utcnow()
         
-        await self.collection.update_one(
-            {"_id": ObjectId(entry_id)},
-            {"$set": update_data}
-        )
+        try:
+            # Try to update by ObjectId
+            await self.collection.update_one(
+                {"_id": ObjectId(entry_id)},
+                {"$set": update_data}
+            )
+        except InvalidId:
+            # If not a valid ObjectId, update by UUID
+            await self.collection.update_one(
+                {"_id": entry_id},
+                {"$set": update_data}
+            )
         
         return await self.get(entry_id)
     
@@ -166,12 +183,18 @@ class WatchHistoryCRUD:
         Delete a watch history entry by ID.
         
         Args:
-            entry_id: Watch history entry ID
+            entry_id: Watch history entry ID (can be ObjectId or UUID)
             
         Returns:
             True if deleted, False otherwise
         """
-        result = await self.collection.delete_one({"_id": ObjectId(entry_id)})
+        try:
+            # Try to delete by ObjectId
+            result = await self.collection.delete_one({"_id": ObjectId(entry_id)})
+        except InvalidId:
+            # If not a valid ObjectId, delete by UUID
+            result = await self.collection.delete_one({"_id": entry_id})
+        
         return result.deleted_count > 0
     
     async def get_stats_by_timeframe(

@@ -833,3 +833,247 @@
     border-radius: 8px;
     pointer-events: none;
 }
+
+/* Watch Later & Watch History Styles */
+.watch-later-container,
+.watch-history-container {
+    padding: 20px;
+    background: rgba(20, 20, 20, 0.8);
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.watch-later-container h2,
+.watch-history-container h2 {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+.watch-later-list,
+.watch-history-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.watch-later-item,
+.watch-history-item {
+    display: flex;
+    background: rgba(30, 30, 30, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.watch-later-item:hover,
+.watch-history-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.movie-thumbnail {
+    width: 120px;
+    height: 180px;
+    object-fit: cover;
+}
+
+.movie-info,
+.watch-info {
+    flex: 1;
+    padding: 15px;
+    color: #fff;
+}
+
+.movie-info h3,
+.watch-info h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.added-date,
+.watch-date {
+    color: #999;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.remove-btn {
+    background: #E50914;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.remove-btn:hover {
+    background: #ff0f1a;
+}
+
+.load-more-btn {
+    background: transparent;
+    color: #fff;
+    border: 2px solid #E50914;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+    transition: all 0.3s ease;
+}
+
+.load-more-btn:hover {
+    background: #E50914;
+}
+
+.load-more-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+
+    .watch-later-list,
+    .watch-history-list {
+        grid-template-columns: 1fr;
+    }
+
+    .watch-later-item,
+    .watch-history-item {
+        flex-direction: row;
+    }
+
+    .movie-thumbnail {
+        width: 100px;
+        height: 150px;
+    }
+}
+
+/* VIP Register styles */
+.vip-register-container {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.vip-description {
+    text-align: center;
+    color: #888;
+    margin-bottom: 40px;
+}
+
+.vip-plans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.plan-card {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.plan-card:hover {
+    transform: translateY(-10px);
+}
+
+.plan-card.selected {
+    border-color: #ffd700;
+    background: #2a2a2a;
+}
+
+.plan-card h3 {
+    color: #ffd700;
+    margin-bottom: 20px;
+}
+
+.plan-price {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.plan-duration {
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.plan-features li {
+    margin: 10px 0;
+    color: #ddd;
+}
+
+.select-plan-btn {
+    background: transparent;
+    border: 2px solid #ffd700;
+    color: #ffd700;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.select-plan-btn:hover {
+    background: #ffd700;
+    color: #000;
+}
+
+.select-plan-btn.selected {
+    background: #ffd700;
+    color: #000;
+}
+
+.subscription-action {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.subscribe-btn {
+    background: #ffd700;
+    color: #000;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.subscribe-btn:hover {
+    background: #ffed4a;
+    transform: scale(1.05);
+}
+
+.subscribe-btn:disabled {
+    background: #444;
+    color: #888;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.subscription-note {
+    color: #888;
+    margin-top: 20px;
+    font-size: 0.9em;
+}
