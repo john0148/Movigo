@@ -189,13 +189,17 @@ async def verify_google_token(google_token: str) -> Optional[Dict[str, Any]]:
         # Kiểm tra user đã tồn tại chưa
         existing_user = await get_user_by_email(email)
         if existing_user:
+            print(f"Found existing Google user: {existing_user}")
             # Cập nhật is_google_auth nếu chưa đúng
             if not existing_user.get("is_google_auth"):
                 await update_user(existing_user["_id"], {"is_google_auth": True})
                 # Reload user data
                 existing_user = await get_user_by_email(email)
+                print(f"Updated existing user: {existing_user}")
             from ..crud.user import UserCRUD
-            return UserCRUD.model_to_dict(existing_user)
+            converted_user = UserCRUD.model_to_dict(existing_user)
+            print(f"Converted existing user dict: {converted_user}")
+            return converted_user
         
         # Tạo user mới với thông tin từ Google
         user_data = {
@@ -206,10 +210,15 @@ async def verify_google_token(google_token: str) -> Optional[Dict[str, Any]]:
             "avatar_url": token_info.get("picture")
         }
         
+        print(f"Creating new Google user with data: {user_data}")
         db_user = await create_user(user_data)
+        print(f"Created DB user: {db_user}")
+        
         if db_user:
             from ..crud.user import UserCRUD
-            return UserCRUD.model_to_dict(db_user)
+            converted_user = UserCRUD.model_to_dict(db_user)
+            print(f"Converted user dict: {converted_user}")
+            return converted_user
         return None
     except Exception as e:
         print(f"Google token verification error: {e}")
@@ -232,13 +241,17 @@ async def verify_firebase_token(firebase_id_token: str) -> Optional[Dict[str, An
         # Kiểm tra user đã tồn tại chưa
         existing_user = await get_user_by_email(email)
         if existing_user:
+            print(f"Found existing Firebase user: {existing_user}")
             # Cập nhật is_google_auth nếu chưa đúng
             if not existing_user.get("is_google_auth"):
                 await update_user(existing_user["_id"], {"is_google_auth": True})
                 # Reload user data
                 existing_user = await get_user_by_email(email)
+                print(f"Updated existing Firebase user: {existing_user}")
             from ..crud.user import UserCRUD
-            return UserCRUD.model_to_dict(existing_user)
+            converted_user = UserCRUD.model_to_dict(existing_user)
+            print(f"Converted existing Firebase user dict: {converted_user}")
+            return converted_user
         
         # Tạo user mới với thông tin từ Firebase
         user_data = {
@@ -250,10 +263,15 @@ async def verify_firebase_token(firebase_id_token: str) -> Optional[Dict[str, An
         }
         
         print(f"Creating new user from Firebase token: {email}")
+        print(f"Firebase user data: {user_data}")
         db_user = await create_user(user_data)
+        print(f"Created Firebase DB user: {db_user}")
+        
         if db_user:
             from ..crud.user import UserCRUD
-            return UserCRUD.model_to_dict(db_user)
+            converted_user = UserCRUD.model_to_dict(db_user)
+            print(f"Converted Firebase user dict: {converted_user}")
+            return converted_user
         return None
         
     except firebase_auth.InvalidIdTokenError:
@@ -316,7 +334,8 @@ async def create_tokens_for_user(user, is_google=False):
     
     # Handle both dict and object formats for user
     if isinstance(user, dict):
-        user_id = str(user.get("_id", ""))
+        # Check for both "_id" (from DB) and "id" (from UserCRUD.model_to_dict)
+        user_id = str(user.get("_id", "") or user.get("id", ""))
         email = user.get("email", "")
         role = user.get("role", "user")
     else:
@@ -324,6 +343,16 @@ async def create_tokens_for_user(user, is_google=False):
         user_id = str(getattr(user, "_id", "") or getattr(user, "id", ""))
         email = getattr(user, "email", "")
         role = getattr(user, "role", "user")
+    
+    # Debug logging để trace vấn đề
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.info(f"🔑 Creating tokens for user_id: '{user_id}', email: '{email}', role: '{role}'")
+    
+    if not user_id:
+        logger.error(f"❌ User ID is empty! User data: {user}")
+        logger.error(f"❌ User dict: {user_dict}")
+        raise ValueError("User ID cannot be empty when creating tokens")
     
     # Create access token with user_id as subject
     access_token = create_access_token(
