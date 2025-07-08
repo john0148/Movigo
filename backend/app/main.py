@@ -5,12 +5,14 @@ Initializes the FastAPI app, includes routers, and sets up middleware.
 
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import logging
 import os
 
 from .core.config import settings
-from .api import movies, auth, profiles, watch_stats, sync_routes
+from .api import movies, auth, profiles, watch_stats, sync_routes, admin
 from .db.database import connect_to_mongodb, close_mongodb_connection, initialize_crud_modules, test_connection
+from .middleware.admin_middleware import AdminLoggingMiddleware, SecurityMiddleware
 
 # Configure logging
 logging.basicConfig(
@@ -41,6 +43,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Add admin security and logging middleware
+app.add_middleware(AdminLoggingMiddleware)
+app.add_middleware(SecurityMiddleware)
+
 # Mount static files nếu có
 # app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -49,6 +55,7 @@ app.include_router(auth.router, prefix=f"{settings.API_V1_PREFIX}/auth")
 app.include_router(movies.router, prefix=f"{settings.API_V1_PREFIX}/movies")
 app.include_router(profiles.router, prefix=f"{settings.API_V1_PREFIX}/profiles")
 app.include_router(watch_stats.router, prefix=f"{settings.API_V1_PREFIX}/watch-stats")
+app.include_router(admin.router, prefix=f"{settings.API_V1_PREFIX}")
 
 app.include_router(sync_routes.router, prefix=f"{settings.API_V1_PREFIX}/sync", tags=["sync"])
 # Kết nối MongoDB khi startup

@@ -237,6 +237,17 @@
   background-color: #333;
 }
 
+.admin-link {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+.admin-link:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
+  color: white !important;
+}
+
 /* Genre Select styles */
 .genre-select-container {
   position: relative;

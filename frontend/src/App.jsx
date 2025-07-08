@@ -20,20 +20,20 @@ function App() {
     AUTH_DOMAIN: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
     PROJECT_ID: import.meta.env.VITE_FIREBASE_PROJECT_ID
   });
-  
+
   const navigate = useNavigate();
   const location = useLocation();
   const { user, isLoggedIn, logout, isLoading: authLoading } = useAuth();
-  
+
   const [usingFallbackData, setUsingFallbackData] = useState(false);
-  
+
   // Search state variables - synchronized with URL parameters
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
   const [recentSearches, setRecentSearches] = useState([]);
-  
+
   // Danh sách từ khóa gợi ý
   const suggestedKeywords = [
     'Hereditary', 'Hercules', 'Heartland: Season 1', 'He\'s Just Not That Into You',
@@ -372,6 +372,9 @@ function App() {
               {isLoggedIn && (
                 <div className="user-dropdown">
                   <Link to="/profileMain" className="dropdown-item">Hồ sơ</Link>
+                  {user?.role === 'admin' && (
+                    <Link to="/admin" className="dropdown-item admin-link">🔧 Admin Panel</Link>
+                  )}
                   <button onClick={handleLogout} className="dropdown-item logout-button">Đăng xuất</button>
                 </div>
               )}

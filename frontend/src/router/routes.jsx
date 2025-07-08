@@ -9,9 +9,11 @@ import WatchHistory from '../pages/Profile/WatchHistory';
 import WatchLater from '../pages/Profile/WatchLater';
 import VipRegister from '../pages/Profile/VipRegister';
 import ProtectedRoute from './ProtectedRoute';
+import AdminProtectedRoute from './AdminProtectedRoute';
 import MoviePlayer from '../pages/MoviePlayer';
 import NotFound from '../pages/NotFound';
 import Search from '../pages/Search';
+import AdminDashboard from '../pages/Admin/AdminDashboard';
 
 /**
  * App Routes Configuration
@@ -53,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: 'profile/vip',
         element: <ProtectedRoute><VipRegister /></ProtectedRoute>
+      },
+      {
+        path: 'admin',
+        element: <AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute>
       },
       { path: '*', element: <NotFound /> }
     ]
