@@ -1,3 +1,9 @@
+from typing import List
+from bson import ObjectId
+from datetime import datetime
+
+from ..schemas.comment import CommentCreate, CommentResponse
+from pymongo.collection import Collection
 class CommentCRUD:
     def __init__(self, db):
         self.collection = db["comments"]
@@ -19,3 +25,33 @@ class CommentCRUD:
             comments.append(comment)
         
         return comments
+    
+    async def add_comment(self, comment: CommentCreate) -> CommentResponse:
+        new_comment = {
+            "_id": ObjectId(),
+            "user": comment.user,
+            "avatar": comment.avatar,
+            "time": comment.time,
+            "content": comment.content,
+            "likes": comment.likes,
+            "timestamp": comment.timestamp
+        }
+
+        await self.collection.update_one(
+            {"movie_id": comment.movie_id},
+            {"$push": {"comments": new_comment}},
+            upsert=True
+        )
+
+        # Trả về dạng CommentResponse
+        comment_response = CommentResponse(
+            **{
+                **new_comment,
+                "_id": str(new_comment["_id"]),
+                "movie_id": comment.movie_id
+            }
+        )
+
+        return comment_response
+    
+

@@ -4,7 +4,7 @@ import { useParams,useNavigate  } from 'react-router-dom';
 import { Heart, Calendar, Clock, Eye, Play, Star, ArrowRight, Users, Award } from 'lucide-react';
 import '../styles/MovieDetail.css'; // Import file CSS
 import { getMovieDetails, fetchRelatedMovies, incrementMovieView } from '../api/movieApi';
-import { baseImageUrl ,BASE_IMAGE_URL} from '../config/constants';
+import { baseImageUrl } from '../config/constants';
 import { MovieRatings } from '../components/MovieDetail/MovieRatings'
 import { MovieCharacters } from '../components/MovieDetail/MovieCharacters';
 import { getUserProfile } from '../api/userApi';

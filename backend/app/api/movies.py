@@ -21,7 +21,7 @@ from ..schemas.movie import MovieOut, MovieList, MovieResponse
 from ..schemas.rating import RatingOut, RatingCreate
 from ..schemas.character import CharacterInDB
 from ..schemas.comment import CommentResponse
-
+from ..schemas.comment import CommentCreate
 from ..core.security import get_current_user
 from ..services.movie_service import MovieService
 from ..dependencies import get_movie_service
@@ -241,6 +241,11 @@ async def get_drive_link(movie_id: str, db=Depends(get_database)):
 async def get_comments_by_movie_id(movie_id: str, db=Depends(get_database)):
     comment_crud = CommentCRUD(db)
     return await comment_crud.get_by_movie_id(movie_id)
+
+@router.post("/{movie_id}/comment", response_model=CommentResponse)
+async def post_comment(movie_id: str, comment: CommentCreate, db=Depends(get_database)):
+    crud = CommentCRUD(db)
+    return await crud.add_comment(comment)
 
 @router.get("/{movie_id}/ratings", response_model=list[RatingOut])
 async def get_ratings(movie_id: str, db=Depends(get_database)):
