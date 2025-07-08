@@ -107,21 +107,55 @@ const ProfileCard = () => {
 
     try {
       setLoading(true);
-      await updateUserProfile({
-        full_name: formData.fullName,
-        birth_date: formData.birthDate,
-        gender: formData.gender,
-        phone: formData.phone,
-      });
+      
+      // Prepare data for backend - only include non-empty values
+      const updateData = {};
+      
+      if (formData.fullName && formData.fullName.trim()) {
+        updateData.full_name = formData.fullName.trim();
+      }
+      
+      if (formData.phone && formData.phone.trim()) {
+        updateData.phone = formData.phone.trim();
+      }
+      
+      if (formData.birthDate) {
+        updateData.birth_date = formData.birthDate; // YYYY-MM-DD format
+      }
+      
+      if (formData.gender) {
+        updateData.gender = formData.gender;
+      }
+      
+      // Only send if we have at least one field to update
+      if (Object.keys(updateData).length === 0) {
+        setSuccessMessage('Không có thông tin nào để cập nhật');
+        setIsEditing(false);
+        return;
+      }
+      
+      console.log('Submitting profile update:', updateData);
+      const updatedProfile = await updateUserProfile(updateData);
+      
+      console.log('Profile updated successfully:', updatedProfile);
 
-      // Cập nhật profile hiện tại
-      setUser(prev => ({
-        ...prev,
-        full_name: formData.fullName,
-        birth_date: formData.birthDate,
-        gender: formData.gender,
-        phone: formData.phone,
-      }));
+      // Sử dụng dữ liệu mới từ API response thay vì merge dữ liệu cũ
+      if (updatedProfile) {
+        setUser(updatedProfile);
+        
+        // Cập nhật localStorage với dữ liệu mới từ database
+        localStorage.setItem(USER_DATA_KEY, JSON.stringify(updatedProfile));
+        console.log('Updated user data in localStorage with fresh data from API');
+        
+        // Cập nhật form data với dữ liệu mới
+        setFormData({
+          fullName: updatedProfile.full_name || '',
+          email: updatedProfile.email || '',
+          phone: updatedProfile.phone || '',
+          birthDate: updatedProfile.birth_date || '',
+          gender: updatedProfile.gender || '',
+        });
+      }
 
       setIsEditing(false);
       setSuccessMessage('Cập nhật thông tin thành công');
@@ -132,7 +166,12 @@ const ProfileCard = () => {
       }, 3000);
     } catch (err) {
       console.error('Error updating user profile:', err);
-      setSuccessMessage('Không thể cập nhật thông tin hồ sơ');
+      setSuccessMessage('Lỗi: ' + (err.message || 'Không thể cập nhật thông tin hồ sơ'));
+      
+      // Clear error message after 5 seconds
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 5000);
     } finally {
       setLoading(false);
     }
@@ -316,6 +355,7 @@ const ProfileCard = () => {
                   <option value="male">Nam</option>
                   <option value="female">Nữ</option>
                   <option value="other">Khác</option>
+                  <option value="prefer_not_to_say">Không muốn chia sẻ</option>
                 </select>
               </div>
             </div>
@@ -392,7 +432,9 @@ const ProfileCard = () => {
                     {user.gender
                       ? (user.gender === 'male' ? 'Nam'
                         : user.gender === 'female' ? 'Nữ'
-                          : 'Khác')
+                          : user.gender === 'other' ? 'Khác'
+                            : user.gender === 'prefer_not_to_say' ? 'Không muốn chia sẻ'
+                              : user.gender)
                       : 'Chưa cập nhật'}
                   </span>
                 </div>

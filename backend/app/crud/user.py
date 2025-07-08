@@ -1,4 +1,4 @@
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Union
 from datetime import datetime
 from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorDatabase
@@ -33,7 +33,7 @@ async def get_user_by_email(email: str) -> Optional[Dict[str, Any]]:
     """
     return await db[USER_COLLECTION].find_one({"email": email})
 
-async def get_user_by_id(user_id: ObjectId) -> Optional[Dict[str, Any]]:
+async def get_user_by_id(user_id: Union[ObjectId, str]) -> Optional[Dict[str, Any]]:
     """
     Lấy thông tin user theo ID
     """
@@ -56,6 +56,17 @@ async def create_user(user_data: Dict[str, Any]) -> Dict[str, Any]:
     if "subscription_type" not in user_data:
         user_data["subscription_type"] = "basic"
     
+    # Set default role if not provided
+    if "role" not in user_data:
+        user_data["role"] = "user"
+    
+    # Set default preferences if not provided
+    if "preferences" not in user_data:
+        user_data["preferences"] = {
+            "language": "vi",
+            "notifications_enabled": True
+        }
+    
     # Set max_devices dựa trên subscription_type
     if user_data.get("subscription_type") == "premium":
         user_data["max_devices"] = 4
@@ -70,23 +81,51 @@ async def create_user(user_data: Dict[str, Any]) -> Dict[str, Any]:
     # Lấy user vừa tạo
     return await get_user_by_id(result.inserted_id)
 
-async def update_user(user_id: ObjectId, update_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+async def update_user(user_id: Union[ObjectId, str], update_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     """
     Cập nhật thông tin user
     """
+    import logging
+    logger = logging.getLogger(__name__)
+    
     # Thêm updated_at
     update_data["updated_at"] = datetime.now()
     
-    # Update user
-    await db[USER_COLLECTION].update_one(
+    # Debug logging
+    logger.info(f"🔄 Updating user {user_id} with data: {update_data}")
+    logger.info(f"📊 Database connection: {db}")
+    logger.info(f"📁 Collection name: {USER_COLLECTION}")
+    
+    # Check if db is None
+    if db is None:
+        logger.error("❌ Database connection is None!")
+        raise RuntimeError("Database connection not initialized")
+    
+    # Update user and capture result
+    result = await db[USER_COLLECTION].update_one(
         {"_id": user_id},
         {"$set": update_data}
     )
     
+    # Log update result
+    logger.info(f"📝 Update result: matched_count={result.matched_count}, modified_count={result.modified_count}")
+    
+    if result.matched_count == 0:
+        logger.warning(f"⚠️ No user found with ID: {user_id}")
+        return None
+    
+    if result.modified_count == 0:
+        logger.warning(f"⚠️ User found but no changes made for ID: {user_id}")
+    else:
+        logger.info(f"✅ User {user_id} updated successfully")
+    
     # Lấy user đã cập nhật
-    return await get_user_by_id(user_id)
+    updated_user = await get_user_by_id(user_id)
+    logger.info(f"🔍 Retrieved updated user: {updated_user.get('full_name') if updated_user else 'None'}")
+    
+    return updated_user
 
-async def update_avatar(user_id: ObjectId, avatar_url: str) -> Optional[Dict[str, Any]]:
+async def update_avatar(user_id: Union[ObjectId, str], avatar_url: str) -> Optional[Dict[str, Any]]:
     """
     Cập nhật avatar URL
     """
@@ -260,7 +299,7 @@ class UserCRUD:
         """
         # Handle both dict and object format
         if isinstance(user, dict):
-            user_id = str(user.get("_id", ""))
+            user_id = str(user.get("_id", "")) if user.get("_id") else ""
             email = user.get("email", "")
             full_name = user.get("full_name", "")
             # Handle both subscription_type (from DB) and subscription_plan
@@ -273,6 +312,11 @@ class UserCRUD:
             gender = user.get("gender")
             is_active = user.get("is_active", True)
             created_at = user.get("created_at", datetime.now())
+            # Handle preferences object
+            preferences = user.get("preferences", {
+                "language": "vi",
+                "notifications_enabled": True
+            })
         else:
             # Object with attributes
             user_id = str(getattr(user, "_id", "") or getattr(user, "id", ""))
@@ -287,6 +331,11 @@ class UserCRUD:
             gender = getattr(user, "gender", None)
             is_active = getattr(user, "is_active", True)
             created_at = getattr(user, "created_at", datetime.now())
+            # Handle preferences object
+            preferences = getattr(user, "preferences", {
+                "language": "vi",
+                "notifications_enabled": True
+            })
         
         # Return dict in format that frontend expects
         return {
@@ -301,5 +350,6 @@ class UserCRUD:
             "birth_date": birth_date,
             "gender": gender,
             "is_active": is_active,
-            "created_at": created_at
+            "created_at": created_at,
+            "preferences": preferences
         } 

@@ -6,11 +6,13 @@ TEMPORARILY MODIFIED FOR DEVELOPMENT: Authentication is bypassed
 """
 
 import logging
+import typing
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
 from pydantic import ValidationError
 from datetime import datetime
+from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorCollection, AsyncIOMotorDatabase
 
 from .db.database import get_database
@@ -69,34 +71,20 @@ async def get_movie_service(
     """
     return MovieService(movie_crud, watch_history_crud)
 
-# Dependency to get current user from token
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     """
-    DEVELOPMENT MODE: This function is temporarily modified to bypass authentication
-    and always return a dummy user for development purposes.
-
-    Args:
-        token: JWT token from request (ignored in development mode)
-
-    Returns:
-        UserInDB instance representing a dummy user
+    Lấy thông tin user hiện tại từ JWT access token.
+    - Giải mã token
+    - Kiểm tra hết hạn
+    - Lấy user ID (sub)
+    - Truy vấn database để lấy user
     """
-    # Development mode: Return dummy user without checking token
-    user = {
-        "id": "dummy_user_id",
-        "email": "dev@example.com",
-        "hashed_password": "hashed_password",
-        "full_name": "Development User",
-        "is_active": True,
-        "created_at": datetime.utcnow(),
-        "updated_at": datetime.utcnow(),
-        "subscription_type": "premium"  # Premium to access all features
-    }
+    import logging
+    from .crud.user import get_user_by_id
+    from .crud.user import db as user_crud_db
+    from .crud.user import UserCRUD  # for conversion if needed
+    logger = logging.getLogger(__name__)
 
-    return UserInDB(**user)
-
-    """
-    # Original authentication logic - commented out for development
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -104,42 +92,63 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     )
 
     try:
-        # Decode JWT token
         payload = jwt.decode(
             token,
-            settings.SECRET_KEY,
-            algorithms=[settings.ALGORITHM]
+            settings.JWT_SECRET_KEY,
+            algorithms=[settings.JWT_ALGORITHM]
         )
-
-        # Validate token payload
         token_data = TokenPayload(**payload)
-
-        # Check if token is expired
-        if token_data.exp < datetime.utcnow().timestamp():
-            raise credentials_exception
-
-        user_id = token_data.sub
-
-        # Get user from database (this is a placeholder, actual implementation would use a user CRUD)
-        # The actual implementation would look up the user by ID in the database
-        # For now, we'll return a dummy user object
-        user = {
-            "id": user_id,
-            "email": "user@example.com",
-            "hashed_password": "hashed_password",
-            "full_name": "Test User",
-            "is_active": True,
-            "created_at": datetime.utcnow(),
-            "updated_at": datetime.utcnow(),
-            "subscription_type": "basic"
-        }
-
-        return UserInDB(**user)
-
     except (JWTError, ValidationError):
         logger.exception("Token validation error")
         raise credentials_exception
-    """
+
+    # Check expiry
+    from datetime import datetime as _dt
+    if token_data.exp < int(_dt.utcnow().timestamp()):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token expired")
+
+    user_id = token_data.sub
+
+    # Fetch user from database
+    from app.db.database import get_database
+    database = get_database()
+    if database is None:
+        logger.error("Database connection not initialized")
+        raise HTTPException(status_code=500, detail="Database connection not available")
+
+    # Allow both ObjectId and UUID/string IDs
+    try:
+        from bson import ObjectId as _OID
+        query_id = _OID(user_id)
+        logger.info("Using ObjectId: %s", query_id)
+    except Exception:
+        # Not a valid ObjectId → treat as string/UUID
+        query_id = user_id
+        logger.info("Using string ID: %s", query_id)
+
+    user_dict = await database.users.find_one({"_id": query_id})
+    if not user_dict:
+        logger.error("User not found with id: %s", query_id)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+    # Convert Mongo document to dict suitable for UserInDB
+    user_dict = dict(user_dict)
+    user_dict["id"] = str(user_dict.pop("_id"))
+
+    # Ensure hashed_password key exists for schema compliance
+    if "hashed_password" not in user_dict:
+        if "password" in user_dict:
+            user_dict["hashed_password"] = user_dict.pop("password")
+        else:
+            user_dict["hashed_password"] = ""
+
+    try:
+        user_in_db = UserInDB(**user_dict)  # type: ignore
+    except Exception as e:
+        logger.error("Error constructing UserInDB: %s", e)
+        raise credentials_exception
+
+    return user_in_db
 
 # Dependency to get admin user
 async def get_admin_user(user: UserInDB = Depends(get_current_user)):

@@ -1,5 +1,5 @@
-from typing import Optional, Dict, Any, List
-from datetime import datetime, timedelta
+from typing import Optional, Dict, Any, List, Union
+from datetime import datetime, timedelta, date
 import os
 import random
 from bson import ObjectId
@@ -22,7 +22,7 @@ Xử lý các chức năng liên quan đến profile người dùng:
 UPLOAD_DIR = "uploads/avatars"
 
 async def update_user_profile(
-    user_id: ObjectId,
+    user_id: Union[ObjectId, str],
     profile_data: UserProfileUpdate
 ) -> Optional[Dict[str, Any]]:
     """
@@ -30,10 +30,15 @@ async def update_user_profile(
     """
     update_dict = profile_data.dict(exclude_unset=True)  # Chỉ lấy các trường có giá trị
     
+    # Convert date objects to datetime for MongoDB compatibility
+    if 'birth_date' in update_dict and isinstance(update_dict['birth_date'], date):
+        # Convert date to datetime (start of day)
+        update_dict['birth_date'] = datetime.combine(update_dict['birth_date'], datetime.min.time())
+    
     # Cập nhật user
     return await update_user(user_id, update_dict)
 
-async def upload_user_avatar(user_id: ObjectId, avatar: UploadFile) -> str:
+async def upload_user_avatar(user_id: Union[ObjectId, str], avatar: UploadFile) -> str:
     """
     Upload và lưu trữ avatar
     """
@@ -59,7 +64,7 @@ async def upload_user_avatar(user_id: ObjectId, avatar: UploadFile) -> str:
     
     return avatar_url
 
-async def get_user_watch_stats(user_id: ObjectId, period: str = "week") -> Dict[str, Any]:
+async def get_user_watch_stats(user_id: Union[ObjectId, str], period: str = "week") -> Dict[str, Any]:
     """
     Tính toán thống kê thời lượng xem phim
     Kết quả là fake data cho mục đích demo
@@ -93,8 +98,8 @@ async def get_user_watch_stats(user_id: ObjectId, period: str = "week") -> Dict[
     return stats
 
 async def add_watch_history(
-    user_id: ObjectId,
-    movie_id: ObjectId,
+    user_id: Union[ObjectId, str],
+    movie_id: Union[ObjectId, str],
     duration: int,
     completed: bool = False
 ) -> bool:

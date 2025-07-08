@@ -2,7 +2,7 @@ import axios from 'axios';
 import { handleApiError } from '../utils/errorHandler';
 import { API_BASE_URL, USER_DATA_KEY } from '../config/constants';
 
-const API_URL = `${API_BASE_URL}/profiles`;
+const API_URL = `${API_BASE_URL}/profiles/users`;
 const WATCH_STATS_URL = `${API_BASE_URL}/watch-stats`;
 
 /**
@@ -20,7 +20,7 @@ const authAxios = axios.create({
 
 authAxios.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('auth_token'); // Use consistent token key
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -37,7 +37,17 @@ export const getUserProfile = async () => {
   try {
     // Try real API endpoint first
     try {
-      const response = await axios.get(`${API_URL}/me`);
+      // Add Authorization header with token from localStorage
+      const token = localStorage.getItem('auth_token');
+      const headers = {};
+      
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      
+      console.log('Getting profile from:', `${API_URL}/profile`);
+      const response = await axios.get(`${API_URL}/profile`, { headers });
+      console.log('Profile response:', response.data);
       return response.data;
     } catch (apiError) {
       console.log('Failed to fetch real profile, using mock data', apiError);
@@ -80,9 +90,39 @@ export const getUserProfile = async () => {
  */
 export const updateUserProfile = async (profileData) => {
   try {
-    const response = await axios.put(`${API_URL}/me`, profileData);
+    // Add Authorization header with token from localStorage
+    const token = localStorage.getItem('auth_token');
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
+    console.log('Updating profile with data:', profileData);
+    console.log('API URL:', `${API_URL}/profile`);
+    
+    const response = await axios.patch(`${API_URL}/profile`, profileData, { headers });
+    
+    console.log('Profile update response:', response.data);
     return response.data;
   } catch (error) {
+    console.error('Error updating profile:', error);
+    if (error.response) {
+      console.error('Error response status:', error.response.status);
+      console.error('Error response data:', error.response.data);
+      console.error('Error response headers:', error.response.headers);
+      
+      // For 422 errors, show detailed validation errors
+      if (error.response.status === 422 && error.response.data?.detail) {
+        const validationErrors = Array.isArray(error.response.data.detail) 
+          ? error.response.data.detail.map(err => `${err.loc?.join('.')}: ${err.msg}`).join(', ')
+          : error.response.data.detail;
+        console.error('Validation errors:', validationErrors);
+        throw new Error(`Validation Error: ${validationErrors}`);
+      }
+    }
     return handleApiError(error, 'Không thể cập nhật hồ sơ');
   }
 };
@@ -94,14 +134,48 @@ export const updateUserProfile = async (profileData) => {
  */
 export const uploadAvatar = async (formData) => {
   try {
-    const response = await axios.post(`${API_URL}/me/avatar`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
+    // Add Authorization header with token from localStorage
+    const token = localStorage.getItem('auth_token');
+    const headers = {
+      'Content-Type': 'multipart/form-data'
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
+    const response = await axios.post(`${API_URL}/avatar`, formData, { headers });
     return response.data;
   } catch (error) {
+    console.error('Error uploading avatar:', error);
     return handleApiError(error, 'Không thể tải lên ảnh đại diện');
+  }
+};
+
+/**
+ * Update user preferences
+ * @param {Object} preferences User preferences (language, notifications_enabled)
+ * @returns {Promise<Object>} Response with updated preferences
+ */
+export const updateUserPreferences = async (preferences) => {
+  try {
+    const token = localStorage.getItem('auth_token');
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
+    console.log('Updating preferences with data:', preferences);
+    const response = await axios.patch(`${API_URL}/preferences`, preferences, { headers });
+    
+    console.log('Preferences update response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating preferences:', error);
+    return handleApiError(error, 'Không thể cập nhật cài đặt');
   }
 };
 

@@ -20,6 +20,11 @@ class PyObjectId(ObjectId):
         schema.update(type="string")
         return schema
 
+class UserPreferences(BaseModel):
+    """User preferences embedded object"""
+    language: str = Field(default="vi", description="Preferred language (vi/en)")
+    notifications_enabled: bool = Field(default=True, description="Enable notifications")
+
 """
 User Model
 Mô hình dữ liệu cho bảng người dùng trong MongoDB
@@ -34,6 +39,8 @@ Các fields:
 - max_devices: Số lượng thiết bị tối đa có thể xem
 - birth_date: Ngày sinh
 - gender: Giới tính
+- role: Vai trò người dùng (user, admin)
+- preferences: Cài đặt cá nhân (language, notifications_enabled)
 - is_active: Trạng thái tài khoản
 - is_google_auth: Tài khoản đăng nhập bằng Google
 - created_at: Thời gian tạo tài khoản
@@ -51,6 +58,8 @@ class UserModel(BaseModel):
     max_devices: int = Field(default=1)
     birth_date: Optional[datetime] = None
     gender: Optional[str] = None  # male, female, other
+    role: str = Field(default="user")  # user, admin
+    preferences: UserPreferences = Field(default_factory=UserPreferences)
     is_active: bool = Field(default=True)
     is_google_auth: bool = Field(default=False)
     created_at: datetime = Field(default_factory=datetime.now)
@@ -74,6 +83,11 @@ class UserModel(BaseModel):
                 "max_devices": 2,
                 "birth_date": "1990-01-01T00:00:00",
                 "gender": "male",
+                "role": "user",
+                "preferences": {
+                    "language": "vi",
+                    "notifications_enabled": True
+                },
                 "is_active": True,
                 "is_google_auth": False,
                 "created_at": "2021-06-20T15:30:00",

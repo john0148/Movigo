@@ -24,6 +24,18 @@ class Gender(str, Enum):
     PREFER_NOT_TO_SAY = "prefer_not_to_say"
 
 
+class Role(str, Enum):
+    """Enum for user roles"""
+    USER = "user"
+    ADMIN = "admin"
+
+
+class UserPreferences(BaseModel):
+    """User preferences schema"""
+    language: str = Field(default="vi", description="Preferred language (vi/en)")
+    notifications_enabled: bool = Field(default=True, description="Enable notifications")
+
+
 class Token(BaseModel):
     """
     Token schema sử dụng cho response JWT
@@ -61,6 +73,8 @@ class UserCreate(UserBase):
     password: str = Field(..., description="User password")
     subscription_type: SubscriptionType = Field(default=SubscriptionType.BASIC, 
                                              description="Subscription type")
+    role: Role = Field(default=Role.USER, description="User role")
+    preferences: UserPreferences = Field(default_factory=UserPreferences, description="User preferences")
     
     @validator('password')
     def password_strength(cls, v):
@@ -88,6 +102,8 @@ class UserUpdate(BaseModel):
     gender: Optional[Gender] = None
     avatar_url: Optional[str] = None
     password: Optional[str] = None
+    role: Optional[Role] = None
+    preferences: Optional[UserPreferences] = None
     
     @validator('password')
     def password_strength(cls, v):
@@ -108,6 +124,8 @@ class UserInDB(UserBase):
     created_at: datetime = Field(..., description="Timestamp when the user was created")
     updated_at: datetime = Field(..., description="Timestamp when the user was last updated")
     subscription_type: SubscriptionType = Field(default=SubscriptionType.BASIC)
+    role: Role = Field(default=Role.USER, description="User role")
+    preferences: UserPreferences = Field(default_factory=UserPreferences, description="User preferences")
     settings: UserSettings = Field(default_factory=UserSettings)
 
     class Config:
@@ -125,6 +143,8 @@ class UserResponse(BaseModel):
     birth_date: Optional[date]
     gender: Optional[Gender]
     subscription_type: SubscriptionType
+    role: Role
+    preferences: UserPreferences
     created_at: datetime
     settings: UserSettings
     
@@ -143,6 +163,8 @@ class UserOut(UserBase):
     max_devices: int
     birth_date: Optional[datetime] = None
     gender: Optional[str] = None
+    role: str = Field(default="user", description="User role")
+    preferences: Optional[UserPreferences] = Field(default_factory=UserPreferences, description="User preferences")
     is_active: bool
     created_at: datetime
     
@@ -154,8 +176,9 @@ class UserProfileUpdate(BaseModel):
     """Schema cho cập nhật thông tin profile"""
     full_name: Optional[str] = None
     phone: Optional[str] = None
-    birth_date: Optional[datetime] = None
-    gender: Optional[str] = None
+    birth_date: Optional[date] = None  # Change from datetime to date
+    gender: Optional[Gender] = None  # Use Gender enum for proper validation
+    preferences: Optional[UserPreferences] = None
 
 class UserProfileOut(UserOut):
     """Schema response cho profile"""

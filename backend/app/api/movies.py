@@ -22,7 +22,7 @@ from ..schemas.rating import RatingOut, RatingCreate
 from ..schemas.character import CharacterInDB
 from ..schemas.comment import CommentResponse
 
-from ..core.security import get_current_user
+from ..dependencies import get_current_user
 from ..services.movie_service import MovieService
 from ..dependencies import get_movie_service
 from ..schemas.user import UserInDB

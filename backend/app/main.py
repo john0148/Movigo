@@ -55,16 +55,34 @@ app.include_router(sync_routes.router, prefix=f"{settings.API_V1_PREFIX}/sync", 
 @app.on_event("startup")
 async def startup_db_client():
     try:
-        db = await connect_to_mongodb()
-        if db is not None:
+        # Connect to MongoDB
+        connected_db = await connect_to_mongodb()
+        
+        if connected_db is not None:
+            # Check global db variable from database module
+            from .db.database import db as global_db
+            logging.info(f"🔍 Local db: {connected_db}")
+            logging.info(f"🔍 Global db: {global_db}")
+            
+            # Initialize CRUD modules
             initialize_crud_modules()
-            logging.info("MongoDB connection successful, CRUD modules initialized")
+            
+            # Verify CRUD module db connection
+            from .crud.user import db as user_crud_db
+            logging.info(f"🔍 User CRUD db: {user_crud_db}")
+            
+            if user_crud_db is not None:
+                logging.info("✅ MongoDB connection successful, CRUD modules initialized")
+            else:
+                logging.error("❌ CRUD modules not properly initialized - db is None!")
         else:
-            logging.warning("Application running without MongoDB connection! Using fallback/local data only.")
-        logging.info("Application startup complete")
+            logging.warning("⚠️ Application running without MongoDB connection! Using fallback/local data only.")
+            
+        logging.info("🚀 Application startup complete")
+        
     except Exception as e:
-        logging.error(f"Error during application startup: {e}")
-        logging.warning("Application will continue without MongoDB connection - some features may not work!")
+        logging.error(f"❌ Error during application startup: {e}")
+        logging.warning("⚠️ Application will continue without MongoDB connection - some features may not work!")
 
 # Đóng kết nối MongoDB khi shutdown
 @app.on_event("shutdown")
@@ -97,4 +115,56 @@ async def mongodb_status():
     """
     result = await test_connection()
     return result
+
+@app.get(f"{settings.API_V1_PREFIX}/debug/db-connections")
+async def debug_db_connections():
+    """
+    Debug endpoint to check all database connection references
+    """
+    try:
+        from .db.database import db as global_db, client as global_client
+        from .crud.user import db as user_crud_db
+        from .crud.movie import db as movie_crud_db
+        
+        result = {
+            "timestamp": logging.Formatter().formatTime(logging.LogRecord("", 0, "", 0, "", (), None)),
+            "global_db": str(global_db),
+            "global_client": str(global_client),
+            "user_crud_db": str(user_crud_db),
+            "movie_crud_db": str(movie_crud_db),
+            "connections_match": global_db == user_crud_db == movie_crud_db,
+            "global_db_is_none": global_db is None,
+            "user_crud_db_is_none": user_crud_db is None
+        }
+        
+        # Test a simple operation if db is available
+        if user_crud_db is not None:
+            try:
+                collection_names = await user_crud_db.list_collection_names()
+                result["collections_accessible"] = True
+                result["available_collections"] = collection_names
+                
+                # Test user collection access
+                if "users" in collection_names:
+                    users_count = await user_crud_db.users.count_documents({})
+                    result["users_count"] = users_count
+                    result["users_collection_accessible"] = True
+                else:
+                    result["users_collection_accessible"] = False
+                    result["error"] = "Users collection not found"
+                    
+            except Exception as e:
+                result["collections_accessible"] = False
+                result["error"] = str(e)
+        else:
+            result["collections_accessible"] = False
+            result["error"] = "No database connection"
+            
+        return result
+        
+    except Exception as e:
+        return {
+            "error": f"Debug endpoint error: {str(e)}",
+            "timestamp": logging.Formatter().formatTime(logging.LogRecord("", 0, "", 0, "", (), None))
+        }
 
