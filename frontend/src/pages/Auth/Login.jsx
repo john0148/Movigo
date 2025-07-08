@@ -137,19 +137,36 @@ function Login() {
         console.log('Updated AuthContext with user:', authData.user.email);
       }
 
-      // Kiểm tra xem có đang sử dụng dữ liệu fallback hay không
-      if (authData && authData.access_token && authData.access_token.startsWith('mock-token')) {
-        console.log('Đang sử dụng dữ liệu fallback vì không thể kết nối đến MongoDB');
-        setUsingFallbackData(true);
+      // // Kiểm tra xem có đang sử dụng dữ liệu fallback hay không
+      // if (authData && authData.access_token && authData.access_token.startsWith('mock-token')) {
+      //   console.log('Đang sử dụng dữ liệu fallback vì không thể kết nối đến MongoDB');
+      //   setUsingFallbackData(true);
 
-        // Automatically continue with fallback data without showing warning
-        const redirectTo = location.state?.from || '/';
-        navigate(redirectTo);
+      //   // Automatically continue with fallback data without showing warning
+      //   const redirectTo = location.state?.from || '/';
+      //   navigate(redirectTo);
+      // } else {
+      //   // Chuyển hướng ngay lập tức nếu dữ liệu từ MongoDB
+      //   const redirectTo = location.state?.from || '/';
+      //   navigate(redirectTo);
+      // }
+
+
+      if (authData?.access_token?.startsWith('mock-token')) {
+        console.log('⚠️ Đang sử dụng dữ liệu fallback vì không thể kết nối đến MongoDB');
+        setUsingFallbackData(true);
+      }
+
+      // ✅ Điều hướng cuối cùng theo role
+      const role = authData?.user?.role;
+      if (role === 'admin') {
+        navigate('/admin/dashboard');
       } else {
-        // Chuyển hướng ngay lập tức nếu dữ liệu từ MongoDB
         const redirectTo = location.state?.from || '/';
         navigate(redirectTo);
       }
+
+
     } catch (error) {
       // console.error('Đăng nhập thất bại:', error);
       // showErrorToast(error.message || 'Đăng nhập thất bại');

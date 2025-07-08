@@ -4,10 +4,12 @@ import { useParams,useNavigate  } from 'react-router-dom';
 import { Heart, Calendar, Clock, Eye, Play, Star, ArrowRight, Users, Award } from 'lucide-react';
 import '../styles/MovieDetail.css'; // Import file CSS
 import { getMovieDetails, fetchRelatedMovies, incrementMovieView } from '../api/movieApi';
+import { addToWatchLater, removeFromWatchLater, isInWatchLater } from '../api/watchHistoryApi'
 import { baseImageUrl ,BASE_IMAGE_URL} from '../config/constants';
 import { MovieRatings } from '../components/MovieDetail/MovieRatings'
 import { MovieCharacters } from '../components/MovieDetail/MovieCharacters';
 import { getUserProfile } from '../api/userApi';
+import { Bookmark } from 'lucide-react';
 const MovieDetail = () => {
   const { id } = useParams();
 
@@ -21,6 +23,7 @@ const MovieDetail = () => {
   const [reviewStars, setReviewStars] = useState(5);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [reloadRatings, setReloadRatings] = useState(false);
+  const [isWatchLater, setIsWatchLater] = useState(false);
   const navigate = useNavigate();
   const handleSubmitReview = async () => {
     if (!reviewText.trim()) {
@@ -73,6 +76,24 @@ const MovieDetail = () => {
       setIsSubmitting(false);
     }
   };
+
+  const handleToggleWatchLater = async () => {
+    setLoading(true);
+    try {
+      if (isWatchLater) {
+        await removeFromWatchLater(id);
+      } else {
+        await addToWatchLater(id);
+      }
+      setIsWatchLater(!isWatchLater);
+    } catch (err) {
+      console.error(err);
+    }
+    setLoading(false);
+  };
+
+
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       const user = JSON.parse(localStorage.getItem('user'));
@@ -124,6 +145,22 @@ const MovieDetail = () => {
       fetchData();
     }
   }, [id]);
+
+  useEffect(() => {
+    const checkWatchLaterStatus = async () => {
+      try {
+        const result = await isInWatchLater(id);
+        setIsWatchLater(result);
+      } catch (err) {
+        console.error('Lỗi khi kiểm tra trạng thái xem sau:', err);
+      }
+    };
+
+    if (id) {
+      checkWatchLaterStatus();
+    }
+  }, [id]);
+
  
 const handleWatchMovie = () => {
   console.log(`Watching movie ${movie?.id}`);
@@ -274,13 +311,21 @@ const handleWatchMovie = () => {
                 <Play size={20} className="button-icon" />
                 Xem phim ngay
               </button>
-              <button
+              
+              {/* <button
                 onClick={() => setIsFavorite(!isFavorite)}
                 className={`save-button ${isFavorite ? 'saved' : ''}`}
               >
                 <Heart size={20} className="button-icon" fill={isFavorite ? "currentColor" : "none"} />
                 {isFavorite ? 'Đã yêu thích' : 'Yêu thích'}
+              </button> */}
+
+              <button onClick={handleToggleWatchLater} disabled={loading} className="save-button">
+                <Bookmark size={20} className="button-icon" fill={isWatchLater ? "currentColor" : "none"} />
+                {isWatchLater ? 'Đã lưu' : 'Xem sau'}
               </button>
+
+
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ import { auth } from '../config/firebase';
 import { loginWithFirebaseToken } from '../api/authApi';
 import { showErrorToast } from '../utils/errorHandler';
 import { USER_DATA_KEY, AUTH_TOKEN_KEY } from '../config/constants';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -21,6 +22,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
+  // const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isFirebaseActive, setIsFirebaseActive] = useState(false);

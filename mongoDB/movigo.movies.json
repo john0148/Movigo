@@ -23,7 +23,9 @@
   "updated_at": {
     "$date": "2025-06-19T00:00:00.000Z"
   },
-  "view_count": 0
+  "view_count": 0,
+  "normalized_description": "tham tu pho tau 1900 xoay quanh cau chuyen vao nam 1900 khi fei yanggu mot quan chuc nha thanh duoc cu toi san francisco voi nhiem vu bat giu cac nha cach mang ton van va trinh the luong trong luc nay mot vu an mang kinh hoang xay ra tai chinatown khi alice con gai cua nghi si grant bi sat hai cung voi mot ong lao nguoi my ban dia bach chan bang con trai cua thu linh hoi xie sheng tro thanh nghi pham chinh tuy nhien nghi si grant lai loi dung su kien nay de thuc day chinh sach bai hoa trong no luc cuu con trai va bao ve cong dong nguoi hoa bach huyen linh nho cay tan phuc mot thien tai suy luan de dieu tra vu an tan phuc ket hop voi a quy mot tho san lai hoamy dang tim cach bao thu cho cha nuoi cua minh trong hanh trinh tim kiem hung thu ho phat hien them nhieu vu giet nguoi tuong tu va theo dau manh moi dan den nha nghi si grant noi chua dung nhung bang chung quyet dinh",
+  "normalized_title": "tham tu pho tau 1900"
 },
 {
   "_id": {
@@ -50,7 +52,9 @@
   "updated_at": {
     "$date": "2025-05-21T14:14:17.684Z"
   },
-  "view_count": 0
+  "view_count": 0,
+  "normalized_description": "vao nhung nam dau cua trieu dai tay han mot tran hoa hoan kinh hoang da thieu rui so lua hoang gia duoc dinh lam cong pham cho hung nomot tham hoa da thoi bung len su hon loan tren khap tay vuc giang du mot su gia uu tu cua trieu dinh duoc phai di theo sac lenh bi mat de dieu tra vu dot pha va ngan chan mot cuoc khung hoang o bien gioi trong khi do cannu yeu dau cua anh mot tho det lua tro thanh anh hung dan gian tap hop nguoi dan shiquan de bo sung so cong pham da mat va cuu de che khoi su o nhuc khi giang du mot minh mao hiem vao tay vuc day hiem nguy anh phai doi mat voi mot lua chon bat kha thi trung thanh voi so phan cua nha han hay loi thi tham cua trai tim minh",
+  "normalized_title": "con duong to lua huyen an tay han 2025"
 },
 {
   "_id": {
@@ -76,7 +80,9 @@
   "updated_at": {
     "$date": "2025-05-21T14:14:21.366Z"
   },
-  "view_count": 0
+  "view_count": 0,
+  "normalized_description": "sat thu nguy hiem arthur bishop jason statham muon gac lai qua khu cua minh va bat dau mot cuoc song moi nhung khi ke thu dang gom nhat cua arthur bat coc ban gai anh arthur phai thuc hien 3 vu am sat va lam cho chung chi giong nhu nhung tai nan",
+  "normalized_title": "sat thu tho may ngay tai xuat"
 },
 {
   "_id": {
@@ -103,7 +109,9 @@
   "updated_at": {
     "$date": "2025-05-21T14:14:21.366Z"
   },
-  "view_count": 0
+  "view_count": 0,
+  "normalized_description": "vao mot dem mua tam ta thi the cua gia ky con gai cua canh sat lac nhat ngon duoc phat hien trong tinh trang da tu vong mac du co nhieu nghi van xung quanh cai chet cua co nhung do thieu bang chung xac thuc nghi pham khau tuan van da duoc tha tu do su kien nay da khien lac nhat ngon quyet dinh roi bo nganh canh sat nhung nhung cai chet bi an van tiep tuc xay ra ong nhan ra rang nhieu co gai khac cung da bi sat hai mot cach da man voi phuong thuc tuong tu dieu nay khien ong tin rang ke giet nguoi van dang tu do ngoai vong phap luat trong qua trinh dieu tra lac nhat ngon dan tim ra nhan chung duy nhat co the cung cap thong tin ve hung thu tuy nhien dieu dang tiec la nhan chung nay lai la mot co be bi thieu nang tri tue dieu nay tao ra khong it kho khan trong viec thu thap thong tin nhung bien co lien tiep ap den da khien lac nhat ngon mot nguoi cha va nguoi chong gan nhu guc nga truoc noi dau mat mat va su bat luc trong viec tim kiem cong ly cho con gai minhtruoc tinh hinh cang thang va ap luc ngay cang gia tang lac nhat ngon phai doi mat voi mot quyet dinh kho khan lieu ong co chap nhan buong bo hien thuc tan khoc nay hay se dung len chien dau de gianh lai cong ly cho gia ky co con gai da bi sat hai mot cach tham thuong su kien tri va quyet tam cua ong se quyet dinh khong chi so phan cua ban than ma con la hy vong cho nhung nan nhan khac trong cuoc chien chong lai cai ac",
+  "normalized_title": "huyet an truy hanh"
 },
 {
   "_id": {
@@ -131,7 +139,9 @@
   "updated_at": {
     "$date": "2025-06-19T00:00:00.000Z"
   },
-  "view_count": 0
+  "view_count": 0,
+  "normalized_description": "mot nhom ban than hoc tai mot truong tu thuc deu phai long co hoc sinh ngoi sao day nang sunah thanh vien duy nhat trong nhom khong noi rang minh nhu vay la jinwoo nhung cuoi cung anh cung yeu co",
+  "normalized_title": "co gai nam ay chung ta cung theo duoi 2025 ban han"
 },
 {
   "_id": {
@@ -158,7 +168,9 @@
   "updated_at": {
     "$date": "2025-06-19T00:00:00.000Z"
   },
-  "view_count": 0
+  "view_count": 0,
+  "normalized_description": "tan tieu ngao giang ho dong phuong bat bai invincible swordsman 2025 dua tren tieu thuyet tieu ngao giang ho cua nha van kim dung 1 ban lam lai va van tap trung vao nhan vat lenh ho xung dai de tu phai hoa son anh la nguoi phong khoang yeu tu do va vo tinh bi cuon vao nhung am muu tranh doat quyen luc trong giang ho dac biet phim khai thac sau moi quan he giua lenh ho xung va dong phuong bat bai giao chu nhat nguyet than giao mot nhan vat bi an voi vo cong cao cuong",
+  "normalized_title": "tan tieu ngao giang ho dong phuong bat bai 2025"
 },
 {
   "_id": {
@@ -171,7 +183,7 @@
     "Phim Hoạt Hình",
     "Phim Võ Thuật"
   ],
-  "runtime": 0,
+  "runtime": 97,
   "vote_average": 8.2,
   "vote_count": 189,
   "poster_path": "/hxJWRB2S/muaythaiposter.jpg",
@@ -185,7 +197,9 @@
   "updated_at": {
     "$date": "2025-06-19T00:00:00.000Z"
   },
-  "view_count": 0
+  "view_count": 0,
+  "normalized_description": "huyen thoai muay thai 9 manh ghep than ki la cau chuyen ve cuoc phieu luu cua chang trai ten ott su mang cua cau la giai cuu que huong minh thanh pho ramathep thoat khoi su no le cua quy khong lo dahayaksa ott da luyen tap cham chi vo cong muay thai bi that truyen nhieu nam tu lao su phu cau co nhiem vu mang than khi 9 satra den cho nguoi thua ke cua ramathep de bao ve vuong quoc cua minh cung voi cac nguoi ban xiaolan co gai cuop bien nguoi trung quoc vata hoang tu cua vuong quoc khi va red asura nguoi khong lo do lieu ott co the hoan thanh duoc nhiem vu va giai cuu vuong quoc khoi the luc bong toi",
+  "normalized_title": "huyen thoai muay thai 9 manh ghep than ki"
 },
 {
   "_id": {
@@ -212,7 +226,9 @@
   "updated_at": {
     "$date": "2025-06-19T00:00:00.000Z"
   },
-  "view_count": 0
+  "view_count": 0,
+  "normalized_description": "phim xoay quanh hai nguoi dan ong la tae in yoo ah in va chang bok yoo jae myung lam cong viec don dep cho mot bang nhom toi pham ca hai vo tinh bi cuon vao su co bat ngo cung mot dua tre bi bat coc va sau do nhung tinh tiet gay can va hap dan xay ra giua mot nguoi thanh nien khong noi duoc mot ong chu chi biet lam theo nhung gi duoc bao nhu cai may tu dong va mot dua tre 11 tuoi ngay tho trong sang",
+  "normalized_title": "nguoi don dep"
 },
 {
   "_id": {
@@ -239,7 +255,9 @@
   "updated_at": {
     "$date": "2025-06-19T00:00:00.000Z"
   },
-  "view_count": 0
+  "view_count": 0,
+  "normalized_description": "phim xoay quanh chuyen xe buyt mang so 888 cua tai xe ten pon cong viec cua anh rat buon te den mot ngay moi thu thay doi khi pon phai tiep don rat nhieu vi khach len xe so 888 dieu dang noi nhung hanh khach nay rat ky quai sau do nhieu tinh huong do khoc do cuoi xay ra ngay tren chuyen xe voi nhung chi tiet hai huoc chuyen xe ba dao se khien khan gia cuoi khong ngung nghi trong hon 90 phut cua bo phim",
+  "normalized_title": "chuyen xe ba dao"
 },
 {
   "_id": {
@@ -266,7 +284,9 @@
   "updated_at": {
     "$date": "2025-06-19T00:00:00.000Z"
   },
-  "view_count": 0
+  "view_count": 0,
+  "normalized_description": "thieu gia ky phuong homme fatale 2019 xoay quanh heo saek chang trai thong minh hai huoc tro thanh ky nam dau tien thoi joseon va cuon hut biet bao phu nu bang tai nang cung ve ngoai noi bat trong boi canh xa hoi phong kien voi nhieu dinh kien giai cap heo saek gap hae won co tieu thu xinh dep tu duy tien bo tinh yeu cua ho bi thu thach boi nhung rao can khac nghiet giua truyen thong va khat vong tu do ca nhan",
+  "normalized_title": "thieu gia ky phuong"
 },
 {
   "_id": {
@@ -293,5 +313,7 @@
   "updated_at": {
     "$date": "2025-06-19T00:00:00.000Z"
   },
-  "view_count": 0
+  "view_count": 0,
+  "normalized_description": "ba hoang noi doi honest candidate 2020 la mot bo phim hai huoc va chinh tri ke ve cau chuyen cua mot nu chinh tri gia tai gioi nhung luon noi doi va lua doi nguoi dan ba hoang da tro thanh ung cu vien cho mot vi tri quan trong trong chinh quyen dia phuong du co tai nang va ky nang lanh dao ba hoang lai co mot thoi quen dang ngac nhien noi doi ba hoang luon tim moi cach de lua doi nguoi dan va dat duoc muc tieu ca nhan cua minh",
+  "normalized_title": "ba hoang noi doi"
 }]

@@ -11,7 +11,7 @@ from datetime import datetime
 from bson import ObjectId
 from bson.errors import InvalidId
 
-from ..schemas.profile import WatchLaterEntry
+from ..schemas.profile import WatchLaterEntry, WatchLaterCreate
 
 logger = logging.getLogger(__name__)
 
@@ -38,19 +38,33 @@ class WatchLaterCRUD:
         Returns:
             Created watch later entry
         """
-        now = datetime.utcnow()
+        # now = datetime.utcnow()
+        # entry_data = dict(obj_in)
+        
+        # # Set default values
+        # entry_data.update({
+        #     "added_at": entry_data.get("added_at", now),
+        #     "created_at": now,
+        #     "updated_at": now
+        # })
+        
+        # # Lấy thông tin phim nếu muốn gán thêm movie_details
+        # movie = await self.db.movies.find_one({"_id": ObjectId(entry_data["movie_id"])})
+        # if movie:
+        #     entry_data["movie_details"] = {
+        #         "title": movie.get("title"),
+        #         "poster_url": movie.get("poster_url"),
+        #         "runtime": movie.get("runtime"),
+        #     }
+        
+        # result = await self.collection.insert_one(entry_data)
+        # entry_data["id"] = str(result.inserted_id)
+        
+        # return WatchLaterEntry(**entry_data)
+        
         entry_data = dict(obj_in)
-        
-        # Set default values
-        entry_data.update({
-            "added_at": entry_data.get("added_at", now),
-            "created_at": now,
-            "updated_at": now
-        })
-        
         result = await self.collection.insert_one(entry_data)
         entry_data["id"] = str(result.inserted_id)
-        
         return WatchLaterEntry(**entry_data)
     
     async def get(self, entry_id: str) -> Optional[WatchLaterEntry]:
@@ -123,9 +137,21 @@ class WatchLaterCRUD:
             .limit(limit)
         
         entries = []
+        # async for entry in cursor:
+        #     entry["id"] = str(entry.pop("_id"))
+        #     entries.append(WatchLaterEntry(**entry))
+            
         async for entry in cursor:
             entry["id"] = str(entry.pop("_id"))
+
+            # Ép kiểu ObjectId về str nếu cần
+            if isinstance(entry.get("movie_id"), ObjectId):
+                entry["movie_id"] = str(entry["movie_id"])
+            if isinstance(entry.get("user_id"), ObjectId):
+                entry["user_id"] = str(entry["user_id"])
+
             entries.append(WatchLaterEntry(**entry))
+
         
         return entries
     

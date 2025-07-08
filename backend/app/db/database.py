@@ -159,9 +159,11 @@ def initialize_crud_modules():
     """
     from ..crud import movie
     from ..crud import user
+    from ..crud import watch_later 
     
     # Set db reference in each CRUD module
     movie.db = db
     user.db = db
+    watch_later.db = db 
     
 get_database = get_db

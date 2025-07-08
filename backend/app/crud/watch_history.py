@@ -128,7 +128,13 @@ class WatchHistoryCRUD:
         
         entries = []
         async for entry in cursor:
-            entry["id"] = str(entry.pop("_id"))
+            entry["_id"] = str(entry.pop("_id"))
+            entry["movie_id"] = str(entry["movie_id"])
+            
+            entry["watch_duration"] = entry.get("watch_duration", 0)
+            entry["progress_percent"] = entry.get("progress_percent", 0)
+            entry["movie_details"] = entry.get("movie_details", {})
+            
             entries.append(WatchHistoryEntry(**entry))
         
         return entries

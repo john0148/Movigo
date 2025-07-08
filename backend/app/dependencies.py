@@ -52,10 +52,25 @@ def get_watch_history_crud():
     db = get_database()
     return WatchHistoryCRUD(db)
 
+async def get_watch_later_crud(
+    db: AsyncIOMotorDatabase = Depends(get_database)
+) -> WatchLaterCRUD:
+    """
+    Get WatchLaterCRUD instance.
+    
+    Args:
+        db: MongoDB database connection
+        
+    Returns:
+        WatchLaterCRUD instance
+    """
+    return WatchLaterCRUD(db)
+
 # Dependency to get MovieService instance
 async def get_movie_service(
     movie_crud: MovieCRUD = Depends(get_movie_crud),
-    watch_history_crud: WatchHistoryCRUD = Depends(get_watch_history_crud)
+    watch_history_crud: WatchHistoryCRUD = Depends(get_watch_history_crud),
+    watch_later_crud: WatchLaterCRUD = Depends(get_watch_later_crud)
 ):
     """
     Dependency function to get a MovieService instance with required CRUD dependencies.
@@ -67,7 +82,7 @@ async def get_movie_service(
     Returns:
         MovieService instance
     """
-    return MovieService(movie_crud, watch_history_crud)
+    return MovieService(movie_crud, watch_history_crud, watch_later_crud)
 
 # Dependency to get current user from token
 async def get_current_user(token: str = Depends(oauth2_scheme)):
@@ -81,9 +96,11 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     Returns:
         UserInDB instance representing a dummy user
     """
+    
+    """
     # Development mode: Return dummy user without checking token
     user = {
-        "id": "dummy_user_id",
+        "_id": "dummy_user_id",
         "email": "dev@example.com",
         "hashed_password": "hashed_password",
         "full_name": "Development User",
@@ -92,10 +109,16 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         "updated_at": datetime.utcnow(),
         "subscription_type": "premium"  # Premium to access all features
     }
+    
+    parsed_user = UserInDB.model_validate(user, from_attributes=False)
+    return parsed_user
 
-    return UserInDB(**user)
-
+    # return UserInDB(**user)
+    # return UserInDB.model_validate(user)
+    
     """
+
+    
     # Original authentication logic - commented out for development
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -107,8 +130,8 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         # Decode JWT token
         payload = jwt.decode(
             token,
-            settings.SECRET_KEY,
-            algorithms=[settings.ALGORITHM]
+            settings.JWT_SECRET_KEY,
+            algorithms=[settings.JWT_ALGORITHM]
         )
 
         # Validate token payload
@@ -124,14 +147,15 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         # The actual implementation would look up the user by ID in the database
         # For now, we'll return a dummy user object
         user = {
-            "id": user_id,
+            "_id": user_id,
             "email": "user@example.com",
             "hashed_password": "hashed_password",
             "full_name": "Test User",
             "is_active": True,
             "created_at": datetime.utcnow(),
             "updated_at": datetime.utcnow(),
-            "subscription_type": "basic"
+            "subscription_type": "basic",
+            "role": "user"             
         }
 
         return UserInDB(**user)
@@ -139,7 +163,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     except (JWTError, ValidationError):
         logger.exception("Token validation error")
         raise credentials_exception
-    """
 
 # Dependency to get admin user
 async def get_admin_user(user: UserInDB = Depends(get_current_user)):
@@ -153,6 +176,21 @@ async def get_admin_user(user: UserInDB = Depends(get_current_user)):
         UserInDB instance representing an admin user
     """
     # Development mode: Always return user as admin
+    # return user
+
+    """
+    Trả về user nếu là admin. Nếu không, raise 403 Forbidden.
+    Có thể cấu hình để bỏ qua kiểm tra khi chạy development.
+    """
+    if settings.DEBUG:  # ✅ nếu đang chạy dev mode
+        return user
+
+    if user.role != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Bạn không có quyền thực hiện hành động này"
+        )
+
     return user
 
     """
@@ -190,16 +228,3 @@ def get_movie_sync_service(
     # đã trả về một instance của MovieSyncService trực tiếp, không phải coroutine
     return MovieSyncService(tmdb_client, movie_collection)
 
-async def get_watch_later_crud(
-    db: AsyncIOMotorDatabase = Depends(get_database)
-) -> WatchLaterCRUD:
-    """
-    Get WatchLaterCRUD instance.
-    
-    Args:
-        db: MongoDB database connection
-        
-    Returns:
-        WatchLaterCRUD instance
-    """
-    return WatchLaterCRUD(db)

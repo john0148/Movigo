@@ -6,7 +6,7 @@
         "id": 1,
         "user": "Nguyễn Văn A",
         "avatar": "A",
-        "time": "2 phút trước",
+        "time": "2025-07-07T14:48:34Z",
         "content": "Phim hay quá! Cảnh quay rất đẹp",
         "likes": 12,
         "timestamp": "00:15:30"
@@ -15,7 +15,7 @@
         "id": 2,
         "user": "Trần Thị B",
         "avatar": "B",
-        "time": "5 phút trước",
+        "time": "2025-07-07T14:57:34Z",
         "content": "Diễn xuất của nam chính rất tự nhiên",
         "likes": 8,
         "timestamp": "00:08:45"
@@ -24,7 +24,7 @@
         "id": 3,
         "user": "Lê Minh C",
         "avatar": "C",
-        "time": "10 phút trước",
+        "time": "2025-07-07T14:57:34Z",
         "content": "Âm thanh và hiệu ứng tuyệt vời 👏",
         "likes": 15,
         "timestamp": "00:03:12"
@@ -38,7 +38,7 @@
         "id": 4,
         "user": "Hoàng Văn D",
         "avatar": "D",
-        "time": "1 phút trước",
+        "time": "2025-07-07T14:57:34Z",
         "content": "Trang phục cổ trang rất đẹp mắt",
         "likes": 6,
         "timestamp": "00:12:21"
@@ -47,7 +47,7 @@
         "id": 5,
         "user": "Phạm Thị E",
         "avatar": "E",
-        "time": "4 phút trước",
+        "time": "2025-07-07T14:47:34Z",
         "content": "Cốt truyện cuốn hút từ đầu đến cuối",
         "likes": 10,
         "timestamp": "00:25:10"
@@ -56,7 +56,7 @@
         "id": 6,
         "user": "Trịnh Quốc F",
         "avatar": "F",
-        "time": "6 phút trước",
+        "time": "2025-07-07T14:53:34Z",
         "content": "Thích cách kể chuyện xen lẫn hành động và tình cảm",
         "likes": 7,
         "timestamp": "00:31:45"
@@ -70,7 +70,7 @@
         "id": 7,
         "user": "Lý Hồng G",
         "avatar": "G",
-        "time": "3 phút trước",
+        "time": "2025-07-07T14:51:34Z",
         "content": "Jason Statham không bao giờ làm mình thất vọng!",
         "likes": 20,
         "timestamp": "00:14:05"
@@ -79,7 +79,7 @@
         "id": 8,
         "user": "Ngô Văn H",
         "avatar": "H",
-        "time": "8 phút trước",
+        "time": "2025-07-07T14:52:34Z",
         "content": "Cảnh hành động gay cấn và mượt mà",
         "likes": 11,
         "timestamp": "00:09:30"
@@ -88,7 +88,7 @@
         "id": 9,
         "user": "Bùi Thanh I",
         "avatar": "I",
-        "time": "12 phút trước",
+        "time": "2025-07-07T14:51:34Z",
         "content": "Cốt truyện hơi dễ đoán nhưng vẫn hấp dẫn",
         "likes": 5,
         "timestamp": "00:02:55"
@@ -102,7 +102,7 @@
         "id": 10,
         "user": "Phan Thị J",
         "avatar": "J",
-        "time": "7 phút trước",
+        "time": "2025-07-07T14:53:34Z",
         "content": "Tình tiết hồi hộp và cảm động",
         "likes": 9,
         "timestamp": "00:05:10"
@@ -111,7 +111,7 @@
         "id": 11,
         "user": "Vũ Ngọc K",
         "avatar": "K",
-        "time": "9 phút trước",
+        "time": "2025-07-07T14:47:34Z",
         "content": "Xem mà rớt nước mắt vì tình cha con",
         "likes": 13,
         "timestamp": "00:18:40"
@@ -120,7 +120,7 @@
         "id": 12,
         "user": "Đặng Minh L",
         "avatar": "L",
-        "time": "15 phút trước",
+        "time": "2025-07-07T14:51:34Z",
         "content": "Một bộ phim hình sự rất nhân văn",
         "likes": 6,
         "timestamp": "00:07:23"
@@ -134,7 +134,7 @@
         "id": 13,
         "user": "Nguyễn Hà M",
         "avatar": "M",
-        "time": "3 phút trước",
+        "time": "2025-07-07T14:46:34Z",
         "content": "Một bản remake dễ thương và cảm động",
         "likes": 14,
         "timestamp": "00:10:00"
@@ -143,7 +143,7 @@
         "id": 14,
         "user": "Trần Quốc N",
         "avatar": "N",
-        "time": "5 phút trước",
+        "time": "2025-07-07T14:53:34Z",
         "content": "Tình cảm học đường nhẹ nhàng nhưng sâu sắc",
         "likes": 8,
         "timestamp": "00:22:45"
@@ -152,7 +152,7 @@
         "id": 15,
         "user": "Lê Thị O",
         "avatar": "O",
-        "time": "7 phút trước",
+        "time": "2025-07-07T14:54:34Z",
         "content": "Sun-ah dễ thương quá trời 🥰",
         "likes": 16,
         "timestamp": "00:17:20"
@@ -166,7 +166,7 @@
         "id": 16,
         "user": "Đoàn Văn P",
         "avatar": "P",
-        "time": "2 phút trước",
+        "time": "2025-07-07T14:52:34Z",
         "content": "Đông Phương Bất Bại quá ngầu luôn!",
         "likes": 18,
         "timestamp": "00:28:12"
@@ -175,7 +175,7 @@
         "id": 17,
         "user": "Huỳnh Thị Q",
         "avatar": "Q",
-        "time": "6 phút trước",
+        "time": "2025-07-07T14:59:34Z",
         "content": "Phim võ thuật cổ trang đáng xem",
         "likes": 10,
         "timestamp": "00:14:33"
@@ -184,7 +184,7 @@
         "id": 18,
         "user": "Cao Hồng R",
         "avatar": "R",
-        "time": "9 phút trước",
+        "time": "2025-07-07T14:51:34Z",
         "content": "Nhạc nền rất hào hùng",
         "likes": 4,
         "timestamp": "00:08:58"
@@ -198,7 +198,7 @@
         "id": 19,
         "user": "Trịnh Văn S",
         "avatar": "S",
-        "time": "1 phút trước",
+        "time": "2025-07-07T14:54:34Z",
         "content": "Cốt truyện đơn giản nhưng truyền cảm hứng",
         "likes": 12,
         "timestamp": "00:12:12"
@@ -207,7 +207,7 @@
         "id": 20,
         "user": "Lương Thị T",
         "avatar": "T",
-        "time": "3 phút trước",
+        "time": "2025-07-07T14:49:34Z",
         "content": "Phim hoạt hình đẹp mắt, ý nghĩa sâu sắc",
         "likes": 17,
         "timestamp": "00:05:40"
@@ -216,7 +216,7 @@
         "id": 21,
         "user": "Phạm Ngọc U",
         "avatar": "U",
-        "time": "8 phút trước",
+        "time": "2025-07-07T14:52:34Z",
         "content": "Nhân vật Ott rất truyền cảm",
         "likes": 6,
         "timestamp": "00:19:22"
@@ -230,7 +230,7 @@
         "id": 22,
         "user": "Ngô Bảo V",
         "avatar": "V",
-        "time": "4 phút trước",
+        "time": "2025-07-07T14:55:34Z",
         "content": "Tình tiết căng thẳng nhưng nhân văn",
         "likes": 8,
         "timestamp": "00:16:30"
@@ -239,7 +239,7 @@
         "id": 23,
         "user": "Lý Hải W",
         "avatar": "W",
-        "time": "6 phút trước",
+        "time": "2025-07-07T14:54:34Z",
         "content": "Không nói được mà diễn tốt quá trời!",
         "likes": 10,
         "timestamp": "00:09:15"
@@ -248,7 +248,7 @@
         "id": 24,
         "user": "Trần Mỹ X",
         "avatar": "X",
-        "time": "11 phút trước",
+        "time": "2025-07-07T14:57:34Z",
         "content": "Câu chuyện rất cảm động",
         "likes": 13,
         "timestamp": "00:21:00"
@@ -262,7 +262,7 @@
         "id": 25,
         "user": "Phan Tuấn Y",
         "avatar": "Y",
-        "time": "5 phút trước",
+        "time": "2025-07-07T14:46:34Z",
         "content": "Cười xỉu với dàn hành khách lầy lội",
         "likes": 22,
         "timestamp": "00:13:40"
@@ -271,7 +271,7 @@
         "id": 26,
         "user": "Đặng Quốc Z",
         "avatar": "Z",
-        "time": "7 phút trước",
+        "time": "2025-07-07T14:46:34Z",
         "content": "Phim nhẹ nhàng, giải trí tốt",
         "likes": 9,
         "timestamp": "00:06:45"
@@ -280,7 +280,7 @@
         "id": 27,
         "user": "Nguyễn Thị A1",
         "avatar": "A",
-        "time": "10 phút trước",
+        "time": "2025-07-07T14:58:34Z",
         "content": "Tài xế Pon có tâm ghê 😆",
         "likes": 7,
         "timestamp": "00:17:15"
@@ -294,7 +294,7 @@
         "id": 28,
         "user": "Lê Bảo B1",
         "avatar": "B",
-        "time": "2 phút trước",
+        "time": "2025-07-07T14:54:34Z",
         "content": "Heo Saek điển trai quá trời!",
         "likes": 11,
         "timestamp": "00:08:22"
@@ -303,7 +303,7 @@
         "id": 29,
         "user": "Trịnh Cúc C1",
         "avatar": "C",
-        "time": "4 phút trước",
+        "time": "2025-07-07T14:55:34Z",
         "content": "Tình yêu vượt rào cản xã hội thật cảm động",
         "likes": 14,
         "timestamp": "00:20:00"
@@ -312,7 +312,7 @@
         "id": 30,
         "user": "Võ Minh D1",
         "avatar": "D",
-        "time": "6 phút trước",
+        "time": "2025-07-07T14:49:34Z",
         "content": "Xem mà muốn khóc luôn 😢",
         "likes": 10,
         "timestamp": "00:16:10"
@@ -326,7 +326,7 @@
         "id": 31,
         "user": "Phạm Tuyết E1",
         "avatar": "E",
-        "time": "3 phút trước",
+        "time": "2025-07-07T14:53:34Z",
         "content": "Bà Hoàng lươn lẹo mà dễ thương",
         "likes": 15,
         "timestamp": "00:10:00"
@@ -335,7 +335,7 @@
         "id": 32,
         "user": "Lý Văn F1",
         "avatar": "F",
-        "time": "5 phút trước",
+        "time": "2025-07-07T14:54:34Z",
         "content": "Tình huống chính trị được lột tả hài hước",
         "likes": 9,
         "timestamp": "00:11:45"
@@ -344,7 +344,7 @@
         "id": 33,
         "user": "Nguyễn Hương G1",
         "avatar": "G",
-        "time": "9 phút trước",
+        "time": "2025-07-07T14:46:34Z",
         "content": "Phim rất hợp để xem giải trí cuối tuần",
         "likes": 8,
         "timestamp": "00:22:30"

@@ -1,0 +1,41 @@
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f3e8ff; /* tím nhạt toàn trang */
+}
+
+.admin-sidebar {
+  width: 200px;
+  background-color: #4c1274; /* tím đậm sidebar */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sidebar button {
+  background: none;
+  border: none;
+  color: white;
+  text-align: left;
+  padding: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.admin-sidebar button:hover {
+  background-color: #691a8a; /* hover tím sáng hơn */
+}
+
+.admin-sidebar button.active {
+  background-color: #8b2ba6; /* tím nhạt hơn khi active */
+}
+
+.admin-main {
+  flex: 1;
+  padding: 2rem;
+  background-color: #825cab;
+  overflow-y: auto;
+}

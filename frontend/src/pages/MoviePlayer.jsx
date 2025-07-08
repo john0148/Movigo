@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "../styles/MoviePlayer.css";
+import { formatDistanceToNow } from 'date-fns';
+import { vi } from 'date-fns/locale';
 
 export default function MoviePlayer() {
   const { id: movieId } = useParams();
@@ -72,6 +74,16 @@ export default function MoviePlayer() {
   ]);
 
   const controlsTimeoutRef = useRef(null);
+
+  const getRelativeTime = (isoString) => {
+    try {
+      const date = new Date(isoString);
+      return formatDistanceToNow(date, { addSuffix: true, locale: vi }); 
+    } catch (err) {
+      return "Thời gian không xác định";
+    }
+  };
+
 
   useEffect(() => {
     const fetchDriveFileId = async () => {
@@ -344,7 +356,8 @@ export default function MoviePlayer() {
                   <div className="message-content">
                     <div className="message-header">
                       <span className="message-user">{comment.user}</span>
-                      <span className="message-time">{comment.time}</span>
+                      {/* <span className="message-time">{comment.time}</span> */}
+                      <span className="message-time">{getRelativeTime(comment.time)}</span>
                       <span className="message-timestamp">{comment.timestamp}</span>
                     </div>
                     <p className="message-text">{comment.content}</p>

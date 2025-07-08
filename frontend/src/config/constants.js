@@ -16,14 +16,23 @@ export const FIREBASE_CONFIG = {
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGE_SENDER_ID,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGER_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Validate Firebase config
 const validateFirebaseConfig = () => {
-  const requiredKeys = ['apiKey', 'authDomain', 'projectId'];
+  // const requiredKeys = ['apiKey', 'authDomain', 'projectId'];
+  const requiredKeys = [
+    'apiKey',
+    'authDomain',
+    'projectId',
+    'storageBucket',
+    'messagingSenderId',
+    'appId',
+    'measurementId'
+  ];
   const missingKeys = requiredKeys.filter(key => !FIREBASE_CONFIG[key]);
   
   if (missingKeys.length > 0) {

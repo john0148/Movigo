@@ -14,6 +14,7 @@ from firebase_admin import credentials
 from ..schemas.user import UserCreate
 from ..crud.user import get_user_by_email, create_user, get_user_by_id, update_user
 from ..core.config import settings
+from app.crud.user import get_all_users_from_db
 
 """
 Authentication Service
@@ -280,17 +281,21 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> Dict[str, Any
         # Decode JWT token
         payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
         user_id = payload.get("sub")
-        if user_id is None:
+        role = payload.get("role")
+        if user_id is None or role is None:
             raise credentials_exception
     except jwt.PyJWTError:
         raise credentials_exception
     
     # Lấy thông tin user
-    user = await get_user_by_id(ObjectId(user_id))
+    user = await get_user_by_id(user_id)
     if user is None:
         raise credentials_exception
     
-    return user
+    user_dict = user.dict() if hasattr(user, "dict") else dict(user)
+    user_dict["role"] = role
+    
+    return user_dict
 
 async def get_current_active_user(
     current_user: Dict[str, Any] = Depends(get_current_user)
@@ -342,3 +347,6 @@ async def create_tokens_for_user(user, is_google=False):
         "expires_in": settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         "user": user_dict
     } 
+    
+async def get_all_users():
+    return await get_all_users_from_db()

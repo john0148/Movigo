@@ -98,7 +98,7 @@ class UserUpdate(BaseModel):
 
 class UserInDB(UserBase):
     """Schema representing a user as stored in the database"""
-    id: str = Field(..., description="User ID")
+    id: str = Field(..., alias="_id", description="User ID")
     hashed_password: str = Field(..., description="Hashed password")
     avatar_url: Optional[str] = Field(None, description="URL to user avatar")
     birth_date: Optional[date] = Field(None, description="User birth date")
@@ -109,10 +109,12 @@ class UserInDB(UserBase):
     updated_at: datetime = Field(..., description="Timestamp when the user was last updated")
     subscription_type: SubscriptionType = Field(default=SubscriptionType.BASIC)
     settings: UserSettings = Field(default_factory=UserSettings)
+    role: str = Field(..., description="Role")
 
     class Config:
         from_attributes = True
         validate_by_name = True
+        allow_population_by_field_name = True
 
 
 class UserResponse(BaseModel):
@@ -145,6 +147,7 @@ class UserOut(UserBase):
     gender: Optional[str] = None
     is_active: bool
     created_at: datetime
+    role: str
     
     class Config:
         from_attributes = True
@@ -160,6 +163,10 @@ class UserProfileUpdate(BaseModel):
 class UserProfileOut(UserOut):
     """Schema response cho profile"""
     pass
+
+class UserUpdateRequest(BaseModel):
+    full_name: Optional[str] = Field(None, title="Họ tên")
+    subscription_plan: Optional[str] = Field(None, title="Gói đăng ký", example="basic")
 
 
 class WatchStatsBase(BaseModel):

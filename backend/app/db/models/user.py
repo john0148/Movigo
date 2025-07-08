@@ -55,6 +55,7 @@ class UserModel(BaseModel):
     is_google_auth: bool = Field(default=False)
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
+    role: str = Field(default="user") 
 
     class Config:
         validate_by_name = True

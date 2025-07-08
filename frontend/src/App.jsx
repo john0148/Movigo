@@ -20,7 +20,7 @@ function App() {
     AUTH_DOMAIN: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
     PROJECT_ID: import.meta.env.VITE_FIREBASE_PROJECT_ID
   });
-  
+
   const navigate = useNavigate();
   const location = useLocation();
   const { user, isLoggedIn, logout, isLoading: authLoading } = useAuth();

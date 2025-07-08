@@ -74,42 +74,6 @@ export const deleteWatchHistoryEntry = async (entryId) => {
   }
 };
 
-// Watch Later APIs
-export const getWatchLater = async (page = 1, limit = 20) => {
-  try {
-    const response = await axios.get(`${API_URL}/later`, {
-      params: { page, limit }
-    });
-    return response.data.items;
-  } catch (error) {
-    handleApiError(error);
-    throw error;
-  }
-};
-
-export const addToWatchLater = async (movieId, movieDetails) => {
-  try {
-    const response = await axios.post(`${API_URL}/later`, {
-      movie_id: movieId,
-      movie_details: movieDetails
-    });
-    return response.data;
-  } catch (error) {
-    handleApiError(error);
-    throw error;
-  }
-};
-
-export const removeFromWatchLater = async (entryId) => {
-  try {
-    await axios.delete(`${API_URL}/later/${entryId}`);
-    return true;
-  } catch (error) {
-    handleApiError(error);
-    throw error;
-  }
-};
-
 export const addToWatchHistory = async (movieId, watchData) => {
   try {
     const response = await axios.post(`${API_URL}/history`, {
@@ -122,3 +86,156 @@ export const addToWatchHistory = async (movieId, watchData) => {
     throw error;
   }
 }; 
+
+// // Watch Later APIs
+// export const getWatchLater = async (page = 1, limit = 20) => {
+//   try {
+//     const response = await axios.get(`${API_URL}/later`, {
+//       params: { page, limit }
+//     });
+//     return response.data.items;
+//   } catch (error) {
+//     handleApiError(error);
+//     throw error;
+//   }
+// };
+
+// export const addToWatchLater = async (movieId, movieDetails) => {
+//   try {
+//     const response = await axios.post(`${API_URL}/later`, {
+//       movie_id: movieId,
+//       movie_details: movieDetails
+//     });
+//     return response.data;
+//   } catch (error) {
+//     handleApiError(error);
+//     throw error;
+//   }
+// };
+
+// export const removeFromWatchLater = async (entryId) => {
+//   try {
+//     await axios.delete(`${API_URL}/later/${entryId}`);
+//     return true;
+//   } catch (error) {
+//     handleApiError(error);
+//     throw error;
+//   }
+// };
+
+
+
+/**
+ * Thêm phim vào danh sách "Xem sau"
+ * Yêu cầu user đã đăng nhập (có access token)
+ * @param {string} movieId ID của phim
+ * @returns {Promise<Object>} Phản hồi từ server
+ */
+export const addToWatchLater = async (movieId) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/${movieId}/watch-later`,
+      {}, 
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return handleApiError(error, 'Không thể thêm vào danh sách "Xem sau"');
+  }
+};
+
+// // Lấy danh sách phim xem sau
+// export const getWatchLaterList = async () => {
+//   try {
+//     const response = await axios.get(`${API_URL}/watch-later`, {
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     return handleApiError(error, 'Không thể lấy danh sách xem sau');
+//   }
+// };
+
+// // Kiểm tra phim đã lưu
+// export const isInWatchLater = async (movieId) => {
+//   try {
+//     const response = await axios.get(`${API_URL}/${movieId}/watch-later-status`, {
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+//       },
+//     });
+//     return response.data.in_watch_later;
+//   } catch (error) {
+//     return false;
+//   }
+// };
+
+// // Xóa phim khỏi danh sách
+// export const removeFromWatchLater = async (movieId) => {
+//   try {
+//     const response = await axios.delete(`${API_URL}/${movieId}/watch-later`, {
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     return handleApiError(error, 'Không thể xóa khỏi danh sách "Xem sau"');
+//   }
+// };
+
+
+//Lấy danh sách phim "xem sau"
+export const getWatchLaterList = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/watch-later`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
+    });
+
+    // đảm bảo mỗi item có added_date dạng ISO string
+    const watchList = response.data.map((item) => ({
+      ...item,
+      added_date: item.added_date ? new Date(item.added_date).toISOString() : null,
+    }));
+
+    return watchList;
+  } catch (error) {
+    return handleApiError(error, 'Không thể lấy danh sách xem sau');
+  }
+};
+
+// Kiểm tra 1 phim có trong danh sách xem sau chưa
+export const isInWatchLater = async (movieId) => {
+  try {
+    const response = await axios.get(`${API_URL}/${movieId}/watch-later-status`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
+    });
+    return response.data.in_watch_later;
+  } catch (error) {
+    return false; // fallback nếu lỗi
+  }
+};
+
+// Xóa một phim khỏi danh sách xem sau
+export const removeFromWatchLater = async (movieId) => {
+  try {
+    const response = await axios.delete(`${API_URL}/${movieId}/watch-later`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return handleApiError(error, 'Không thể xóa khỏi danh sách "Xem sau"');
+  }
+};

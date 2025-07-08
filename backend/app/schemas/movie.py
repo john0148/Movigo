@@ -57,7 +57,7 @@ class MovieInDB(MovieBase):
 
 class MovieOut(BaseModel):
     """Schema for standard movie output"""
-    id: str = Field(..., description="Movie ID")
+    id: str = Field(..., alias="_id", description="Movie ID")
     title: str = Field(..., description="Movie title")
     overview: str = Field(..., description="Movie overview/description")
     release_date: str = Field(..., description="Movie release date (YYYY-MM-DD)")
@@ -73,6 +73,7 @@ class MovieOut(BaseModel):
 
     class Config:
         from_attributes = True
+        allow_population_by_field_name = True
 
 
 class MovieList(BaseModel):
@@ -114,16 +115,9 @@ class TMDBMovieAdapter(BaseModel):
             tmdb_id=tmdb_data.get("id", 0),
             trailer_url=None  # TMDB không trả về trailer URL trực tiếp
         )
-
-# class TMDbMovie(BaseModel):
-#     id: str
-#     title: str
-#     description: Optional[str] = ""
-#     release_year: Optional[int] = None
-#     genres: List[str] = []
-#     duration_minutes: Optional[int] = 120
-#     rating: Optional[float] = 0.0
-#     poster_url: Optional[str] = None
-#     backdrop_url: Optional[str] = None
-#     trailer_url: Optional[str] = None
-
+        
+        
+class MovieUpdate(BaseModel):
+    title: Optional[str]
+    runtime: Optional[int]
+    release_date: Optional[str]

@@ -12,6 +12,9 @@ import ProtectedRoute from './ProtectedRoute';
 import MoviePlayer from '../pages/MoviePlayer';
 import NotFound from '../pages/NotFound';
 import Search from '../pages/Search';
+import AdminDashboard from '../pages/Admin/AdminDashboard';
+import UserManagement from '../pages/Admin/UserManagement';
+import MovieManagement from '../pages/Admin/MovieManagement';
 
 /**
  * App Routes Configuration
@@ -53,6 +56,18 @@ const router = createBrowserRouter([
       {
         path: 'profile/vip',
         element: <ProtectedRoute><VipRegister /></ProtectedRoute>
+      },
+      { 
+        path: "/admin/dashboard",
+        element: <ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>
+      },
+      { 
+        path: "/admin/users",
+        element: <ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>
+      },
+      {
+         path: "/admin/movies",
+         element: <ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>
       },
       { path: '*', element: <NotFound /> }
     ]

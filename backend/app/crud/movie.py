@@ -217,6 +217,11 @@ class MovieCRUD:
             return None
 
         update_data = obj_in.model_dump(exclude_unset=True)
+        
+        # Nếu cập nhật title => cập nhật luôn normalized_title
+        if "title" in update_data:
+            update_data["normalized_title"] = clean_query(update_data["title"])
+        
         if update_data:
             update_data["updated_at"] = datetime.utcnow()
 
@@ -264,7 +269,16 @@ class MovieCRUD:
         """
         result = await self.collection.delete_one({"_id": ObjectId(movie_id)})
         return result.deleted_count > 0
-
+    
+    async def get_by_ids(self, ids: list[str]):
+        object_ids = [ObjectId(i) for i in ids if ObjectId.is_valid(i)]
+        cursor = self.collection.find({"_id": {"$in": object_ids}})
+        results = []
+        async for doc in cursor:
+            doc["id"] = str(doc["_id"])
+            results.append(doc)
+        return results
+    
 
 class get_movies():
     pass

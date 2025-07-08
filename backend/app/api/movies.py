@@ -1,5 +1,5 @@
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, Query, Path
+from fastapi import APIRouter, Depends, HTTPException, Query, Path, status
 from bson import ObjectId
 import logging
 from fastapi.responses import StreamingResponse
@@ -17,14 +17,14 @@ from ..crud.movie_link import MovieLinkCRUD
 from ..crud.rating import RatingCRUD
 from ..crud.character import CharacterCRUD
 from ..crud.comment import CommentCRUD
-from ..schemas.movie import MovieOut, MovieList, MovieResponse
+from ..schemas.movie import MovieOut, MovieList, MovieResponse, MovieUpdate  
 from ..schemas.rating import RatingOut, RatingCreate
 from ..schemas.character import CharacterInDB
 from ..schemas.comment import CommentResponse
 
-from ..core.security import get_current_user
+# from ..core.security import get_current_user
 from ..services.movie_service import MovieService
-from ..dependencies import get_movie_service
+from ..dependencies import get_movie_service, get_current_user, get_admin_user
 from ..schemas.user import UserInDB
 from ..schemas.movie_link import MovieLinkBase, MovieLinkInDB, MovieLinkResponse
 from ..db.database import get_database
@@ -261,3 +261,37 @@ async def get_characters(movie_id: str, db=Depends(get_database)):
     return characters
 
 
+@router.delete("/{movie_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_movie(
+    movie_id: str = Path(..., description="ID của phim cần xoá"),
+    user: UserInDB = Depends(get_admin_user),
+    movie_service: MovieService = Depends(get_movie_service)
+):
+    """
+    Xoá một phim theo ID (chỉ admin).
+    """
+    # if user.role != "admin":
+    #     raise HTTPException(status_code=403, detail="Chỉ admin mới được xoá phim")
+
+    deleted = await movie_service.movie_crud.delete(movie_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Phim không tồn tại hoặc đã bị xoá")
+
+    return
+
+@router.put("/{movie_id}", response_model=MovieResponse)
+async def update_movie(
+    movie_id: str = Path(..., description="ID của phim cần cập nhật"),
+    data: MovieUpdate = ...,  # dữ liệu từ frontend
+    user: UserInDB = Depends(get_admin_user),
+    movie_service: MovieService = Depends(get_movie_service)
+):
+    """
+    Cập nhật thông tin một phim (chỉ admin).
+    """
+    # updated = await movie_service.movie_crud.update(movie_id, data.dict(exclude_unset=True))
+    updated = await movie_service.movie_crud.update(movie_id, data)
+    if not updated:
+        raise HTTPException(status_code=404, detail="Không tìm thấy phim để cập nhật")
+    
+    return updated

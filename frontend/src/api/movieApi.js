@@ -183,6 +183,51 @@ export const fetchRelatedMovies = async (movieId, limit = 6) => {
   }
 };
 
+/**
+ * Lấy tất cả phim (admin), có thể kèm bộ lọc theo tên hoặc thể loại
+ * @param {string} filter Từ khóa lọc (tên, thể loại)
+ * @returns {Promise<Array>} Danh sách phim
+ */
+export const getAllMovies = async (filter = '') => {
+  try {
+    const response = await axios.get(`${API_URL}`, {
+      params: { search: filter }
+    });
+    return response.data;
+  } catch (error) {
+    return handleApiError(error, 'Không thể lấy danh sách phim');
+  }
+};
+
+/**
+ * Xoá một phim theo ID (chỉ admin)
+ * @param {string} movieId ID phim cần xoá
+ * @returns {Promise<Object>} Kết quả xoá
+ */
+export const deleteMovie = async (movieId) => {
+  try {
+    const response = await axios.delete(`${API_URL}/${movieId}`);
+    return response.data;
+  } catch (error) {
+    return handleApiError(error, 'Không thể xoá phim');
+  }
+};
+
+/**
+ * Cập nhật thông tin phim theo ID (chỉ admin)
+ * @param {string} movieId ID phim cần cập nhật
+ * @param {Object} movieData Dữ liệu cập nhật (title, runtime, release_date, ...)
+ * @returns {Promise<Object>} Phim đã cập nhật
+ */
+export const updateMovie = async (movieId, movieData) => {
+  try {
+    const response = await axios.put(`${API_URL}/${movieId}`, movieData);
+    return response.data;
+  } catch (error) {
+    return handleApiError(error, 'Không thể cập nhật phim');
+  }
+};
+
 
 export const getRatingsByMovieId = async (movieId) => {
   try {
@@ -193,14 +238,6 @@ export const getRatingsByMovieId = async (movieId) => {
   }
 };
 
-// export const postRating = async (movieId, ratingData) => {
-//   try {
-//     const response = await axios.post(`${API_URL}/${movieId}/ratings`, ratingData);
-//     return response.data;
-//   } catch (error) {
-//     return handleApiError(error, 'Không thể gửi đánh giá');
-//   }
-// };
 
 export const postRating = async (movieId, ratingData) => {
   try {
@@ -220,20 +257,6 @@ export const postRating = async (movieId, ratingData) => {
 };
 
 
-// export const postRating = async (movieId, ratingData) => {
-//   try {
-//     const response = await axios.post(`${API_URL}/${movieId}/ratings`, ratingData, {
-//       headers: {
-//         Authorization: `Bearer ${localStorage.getItem('access_token')}`, 
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     return handleApiError(error, 'Không thể gửi đánh giá');
-//   }
-// };
-
-
 export const getCharactersByMovieId = async (movieId) => {
   try {
     const response = await axios.get(`${API_URL}/${movieId}/characters`);
@@ -242,6 +265,8 @@ export const getCharactersByMovieId = async (movieId) => {
     return handleApiError(error, 'Không tìm thấy thông tin');
   }
 };
+
+
 
 
 

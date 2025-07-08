@@ -28,6 +28,49 @@ const LoginForm = () => {
     }));
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setError('');
+
+  //   if (!formData.email || !formData.password) {
+  //     setError('Vui lòng nhập đầy đủ thông tin');
+  //     return;
+  //   }
+
+  //   try {
+  //     setIsLoading(true);
+  //     console.log('Attempting login with:', formData.email);
+
+  //     const response = await login({
+  //       email: formData.email,
+  //       password: formData.password
+  //     });
+
+  //     console.log('Login successful, response:', response.user ? 'User data received' : 'No user data');
+
+  //     // Manually force refresh user data from localStorage
+  //     if (refreshUserFromStorage) {
+  //       console.log('Refreshing user data from localStorage after login');
+  //       const userData = refreshUserFromStorage();
+  //       console.log('User data after refresh:', userData ? 'available' : 'not available');
+  //     } else {
+  //       console.warn('refreshUserFromStorage not available in context');
+  //     }
+
+  //     // Force a timeout to allow localStorage update
+  //     setTimeout(() => {
+  //       // Chuyển hướng đến trang chủ với state refresh
+  //       navigate('/', { state: { refreshUser: true } });
+  //     }, 500);
+
+  //   } catch (err) {
+  //     console.error('Login error:', err);
+  //     setError(err.response?.data?.detail || 'Đăng nhập không thành công');
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -51,16 +94,19 @@ const LoginForm = () => {
       // Manually force refresh user data from localStorage
       if (refreshUserFromStorage) {
         console.log('Refreshing user data from localStorage after login');
-        const userData = refreshUserFromStorage();
-        console.log('User data after refresh:', userData ? 'available' : 'not available');
+        refreshUserFromStorage();
       } else {
         console.warn('refreshUserFromStorage not available in context');
       }
 
-      // Force a timeout to allow localStorage update
+      // Đợi localStorage cập nhật rồi redirect
       setTimeout(() => {
-        // Chuyển hướng đến trang chủ với state refresh
-        navigate('/', { state: { refreshUser: true } });
+        const userData = JSON.parse(localStorage.getItem('user_data'));
+        if (userData?.role === 'admin') {
+          navigate('/admin/dashboard');
+        } else {
+          navigate('/', { state: { refreshUser: true } });
+        }
       }, 500);
     } catch (err) {
       console.error('Login error:', err);
@@ -69,6 +115,7 @@ const LoginForm = () => {
       setIsLoading(false);
     }
   };
+
 
   return (
     <div className="auth-form-container">

@@ -39,18 +39,28 @@ class ProfileResponse(BaseModel):
 
 class WatchHistoryEntry(BaseModel):
     """Schema for a single watch history entry"""
-    id: str = Field(..., description="Watch history entry ID")
+    id: str = Field(..., alias="_id", description="Watch history entry ID")
     user_id: str = Field(..., description="User ID")
     movie_id: str = Field(..., description="Movie ID")
     watched_at: datetime = Field(..., description="Timestamp when the movie was watched")
     watch_duration: int = Field(..., description="Duration watched in seconds")
     completed: bool = Field(default=False, description="Whether the movie was completed")
     progress_percent: float = Field(..., description="Percentage of movie watched")
-    movie_details: Dict[str, Any] = Field(..., description="Basic movie details (title, poster, duration)")
+    movie_details: Dict[str, str] = Field(..., description="Basic movie details (title, poster, duration)")
     
     class Config:
         from_attributes = True
         validate_by_name = True
+        allow_population_by_field_name = True
+        
+class WatchHistoryCreate(BaseModel):
+    """Schema để tạo mới một mục lịch sử xem phim"""
+    movie_id: str = Field(..., description="ID phim đã xem")
+    watched_at: Optional[datetime] = Field(default_factory=datetime.utcnow, description="Thời điểm xem")
+    watch_duration: Optional[int] = Field(default=0, description="Thời gian đã xem (tính bằng giây)")
+    completed: Optional[bool] = Field(default=False, description="Đã xem xong chưa")
+    progress_percent: Optional[float] = Field(default=0.0, description="Phần trăm đã xem")
+    movie_details: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Thông tin cơ bản của phim (title, poster, duration)")
 
 
 class WatchHistoryResponse(BaseModel):
@@ -76,8 +86,8 @@ class WatchLaterEntry(BaseModel):
     id: str = Field(..., description="Watch later entry ID")
     user_id: str = Field(..., description="User ID")
     movie_id: str = Field(..., description="Movie ID")
-    added_at: datetime = Field(..., description="Timestamp when the movie was added to watch later")
-    movie_details: Dict[str, Any] = Field(..., description="Basic movie details (title, poster, duration)")
+    added_date: datetime = Field(..., description="Timestamp when the movie was added to watch later")
+    movie: Dict[str, Any] = Field(..., description="Basic movie details (title, poster, duration)")
     
     class Config:
         from_attributes = True
@@ -90,3 +100,11 @@ class WatchLaterResponse(BaseModel):
     total: int = Field(..., description="Total number of entries")
     page: int = Field(..., description="Current page number")
     limit: int = Field(..., description="Number of items per page") 
+    
+class WatchLaterCreate(BaseModel):
+    """Schema dùng để ghi vào DB"""
+    user_id: str
+    movie_id: str
+    added_at: Optional[datetime] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None

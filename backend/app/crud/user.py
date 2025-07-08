@@ -33,7 +33,7 @@ async def get_user_by_email(email: str) -> Optional[Dict[str, Any]]:
     """
     return await db[USER_COLLECTION].find_one({"email": email})
 
-async def get_user_by_id(user_id: ObjectId) -> Optional[Dict[str, Any]]:
+async def get_user_by_id(user_id: str) -> Optional[Dict[str, Any]]:
     """
     Lấy thông tin user theo ID
     """
@@ -70,20 +70,31 @@ async def create_user(user_data: Dict[str, Any]) -> Dict[str, Any]:
     # Lấy user vừa tạo
     return await get_user_by_id(result.inserted_id)
 
-async def update_user(user_id: ObjectId, update_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-    """
-    Cập nhật thông tin user
-    """
-    # Thêm updated_at
-    update_data["updated_at"] = datetime.now()
+# async def update_user(user_id: ObjectId, update_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+#     """
+#     Cập nhật thông tin user
+#     """
+#     # Thêm updated_at
+#     update_data["updated_at"] = datetime.now()
     
-    # Update user
+#     # Update user
+#     await db[USER_COLLECTION].update_one(
+#         {"_id": user_id},
+#         {"$set": update_data}
+#     )
+    
+#     # Lấy user đã cập nhật
+#     return await get_user_by_id(user_id)
+
+async def update_user(user_id: str, update_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """
+    Cập nhật thông tin user (user_id là UUID string, không phải ObjectId)
+    """
+    update_data["updated_at"] = datetime.now()
     await db[USER_COLLECTION].update_one(
         {"_id": user_id},
         {"$set": update_data}
     )
-    
-    # Lấy user đã cập nhật
     return await get_user_by_id(user_id)
 
 async def update_avatar(user_id: ObjectId, avatar_url: str) -> Optional[Dict[str, Any]]:
@@ -249,6 +260,39 @@ async def remove_from_watch_later(user_id: ObjectId, movie_id: ObjectId) -> bool
     })
     return result.deleted_count > 0
 
+async def get_all_users_from_db():
+    cursor = db[USER_COLLECTION].find({})
+    raw_users = await cursor.to_list(length=None)
+    return [UserCRUD.model_to_dict(u) for u in raw_users]
+
+
+async def delete_user_by_id(user_id: str) -> bool:
+    """
+    Xóa user theo ID
+    """
+    # try:
+    #     obj_id = ObjectId(user_id)
+    # except Exception:
+    #     return False
+
+    result = await db[USER_COLLECTION].delete_one({"_id": user_id})
+    return result.deleted_count == 1
+
+# async def update_user_role(user_id: str, new_role: str) -> Optional[Dict[str, Any]]:
+#     """
+#     Cập nhật role của user
+#     """
+#     try:
+#         obj_id = ObjectId(user_id)
+#     except Exception:
+#         return None
+
+#     return await update_user(obj_id, {"role": new_role})
+
+async def update_user_role(user_id: str, new_role: str) -> Optional[Dict[str, Any]]:
+    return await update_user(user_id, {"role": new_role})
+
+
 class UserCRUD:
     """
     User CRUD helper class
@@ -260,7 +304,9 @@ class UserCRUD:
         """
         # Handle both dict and object format
         if isinstance(user, dict):
-            user_id = str(user.get("_id", ""))
+            # user_id = str(user.get("_id", ""))
+            user_id = str(user.get("_id", "") or user.get("id", ""))
+
             email = user.get("email", "")
             full_name = user.get("full_name", "")
             # Handle both subscription_type (from DB) and subscription_plan
@@ -291,6 +337,7 @@ class UserCRUD:
         # Return dict in format that frontend expects
         return {
             "id": user_id,
+            "_id": user_id,
             "email": email,
             "full_name": full_name,
             "subscription_plan": subscription_plan,

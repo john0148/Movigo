@@ -1,0 +1,312 @@
+/* MovieManagement.css */
+
+.admin-section {
+  padding: 2rem;
+  background-color: #1e1b4b; 
+  min-height: 100vh;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: stretch;
+}
+
+.admin-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #c4b5fd;
+}
+
+.admin-section input {
+  padding: 0.6rem 1rem;
+  width: 300px;
+  max-width: 100%;
+  font-size: 1rem;
+  border: 1px solid #7c3aed;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  background-color: #2e1065;
+  color: white;
+  box-shadow: 0 1px 3px rgba(124, 58, 237, 0.4);
+}
+
+.admin-section input::placeholder {
+  color: #a78bfa;
+}
+
+.admin-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  background-color: rgba(139, 92, 246, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.3);
+  background-color: #2e1065; /* nền bảng */
+  border: 1px solid #7c3aed; /* viền tím */
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 1rem 1.2rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(168, 139, 250, 0.3);
+  border-right: 1px solid rgba(168, 139, 250, 0.3);
+  color: white;
+  word-wrap: break-word;
+  white-space: normal;
+  max-height: 60px;
+  vertical-align: middle;
+}
+
+.admin-table th:last-child,
+.admin-table td:last-child {
+  border-right: none;
+}
+
+.admin-table tbody tr:nth-child(even) {
+  background-color: rgba(168, 139, 250, 0.08);
+}
+.admin-table tbody tr:nth-child(odd) {
+  background-color: rgba(168, 139, 250, 0.03);
+}
+
+.admin-table th {
+  background-color: #6d28d9; /* tím đậm */
+  font-weight: bold;
+  color: white;
+}
+
+.admin-table tr:hover {
+  background-color: rgba(168, 139, 250, 0.1); /* hover nhẹ */
+}
+
+.admin-table td img {
+  display: block;
+  margin: 0 auto;
+  width: 80px;
+  border-radius: 6px;
+  border: 2px solid #8b5cf6;
+}
+
+.admin-table button {
+  margin-right: 8px;
+  padding: 0.4rem 0.6rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  background-color: transparent;
+  transition: transform 0.1s ease;
+  color: #a78bfa;
+}
+
+.admin-table button:hover {
+  transform: scale(1.1);
+  color: #facc15; /* vàng khi hover */
+}
+
+.admin-table colgroup col:nth-child(1) {
+  width: 10%;   /* Poster */
+}
+
+.admin-table colgroup col:nth-child(2) {
+  width: 38%;   /* Tiêu đề */
+}
+
+.admin-table colgroup col:nth-child(3),
+.admin-table colgroup col:nth-child(4) {
+  width: 15%;   /* Thời lượng và Ngày phát hành */
+}
+
+.admin-table colgroup col:nth-child(5) {
+  width: 22%;   /* Thao tác */
+}
+
+.admin-table td.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 1rem 0.6rem;
+  vertical-align: middle;
+  text-align: center;
+  height: 100%;
+  flex-direction: column;
+}
+
+.action-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  line-height: 1.2;          
+  white-space: nowrap;
+}
+
+/* Nút chỉnh sửa: nền đỏ, chữ trắng */
+.action-buttons button:first-child {
+  background-color: #ef4444; /* đỏ */
+  color: white;
+  border: 1px solid #ef4444;
+}
+
+/* Nút xoá: nền trắng, chữ đen */
+.action-buttons button:last-child {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+}
+
+.action-buttons button:hover {
+  transform: scale(1.03);
+}
+
+/* Chỉnh sửa - nền đỏ, chữ trắng */
+.edit-button {
+  background-color: #ef4444;
+  color: white;
+  border: 1px solid #ef4444;
+  width: 100%;
+  max-width: 120px;
+  min-width: 100px;
+  text-align: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  height: 36px;
+}
+
+/* Xóa - nền trắng, chữ đen */
+.delete-button {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 70px;
+  min-width: 60px;
+  text-align: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  height: 36px;
+}
+
+/* Hover effect */
+.edit-button:hover,
+.delete-button:hover {
+  transform: scale(1.05);
+}
+
+.admin-search-input {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 12px;
+  margin: 16px 0;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.edit-form {
+  box-sizing: border-box;
+  background-color: #1e1b4b;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #7c3aed;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2);
+}
+
+
+.edit-form h3 {
+  font-size: 1.25rem;
+  color: #c4b5fd;
+  margin-bottom: 1.5rem;
+}
+
+.edit-form label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  color: #d8b4fe;
+}
+
+.edit-form input {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 1.2rem;
+  border-radius: 6px;
+  border: 1px solid #a78bfa;
+  background-color: #2e1065;
+  color: #fff;
+  font-size: 1rem;
+  box-shadow: inset 0 1px 3px rgba(168, 139, 250, 0.3);
+}
+
+.edit-form input:focus {
+  outline: none;
+  border-color: #c084fc;
+  box-shadow: 0 0 0 2px rgba(192, 132, 252, 0.4);
+}
+
+.edit-form .form-actions {
+  display: flex;
+  justify-content: flex-start; /* hoặc center nếu muốn giữa */
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.edit-form .edit-button,
+.edit-form .delete-button {
+  flex: 1; 
+  max-width: none;
+  min-width: 120px;
+  height: 42px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* nền mờ */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 1001;
+  position: relative;
+}
+
+
+

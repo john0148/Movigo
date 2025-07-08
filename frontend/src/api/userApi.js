@@ -4,6 +4,7 @@ import { API_BASE_URL, USER_DATA_KEY } from '../config/constants';
 
 const API_URL = `${API_BASE_URL}/profiles`;
 const WATCH_STATS_URL = `${API_BASE_URL}/watch-stats`;
+const ADMIN_URL = `${API_BASE_URL}/admin/users`; 
 
 /**
  * Service xử lý các API liên quan đến thông tin user
@@ -20,7 +21,7 @@ const authAxios = axios.create({
 
 authAxios.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('auth_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -244,3 +245,41 @@ export const removeFromWatchLater = async (movieId) => {
     throw error;
   }
 };
+
+/**
+ * Lấy toàn bộ danh sách người dùng (chỉ admin)
+ * @returns {Promise<Array>} Danh sách user
+ */
+export const getAllUsers = async () => {
+  try {
+    const response = await authAxios.get(ADMIN_URL);
+    return response.data;
+  } catch (error) {
+    return handleApiError(error, 'Không thể lấy danh sách người dùng');
+  }
+};
+
+/**
+ * Xóa người dùng theo ID (chỉ admin)
+ * @param {string} userId ID người dùng cần xoá
+ * @returns {Promise<Object>} Kết quả xoá
+ */
+export const deleteUser = async (userId) => {
+  try {
+    const response = await authAxios.delete(`${ADMIN_URL}/${userId}`);
+    return response.data;
+  } catch (error) {
+    return handleApiError(error, 'Không thể xoá người dùng');
+  }
+};
+
+export const updateUsers = async (userId, data) => {
+  try {
+    const res = await axios.put(`${ADMIN_URL}/${userId}`, data);
+    return res.data;
+  } catch (err) {
+    handleApiError(err);
+    throw err;
+  }
+};
+

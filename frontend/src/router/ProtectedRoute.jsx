@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { getCurrentUser } from '../api/authApi';
+import { useAuth } from '../context/AuthContext';
 
 /**
  * ProtectedRoute Component
  * TEMPORARILY DISABLED FOR DEVELOPMENT
  * All routes are now accessible without authentication
  */
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, requiredRole }) => {
   // Temporarily bypass authentication
-  return children;
+  // return children;
 
   /*
   const [loading, setLoading] = useState(true);
@@ -48,6 +49,24 @@ const ProtectedRoute = ({ children }) => {
 
   return children;
   */
+
+
+  const { user, isLoading } = useAuth();
+  const location = useLocation();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  if (requiredRole && user.role !== requiredRole) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute; 

@@ -23,6 +23,7 @@ from datetime import datetime
 from ..crud.movie import MovieCRUD
 from ..crud.watch_history import WatchHistoryCRUD
 from ..schemas.movie import MovieInDB, MovieResponse
+from ..crud.watch_later import WatchLaterCRUD
 
 
 logger = logging.getLogger(__name__)
@@ -30,7 +31,7 @@ logger = logging.getLogger(__name__)
 class MovieService:
     """Service class for movie-related operations"""
 
-    def __init__(self, movie_crud: MovieCRUD, watch_history_crud: WatchHistoryCRUD):
+    def __init__(self, movie_crud: MovieCRUD, watch_history_crud: WatchHistoryCRUD, watch_later_crud: WatchLaterCRUD):
         """
         Initialize MovieService with required dependencies.
 
@@ -39,7 +40,8 @@ class MovieService:
             watch_history_crud: WatchHistoryCRUD instance for tracking watch history
         """
         self.movie_crud = movie_crud
-        self.watch_history_crud = watch_history_crud
+        self.watch_history_crud = watch_history_crud,
+        self.watch_later_crud = watch_later_crud
 
     async def get_movies(self, skip: int = 0, limit: int = 20) -> List[MovieResponse]:
         """
@@ -190,4 +192,49 @@ class MovieService:
             await self.watch_history_crud.create(obj_in=watch_history_data)
 
         return MovieResponse.model_validate(updated_movie)
+    
+    async def add_to_watch_later(self, user_id: str, movie_id: str) -> bool:
+        """
+        Thêm phim vào danh sách 'xem sau'. Trả về True nếu thành công, False nếu đã có.
+        """
+        existing = await self.watch_later_crud.get_by_user_and_movie(user_id, movie_id)
+        if existing:
+            return False
+
+        movie = await self.movie_crud.get(movie_id)
+        if not movie:
+            return False
+
+        await self.watch_later_crud.create({
+            "user_id": user_id,
+            "movie_id": movie_id,
+            "movie": {
+                "title": movie.title,
+                "poster_url": movie.poster_path, 
+            },
+            "added_date": datetime.utcnow(),
+        })
+        return True
+        
+    # Lấy danh sách xem sau
+    async def get_watch_later_movies(self, user_id: str) -> List[MovieResponse]:
+        entries = await self.watch_later_crud.get_user_list(user_id)
+        movie_ids = [entry.movie_id for entry in entries]
+        movies = await self.movie_crud.get_by_ids(movie_ids)
+        return [MovieResponse.model_validate(movie) for movie in movies]
+
+    # Kiểm tra phim đã trong danh sách
+    async def is_in_watch_later(self, user_id: str, movie_id: str) -> bool:
+        existing = await self.watch_later_crud.get_by_user_and_movie(user_id, movie_id)
+        return existing is not None
+
+    # Xóa khỏi danh sách
+    async def remove_from_watch_later(self, user_id: str, movie_id: str) -> bool:
+        entry = await self.watch_later_crud.get_by_user_and_movie(user_id, movie_id)
+        if entry:
+            return await self.watch_later_crud.delete(entry.id)
+        return False
+    
+    async def update_movie(self, movie_id: str, data: dict):
+        return await self.movie_crud.update(movie_id, data)
 
