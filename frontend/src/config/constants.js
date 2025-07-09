@@ -12,13 +12,13 @@ export const BASE_IMAGE_URL = 'https://i.ibb.co/';
 
 // Firebase Configuration
 export const FIREBASE_CONFIG = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDk2MV1HCEnj1JngJ-5zazDglayRhY5dxw",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "movigo-5e702.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "movigo-5e702",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "movigo-5e702.firebasestorage.app",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGE_SENDER_ID || "146177616228",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:146177616228:web:aa30d3619e1daa172db271",
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-PRJT65RGJX",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGE_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Validate Firebase config
