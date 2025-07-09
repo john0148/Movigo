@@ -26,6 +26,7 @@ function App() {
   const { user, isLoggedIn, logout, isLoading: authLoading } = useAuth();
 
   const [usingFallbackData, setUsingFallbackData] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
 
   // Search state variables - synchronized with URL parameters
   const [searchQuery, setSearchQuery] = useState('');
@@ -104,14 +105,26 @@ function App() {
     }
   };
 
-  // Function to navigate to profile page
-  const goToProfile = () => {
-    if (isLoggedIn) {
-      navigate('/profileMain');
-    } else {
+  // Function to toggle user dropdown menu
+  const toggleUserDropdown = () => {
+    if (!isLoggedIn) {
       navigate('/login');
+      return;
     }
+    setShowUserDropdown(!showUserDropdown);
   };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.user-menu')) {
+        setShowUserDropdown(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -367,15 +380,35 @@ function App() {
         {/* User menu section */}
         <div className="navbar-right">
           <div className="user-menu">
-            <div className="user-avatar" onClick={goToProfile}>
+            <div className="user-avatar" onClick={toggleUserDropdown}>
               <span>👤 {isLoggedIn ? (user?.display_name || user?.email || user?.full_name || 'User') : 'Đăng nhập'}</span>
-              {isLoggedIn && (
+              {isLoggedIn && showUserDropdown && (
                 <div className="user-dropdown">
-                  <Link to="/profileMain" className="dropdown-item">Hồ sơ</Link>
+                  <Link
+                    to="/profileMain"
+                    className="dropdown-item"
+                    onClick={() => setShowUserDropdown(false)}
+                  >
+                    Hồ sơ
+                  </Link>
                   {user?.role === 'admin' && (
-                    <Link to="/admin" className="dropdown-item admin-link">🔧 Admin Panel</Link>
+                    <Link
+                      to="/admin"
+                      className="dropdown-item admin-link"
+                      onClick={() => setShowUserDropdown(false)}
+                    >
+                      Admin Panel
+                    </Link>
                   )}
-                  <button onClick={handleLogout} className="dropdown-item logout-button">Đăng xuất</button>
+                  <button
+                    onClick={() => {
+                      setShowUserDropdown(false);
+                      handleLogout();
+                    }}
+                    className="dropdown-item logout-button"
+                  >
+                    Đăng xuất
+                  </button>
                 </div>
               )}
             </div>

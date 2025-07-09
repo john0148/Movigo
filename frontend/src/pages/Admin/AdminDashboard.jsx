@@ -28,6 +28,21 @@ const AdminDashboard = () => {
         loadDashboardData();
     }, [isLoggedIn, user, navigate]);
 
+    // Thêm class admin-page vào main-content để loại bỏ padding
+    useEffect(() => {
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+            mainContent.classList.add('admin-page');
+        }
+
+        // Cleanup khi component unmount
+        return () => {
+            if (mainContent) {
+                mainContent.classList.remove('admin-page');
+            }
+        };
+    }, []);
+
     const loadDashboardData = async () => {
         try {
             setLoading(true);

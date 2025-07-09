@@ -143,11 +143,13 @@ function Login() {
         setUsingFallbackData(true);
 
         // Automatically continue with fallback data without showing warning
-        const redirectTo = location.state?.from || '/';
+        // Chuyển hướng admin đến admin panel, user thường đến trang chủ
+        const redirectTo = location.state?.from || (authData.user?.role === 'admin' ? '/admin' : '/');
         navigate(redirectTo);
       } else {
         // Chuyển hướng ngay lập tức nếu dữ liệu từ MongoDB
-        const redirectTo = location.state?.from || '/';
+        // Chuyển hướng admin đến admin panel, user thường đến trang chủ
+        const redirectTo = location.state?.from || (authData.user?.role === 'admin' ? '/admin' : '/');
         navigate(redirectTo);
       }
     } catch (error) {
@@ -164,7 +166,21 @@ function Login() {
   // Tiếp tục với dữ liệu cục bộ
   const continueWithFallbackData = () => {
     // Chuyển đến trang chủ hoặc trang được chuyển hướng
-    const redirectTo = location.state?.from || '/';
+    // Check user data từ localStorage để xác định role
+    const userData = localStorage.getItem('user_data');
+    let redirectTo = location.state?.from || '/';
+
+    if (userData) {
+      try {
+        const parsedUserData = JSON.parse(userData);
+        if (parsedUserData.role === 'admin') {
+          redirectTo = location.state?.from || '/admin';
+        }
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+      }
+    }
+
     navigate(redirectTo);
   };
 
@@ -172,13 +188,14 @@ function Login() {
   const handleGoogleLogin = async () => {
     try {
       setLoading(true);
-      
+
       // Sử dụng Firebase Google auth từ context
       await firebaseLoginWithGoogle();
-      
+
       console.log('Google login successful, navigating...');
-      
+
       // Chuyển hướng đến trang chủ sau khi đăng nhập thành công
+      // TODO: Cần check role của user từ Firebase để chuyển hướng admin đến /admin
       const redirectTo = location.state?.from || '/';
       navigate(redirectTo);
     } catch (error) {
@@ -256,7 +273,7 @@ function Login() {
               </label>
               <Link to="/forgot-password" className="forgot-password">Quên mật khẩu?</Link>
             </div>
-    
+
             {loginError && (
               <div className="auth-error">{loginError}</div>
             )}
@@ -281,10 +298,10 @@ function Login() {
               title={firebaseError ? 'Firebase chưa được cấu hình' : ''}
             >
               <img src="/assets/google-icon.svg" alt="Google" className="google-icon" />
-              {firebaseError 
-                ? 'Firebase chưa cấu hình' 
-                : (loading || authLoading) 
-                  ? 'Đang xử lý...' 
+              {firebaseError
+                ? 'Firebase chưa cấu hình'
+                : (loading || authLoading)
+                  ? 'Đang xử lý...'
                   : 'Đăng nhập với Google'
               }
             </button>

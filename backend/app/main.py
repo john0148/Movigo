@@ -68,27 +68,27 @@ async def startup_db_client():
         if connected_db is not None:
             # Check global db variable from database module
             from .db.database import db as global_db
-            logging.info(f"🔍 Local db: {connected_db}")
-            logging.info(f"🔍 Global db: {global_db}")
+            logging.info(f" Local db: {connected_db}")
+            logging.info(f" Global db: {global_db}")
             
             # Initialize CRUD modules
             initialize_crud_modules()
             
             # Verify CRUD module db connection
             from .crud.user import db as user_crud_db
-            logging.info(f"🔍 User CRUD db: {user_crud_db}")
+            logging.info(f" User CRUD db: {user_crud_db}")
             
             if user_crud_db is not None:
-                logging.info("✅ MongoDB connection successful, CRUD modules initialized")
+                logging.info(" MongoDB connection successful, CRUD modules initialized")
             else:
-                logging.error("❌ CRUD modules not properly initialized - db is None!")
+                logging.error(" CRUD modules not properly initialized - db is None!")
         else:
             logging.warning("⚠️ Application running without MongoDB connection! Using fallback/local data only.")
             
-        logging.info("🚀 Application startup complete")
+        logging.info(" Application startup complete")
         
     except Exception as e:
-        logging.error(f"❌ Error during application startup: {e}")
+        logging.error(f" Error during application startup: {e}")
         logging.warning("⚠️ Application will continue without MongoDB connection - some features may not work!")
 
 # Đóng kết nối MongoDB khi shutdown

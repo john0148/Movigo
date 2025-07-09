@@ -62,6 +62,11 @@
   padding: 20px;
 }
 
+/* Remove padding for admin dashboard to allow full width */
+.main-content.admin-page {
+  padding: 0;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -201,13 +206,23 @@
   background-color: #141414;
   border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-  display: none;
+  display: block;
   z-index: 100;
   overflow: hidden;
+  margin-top: 8px;
+  animation: dropdownFadeIn 0.2s ease-out;
 }
 
-.user-avatar:hover .user-dropdown {
-  display: block;
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .dropdown-item {
@@ -238,13 +253,13 @@
 }
 
 .admin-link {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: #141414 !important;
   color: white !important;
   font-weight: 600;
 }
 
 .admin-link:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
+  background: #333 !important;
   color: white !important;
 }
 
