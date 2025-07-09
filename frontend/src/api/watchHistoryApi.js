@@ -10,9 +10,20 @@
 
 import axios from 'axios';
 import { handleApiError } from '../utils/errorHandler';
-import { API_BASE_URL } from '../config/constants';
+import { API_BASE_URL, AUTH_TOKEN_KEY } from '../config/constants';
 
 const API_URL = `${API_BASE_URL}/watch-stats`;
+
+// Tạo axios instance với authentication headers
+const createAuthenticatedRequest = () => {
+  const token = localStorage.getItem(AUTH_TOKEN_KEY);
+  return {
+    headers: {
+      'Authorization': token ? `Bearer ${token}` : '',
+      'Content-Type': 'application/json',
+    }
+  };
+};
 
 /**
  * Lấy thống kê xem phim của người dùng hiện tại
@@ -20,7 +31,7 @@ const API_URL = `${API_BASE_URL}/watch-stats`;
  */
 export const getWatchStats = async () => {
   try {
-    const response = await axios.get(`${API_URL}/stats`);
+    const response = await axios.get(`${API_URL}/stats`, createAuthenticatedRequest());
     return response.data;
   } catch (error) {
     return handleApiError(error, 'Không thể lấy thống kê xem phim');
@@ -36,7 +47,8 @@ export const getWatchStats = async () => {
 export const getWatchHistory = async (page = 1, limit = 20) => {
   try {
     const response = await axios.get(`${API_URL}/history`, {
-      params: { page, limit }
+      params: { page, limit },
+      ...createAuthenticatedRequest()
     });
     return response.data.items;
   } catch (error) {
@@ -52,7 +64,7 @@ export const getWatchHistory = async (page = 1, limit = 20) => {
  */
 export const getWatchHistoryEntry = async (entryId) => {
   try {
-    const response = await axios.get(`${API_URL}/history/${entryId}`);
+    const response = await axios.get(`${API_URL}/history/${entryId}`, createAuthenticatedRequest());
     return response.data;
   } catch (error) {
     return handleApiError(error, 'Không thể lấy chi tiết lịch sử xem phim');
@@ -66,7 +78,7 @@ export const getWatchHistoryEntry = async (entryId) => {
  */
 export const deleteWatchHistoryEntry = async (entryId) => {
   try {
-    await axios.delete(`${API_URL}/history/${entryId}`);
+    await axios.delete(`${API_URL}/history/${entryId}`, createAuthenticatedRequest());
     return true;
   } catch (error) {
     handleApiError(error, 'Không thể xóa mục lịch sử');
@@ -78,7 +90,8 @@ export const deleteWatchHistoryEntry = async (entryId) => {
 export const getWatchLater = async (page = 1, limit = 20) => {
   try {
     const response = await axios.get(`${API_URL}/later`, {
-      params: { page, limit }
+      params: { page, limit },
+      ...createAuthenticatedRequest()
     });
     return response.data.items;
   } catch (error) {
@@ -92,7 +105,7 @@ export const addToWatchLater = async (movieId, movieDetails) => {
     const response = await axios.post(`${API_URL}/later`, {
       movie_id: movieId,
       movie_details: movieDetails
-    });
+    }, createAuthenticatedRequest());
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -102,7 +115,7 @@ export const addToWatchLater = async (movieId, movieDetails) => {
 
 export const removeFromWatchLater = async (entryId) => {
   try {
-    await axios.delete(`${API_URL}/later/${entryId}`);
+    await axios.delete(`${API_URL}/later/${entryId}`, createAuthenticatedRequest());
     return true;
   } catch (error) {
     handleApiError(error);
@@ -115,7 +128,7 @@ export const addToWatchHistory = async (movieId, watchData) => {
     const response = await axios.post(`${API_URL}/history`, {
       movie_id: movieId,
       ...watchData
-    });
+    }, createAuthenticatedRequest());
     return response.data;
   } catch (error) {
     handleApiError(error);

@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { getWatchHistory } from '../../api/watchHistoryApi';
 import { formatDistanceToNow } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import { BASE_IMAGE_URL } from '../../config/constants';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import '../../styles/Profile.css';
 
@@ -12,6 +14,7 @@ const WatchHistory = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchWatchHistory = async () => {
@@ -47,6 +50,10 @@ const WatchHistory = () => {
     return `${hours}h ${minutes}m`;
   };
 
+  const handleMovieClick = (movieId) => {
+    navigate(`/movies/${movieId}`);
+  };
+
   if (loading && page === 1) {
     return <LoadingSpinner />;
   }
@@ -62,12 +69,19 @@ const WatchHistory = () => {
             {history.map((item) => (
               <div key={item.id} className="watch-history-item">
                 <img
-                  src={item.movie_details.poster_path}
+                  src={`${BASE_IMAGE_URL}${item.movie_details.poster_path}`}
                   alt={item.movie_details.title}
                   className="movie-thumbnail"
+                  onClick={() => handleMovieClick(item.movie_id)}
+                  style={{ cursor: 'pointer' }}
                 />
                 <div className="watch-info">
-                  <h3>{item.movie_details.title}</h3>
+                  <h3
+                    onClick={() => handleMovieClick(item.movie_id)}
+                    style={{ cursor: 'pointer', color: '#E50914' }}
+                  >
+                    {item.movie_details.title}
+                  </h3>
                   <p>Đã xem: {item.progress_percent}%</p>
                   <p>Thời lượng đã xem: {formatWatchTime(item.watch_duration)}</p>
                   <p className="watch-date">
@@ -76,6 +90,12 @@ const WatchHistory = () => {
                       locale: vi
                     })}
                   </p>
+                  <button
+                    className="see-more-btn"
+                    onClick={() => handleMovieClick(item.movie_id)}
+                  >
+                    Xem chi tiết
+                  </button>
                 </div>
               </div>
             ))}

@@ -42,20 +42,39 @@ class WatchHistoryCRUD:
         now = datetime.utcnow()
         entry_data = dict(obj_in)
         
-        # Set default values
-        entry_data.update({
+        # Transform schema format to database format
+        db_entry = {
+            "user_id": entry_data.get("user_id"),
+            "movie_id": entry_data.get("movie_id"),  # Keep as string, will be converted if needed
             "watched_at": entry_data.get("watched_at", now),
-            "watch_duration": entry_data.get("watch_duration", 0),
+            "duration_seconds": entry_data.get("watch_duration", 0),
+            "watch_percent": entry_data.get("progress_percent", 0.0),
             "completed": entry_data.get("completed", False),
-            "progress_percent": entry_data.get("progress_percent", 0.0),
+            "movie": entry_data.get("movie_details", {}),
             "created_at": now,
             "updated_at": now
-        })
+        }
         
-        result = await self.collection.insert_one(entry_data)
-        entry_data["id"] = str(result.inserted_id)
+        # Try to convert movie_id to ObjectId if it's a valid ObjectId string
+        try:
+            if isinstance(db_entry["movie_id"], str) and len(db_entry["movie_id"]) == 24:
+                db_entry["movie_id"] = ObjectId(db_entry["movie_id"])
+        except:
+            pass  # Keep as string if conversion fails
         
-        return WatchHistoryEntry(**entry_data)
+        result = await self.collection.insert_one(db_entry)
+        
+        # Return in schema format
+        return WatchHistoryEntry(
+            id=str(result.inserted_id),
+            user_id=entry_data.get("user_id", ""),
+            movie_id=str(entry_data.get("movie_id", "")),
+            watched_at=entry_data.get("watched_at", now),
+            watch_duration=entry_data.get("watch_duration", 0),
+            completed=entry_data.get("completed", False),
+            progress_percent=entry_data.get("progress_percent", 0.0),
+            movie_details=entry_data.get("movie_details", {})
+        )
     
     async def get(self, entry_id: str) -> Optional[WatchHistoryEntry]:
         """
@@ -67,20 +86,34 @@ class WatchHistoryCRUD:
         Returns:
             Watch history entry if found, None otherwise
         """
+        entry = None
+        
         # Try to find by ObjectId first
         try:
             entry = await self.collection.find_one({"_id": ObjectId(entry_id)})
-            if entry:
-                entry["id"] = str(entry.pop("_id"))
-                return WatchHistoryEntry(**entry)
         except InvalidId:
             # If not a valid ObjectId, try finding by UUID
             entry = await self.collection.find_one({"_id": entry_id})
-            if entry:
-                entry["id"] = entry.pop("_id")
-                return WatchHistoryEntry(**entry)
         
-        return None
+        if not entry:
+            return None
+        
+        # Transform database format to schema format
+        entry_id = str(entry.pop("_id"))
+        movie_id = str(entry.get("movie_id", ""))
+        
+        transformed_entry = {
+            "id": entry_id,
+            "user_id": entry.get("user_id", ""),
+            "movie_id": movie_id,
+            "watched_at": entry.get("watched_at", datetime.utcnow()),
+            "watch_duration": entry.get("duration_seconds", 0),
+            "completed": entry.get("completed", False),
+            "progress_percent": float(entry.get("watch_percent", 0.0)),
+            "movie_details": entry.get("movie", {})
+        }
+        
+        return WatchHistoryEntry(**transformed_entry)
     
     async def get_by_user_and_movie(self, user_id: str, movie_id: str) -> Optional[WatchHistoryEntry]:
         """
@@ -93,16 +126,36 @@ class WatchHistoryCRUD:
         Returns:
             Watch history entry if found, None otherwise
         """
+        # Try to convert movie_id to ObjectId for database query
+        try:
+            query_movie_id = ObjectId(movie_id)
+        except InvalidId:
+            query_movie_id = movie_id
+        
         entry = await self.collection.find_one({
             "user_id": user_id,
-            "movie_id": movie_id
+            "movie_id": query_movie_id
         })
         
         if not entry:
             return None
         
-        entry["id"] = str(entry.pop("_id"))
-        return WatchHistoryEntry(**entry)
+        # Transform database format to schema format
+        entry_id = str(entry.pop("_id"))
+        movie_id = str(entry.get("movie_id", ""))
+        
+        transformed_entry = {
+            "id": entry_id,
+            "user_id": entry.get("user_id", ""),
+            "movie_id": movie_id,
+            "watched_at": entry.get("watched_at", datetime.utcnow()),
+            "watch_duration": entry.get("duration_seconds", 0),
+            "completed": entry.get("completed", False),
+            "progress_percent": float(entry.get("watch_percent", 0.0)),
+            "movie_details": entry.get("movie", {})
+        }
+        
+        return WatchHistoryEntry(**transformed_entry)
     
     async def get_user_history(
         self, 
@@ -128,8 +181,25 @@ class WatchHistoryCRUD:
         
         entries = []
         async for entry in cursor:
-            entry["id"] = str(entry.pop("_id"))
-            entries.append(WatchHistoryEntry(**entry))
+            # Transform database format to schema format
+            entry_id = str(entry.pop("_id"))
+            
+            # Convert movie_id from ObjectId to string
+            movie_id = str(entry.get("movie_id", ""))
+            
+            # Map database fields to schema fields
+            transformed_entry = {
+                "id": entry_id,
+                "user_id": entry.get("user_id", ""),
+                "movie_id": movie_id,
+                "watched_at": entry.get("watched_at", datetime.utcnow()),
+                "watch_duration": entry.get("duration_seconds", 0),
+                "completed": entry.get("completed", False),
+                "progress_percent": float(entry.get("watch_percent", 0.0)),
+                "movie_details": entry.get("movie", {})
+            }
+            
+            entries.append(WatchHistoryEntry(**transformed_entry))
         
         return entries
     

@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { getWatchLater, removeFromWatchLater } from '../../api/watchHistoryApi';
 import { formatDistanceToNow } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import { BASE_IMAGE_URL } from '../../config/constants';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import '../../styles/Profile.css';
 
@@ -12,6 +14,7 @@ const WatchLater = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchWatchLater = async () => {
@@ -50,6 +53,10 @@ const WatchLater = () => {
     }
   };
 
+  const handleMovieClick = (movieId) => {
+    navigate(`/movies/${movieId}`);
+  };
+
   if (loading && page === 1) {
     return <LoadingSpinner />;
   }
@@ -65,24 +72,39 @@ const WatchLater = () => {
             {watchList.map((item) => (
               <div key={item.id} className="watch-later-item">
                 <img
-                  src={item.movie_details.poster_path}
+                  src={`${BASE_IMAGE_URL}${item.movie_details.poster_path}`}
                   alt={item.movie_details.title}
                   className="movie-thumbnail"
+                  onClick={() => handleMovieClick(item.movie_id)}
+                  style={{ cursor: 'pointer' }}
                 />
                 <div className="movie-info">
-                  <h3>{item.movie_details.title}</h3>
+                  <h3
+                    onClick={() => handleMovieClick(item.movie_id)}
+                    style={{ cursor: 'pointer', color: '#E50914' }}
+                  >
+                    {item.movie_details.title}
+                  </h3>
                   <p className="added-date">
                     Đã thêm: {formatDistanceToNow(new Date(item.added_at), {
                       addSuffix: true,
                       locale: vi
                     })}
                   </p>
-                  <button
-                    className="remove-btn"
-                    onClick={() => handleRemove(item.id)}
-                  >
-                    Xóa khỏi danh sách
-                  </button>
+                  <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                    <button
+                      className="see-more-btn"
+                      onClick={() => handleMovieClick(item.movie_id)}
+                    >
+                      Xem chi tiết
+                    </button>
+                    <button
+                      className="remove-btn"
+                      onClick={() => handleRemove(item.id)}
+                    >
+                      Xóa khỏi danh sách
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

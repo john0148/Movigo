@@ -43,7 +43,7 @@ function ProfilePage() {
         setLoading(true);
         const profileData = await getUserProfile();
         setProfile(profileData);
-        
+
         // Khởi tạo formData từ profile
         setFormData({
           full_name: profileData.full_name || '',
@@ -51,13 +51,13 @@ function ProfilePage() {
           birth_date: profileData.birth_date ? profileData.birth_date.substring(0, 10) : '',
           gender: profileData.gender || ''
         });
-        
+
         // Tải thống kê xem phim
         if (activeTab === 'stats') {
           const stats = await getWatchStats();
           setWatchStats(stats);
         }
-        
+
         setLoading(false);
       } catch (error) {
         console.error('Error fetching profile:', error);
@@ -72,7 +72,7 @@ function ProfilePage() {
   // Xử lý thay đổi tab
   const handleTabChange = async (tab) => {
     setActiveTab(tab);
-    
+
     // Tải thống kê xem phim khi chuyển đến tab "stats"
     if (tab === 'stats' && !watchStats) {
       try {
@@ -94,7 +94,7 @@ function ProfilePage() {
   // Xử lý gửi form cập nhật hồ sơ
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       setUpdating(true);
       const updatedProfile = await updateProfile(formData);
@@ -118,27 +118,27 @@ function ProfilePage() {
   const handleAvatarChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    
+
     // Kiểm tra kích thước file
     if (file.size > MAX_AVATAR_SIZE) {
       showErrorToast(`Kích thước file quá lớn. Tối đa ${MAX_AVATAR_SIZE / (1024 * 1024)}MB.`);
       return;
     }
-    
+
     // Kiểm tra loại file
     if (!ALLOWED_AVATAR_TYPES.includes(file.type)) {
       showErrorToast('Loại file không hỗ trợ. Chỉ chấp nhận JPEG, PNG, và GIF.');
       return;
     }
-    
+
     try {
       setUpdating(true);
       const formData = new FormData();
       formData.append('avatar', file);
-      
+
       const result = await uploadAvatar(formData);
       setProfile({ ...profile, avatar_url: result.avatar_url });
-      
+
       showErrorToast('Ảnh đại diện đã được cập nhật!');
     } catch (error) {
       console.error('Error uploading avatar:', error);
@@ -170,52 +170,52 @@ function ProfilePage() {
           Đăng xuất
         </button>
       </div>
-      
+
       <div className="profile-content">
         <div className="profile-sidebar">
           {/* Ảnh đại diện */}
           <div className="avatar-container">
             <div className="avatar" onClick={handleAvatarClick}>
-              <img 
-                src={profile.avatar_url || DEFAULT_AVATAR_URL} 
-                alt="Avatar" 
-                className="avatar-image" 
+              <img
+                src={profile.avatar_url || DEFAULT_AVATAR_URL}
+                alt="Avatar"
+                className="avatar-image"
               />
               <div className="avatar-overlay">
                 <span>Thay đổi</span>
               </div>
             </div>
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              onChange={handleAvatarChange} 
-              style={{ display: 'none' }} 
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleAvatarChange}
+              style={{ display: 'none' }}
               accept="image/jpeg,image/png,image/gif"
             />
           </div>
-          
+
           {/* Tên người dùng */}
           <h2 className="profile-name">{profile.full_name || profile.email}</h2>
-          
+
           {/* Thông tin gói */}
           <div className="subscription-info">
             <span className="subscription-label">Gói hiện tại:</span>
             <span className="subscription-value">
-              {profile.subscription_type === 'premium' ? 'Cao cấp' : 
-               profile.subscription_type === 'standard' ? 'Tiêu chuẩn' : 'Cơ bản'}
+              {profile.subscription_type === 'premium' ? 'Cao cấp' :
+                profile.subscription_type === 'standard' ? 'Tiêu chuẩn' : 'Cơ bản'}
             </span>
           </div>
-          
+
           {/* Menu điều hướng */}
           <nav className="profile-nav">
-            <button 
-              className={`nav-item ${activeTab === 'info' ? 'active' : ''}`} 
+            <button
+              className={`nav-item ${activeTab === 'info' ? 'active' : ''}`}
               onClick={() => handleTabChange('info')}
             >
               Thông tin cá nhân
             </button>
-            <button 
-              className={`nav-item ${activeTab === 'stats' ? 'active' : ''}`} 
+            <button
+              className={`nav-item ${activeTab === 'stats' ? 'active' : ''}`}
               onClick={() => handleTabChange('stats')}
             >
               Thống kê xem phim
@@ -231,14 +231,14 @@ function ProfilePage() {
             </Link>
           </nav>
         </div>
-        
+
         <div className="profile-main">
           {activeTab === 'info' && (
             <div className="profile-info">
               <div className="section-header">
                 <h2>Thông tin cá nhân</h2>
                 {!isEditing && (
-                  <button 
+                  <button
                     className="edit-button"
                     onClick={() => setIsEditing(true)}
                   >
@@ -246,7 +246,7 @@ function ProfilePage() {
                   </button>
                 )}
               </div>
-              
+
               {isEditing ? (
                 // Form chỉnh sửa
                 <form className="profile-form" onSubmit={handleSubmit}>
@@ -261,7 +261,7 @@ function ProfilePage() {
                       placeholder="Nhập họ tên của bạn"
                     />
                   </div>
-                  
+
                   <div className="form-group">
                     <label htmlFor="phone">Số điện thoại</label>
                     <input
@@ -273,7 +273,7 @@ function ProfilePage() {
                       placeholder="Nhập số điện thoại"
                     />
                   </div>
-                  
+
                   <div className="form-group">
                     <label htmlFor="birth_date">Ngày sinh</label>
                     <input
@@ -284,7 +284,7 @@ function ProfilePage() {
                       onChange={handleChange}
                     />
                   </div>
-                  
+
                   <div className="form-group">
                     <label htmlFor="gender">Giới tính</label>
                     <select
@@ -300,25 +300,25 @@ function ProfilePage() {
                       <option value="prefer_not_to_say">Không muốn tiết lộ</option>
                     </select>
                   </div>
-                  
+
                   <div className="form-group info-item">
                     <span className="info-label">Email:</span>
                     <span className="info-value">{profile.email}</span>
                     <span className="info-note">(không thể thay đổi)</span>
                   </div>
-                  
+
                   <div className="form-buttons">
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       className="cancel-button"
                       onClick={() => setIsEditing(false)}
                       disabled={updating}
                     >
                       Hủy
                     </button>
-                    
-                    <button 
-                      type="submit" 
+
+                    <button
+                      type="submit"
                       className="save-button"
                       disabled={updating}
                     >
@@ -333,44 +333,44 @@ function ProfilePage() {
                     <span className="info-label">Email:</span>
                     <span className="info-value">{profile.email}</span>
                   </div>
-                  
+
                   <div className="info-item">
                     <span className="info-label">Họ tên:</span>
                     <span className="info-value">{profile.full_name || 'Chưa cập nhật'}</span>
                   </div>
-                  
+
                   <div className="info-item">
                     <span className="info-label">Số điện thoại:</span>
                     <span className="info-value">{profile.phone || 'Chưa cập nhật'}</span>
                   </div>
-                  
+
                   <div className="info-item">
                     <span className="info-label">Ngày sinh:</span>
                     <span className="info-value">
-                      {profile.birth_date 
-                        ? new Date(profile.birth_date).toLocaleDateString('vi-VN') 
+                      {profile.birth_date
+                        ? new Date(profile.birth_date).toLocaleDateString('vi-VN')
                         : 'Chưa cập nhật'}
                     </span>
                   </div>
-                  
+
                   <div className="info-item">
                     <span className="info-label">Giới tính:</span>
                     <span className="info-value">
-                      {profile.gender === 'male' ? 'Nam' : 
-                       profile.gender === 'female' ? 'Nữ' : 
-                       profile.gender === 'other' ? 'Khác' : 
-                       profile.gender === 'prefer_not_to_say' ? 'Không muốn tiết lộ' : 
-                       'Chưa cập nhật'}
+                      {profile.gender === 'male' ? 'Nam' :
+                        profile.gender === 'female' ? 'Nữ' :
+                          profile.gender === 'other' ? 'Khác' :
+                            profile.gender === 'prefer_not_to_say' ? 'Không muốn tiết lộ' :
+                              'Chưa cập nhật'}
                     </span>
                   </div>
-                  
+
                   <div className="info-item">
                     <span className="info-label">Ngày tham gia:</span>
                     <span className="info-value">
                       {new Date(profile.created_at).toLocaleDateString('vi-VN')}
                     </span>
                   </div>
-                  
+
                   <div className="info-item">
                     <span className="info-label">Số thiết bị tối đa:</span>
                     <span className="info-value">{profile.max_devices}</span>
@@ -379,11 +379,11 @@ function ProfilePage() {
               )}
             </div>
           )}
-          
+
           {activeTab === 'stats' && (
             <div className="watch-stats">
               <h2>Thống kê xem phim</h2>
-              
+
               {watchStats ? (
                 <>
                   <div className="stats-summary">
@@ -391,43 +391,43 @@ function ProfilePage() {
                       <div className="stat-value">{watchStats.total_movies}</div>
                       <div className="stat-label">Phim đã xem</div>
                     </div>
-                    
+
                     <div className="stat-card">
                       <div className="stat-value">{watchStats.total_minutes}</div>
                       <div className="stat-label">Phút xem</div>
                     </div>
-                    
+
                     <div className="stat-card">
                       <div className="stat-value">{watchStats.favorite_genre || 'N/A'}</div>
                       <div className="stat-label">Thể loại yêu thích</div>
                     </div>
                   </div>
-                  
+
                   <div className="stats-charts">
                     <div className="chart-container">
                       <h3>Thời lượng xem theo tuần</h3>
                       {watchStats.weekly_stats.length > 0 ? (
-                        <WatchStatsChart 
-                          data={watchStats.weekly_stats} 
-                          xKey="week" 
-                          yKey="minutes_watched" 
-                          xLabel="Tuần" 
-                          yLabel="Phút xem" 
+                        <WatchStatsChart
+                          data={watchStats.weekly_stats}
+                          xKey="week"
+                          yKey="minutes_watched"
+                          xLabel="Tuần"
+                          yLabel="Phút xem"
                         />
                       ) : (
                         <p className="no-data">Chưa có dữ liệu</p>
                       )}
                     </div>
-                    
+
                     <div className="chart-container">
                       <h3>Thời lượng xem theo tháng</h3>
                       {watchStats.monthly_stats.length > 0 ? (
-                        <WatchStatsChart 
-                          data={watchStats.monthly_stats} 
-                          xKey="month" 
-                          yKey="minutes_watched" 
-                          xLabel="Tháng" 
-                          yLabel="Phút xem" 
+                        <WatchStatsChart
+                          data={watchStats.monthly_stats}
+                          xKey="month"
+                          yKey="minutes_watched"
+                          xLabel="Tháng"
+                          yLabel="Phút xem"
                         />
                       ) : (
                         <p className="no-data">Chưa có dữ liệu</p>
