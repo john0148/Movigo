@@ -64,34 +64,7 @@ def get_password_hash(password: str) -> str:
     """
     return pwd_context.hash(password)
 
-# async def authenticate_user(email: str, password: str) -> Optional[Dict[str, Any]]:
-#     """
-#     Xác thực user với email và mật khẩu
-#     """
-#     user = await get_user_by_email(email)
-#     if not user:
-#         return None
-    
-#     if not user["is_active"]:
-#         return None
-    
-#     # Kiểm tra nếu là tài khoản Google (không có mật khẩu)
-#     if user.get("is_google_auth") and not user.get("hashed_password") and not user.get("password"):
-#         return None
-    
-#     # Check if hashed_password exists in the user document
-#     if "hashed_password" not in user:
-#         # If not, check if there's a "password" field instead
-#         if "password" in user:
-#             # Use the password field as hashed_password
-#             user["hashed_password"] = user["password"]
-#         else:
-#             return None
-    
-#     if not verify_password(password, user["hashed_password"]):
-#         return None
-    
-#     return user
+
 
 async def authenticate_user(email: str, password: str) -> Union[str, Dict[str, Any]]:
     user = await get_user_by_email(email)
@@ -286,7 +259,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> Dict[str, Any
         raise credentials_exception
     
     # Lấy thông tin user
-    user = await get_user_by_id(ObjectId(user_id))
+    user = await get_user_by_id((user_id))
     if user is None:
         raise credentials_exception
     

@@ -24,6 +24,11 @@ from .schemas.user import UserInDB
 from .services.tmdb_client import get_tmdb_client, TMDBClient
 from .services.movie_sync_service import get_movie_sync_service, MovieSyncService
 from .core.config import Settings
+from .crud.watch_history import WatchHistoryCRUD
+from .db.database import get_db
+from motor.motor_asyncio import AsyncIOMotorDatabase
+
+
 
 logger = logging.getLogger(__name__)
 
@@ -203,3 +208,8 @@ async def get_watch_later_crud(
         WatchLaterCRUD instance
     """
     return WatchLaterCRUD(db)
+
+async def get_watch_history_crud() -> WatchHistoryCRUD:
+    """Dependency để lấy WatchHistoryCRUD instance"""
+    db = get_database()  # Hàm lấy database của bạn
+    return WatchHistoryCRUD(db)

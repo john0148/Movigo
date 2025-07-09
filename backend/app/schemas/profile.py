@@ -53,13 +53,31 @@ class WatchHistoryEntry(BaseModel):
         validate_by_name = True
 
 
-class WatchHistoryResponse(BaseModel):
-    """Schema for paginated watch history response"""
-    items: List[WatchHistoryEntry] = Field(..., description="List of watch history entries")
-    total: int = Field(..., description="Total number of entries")
-    page: int = Field(..., description="Current page number")
-    limit: int = Field(..., description="Number of items per page")
+class WatchHistoryItem(BaseModel):
+    id: str = Field(alias="_id")
+    movie_id: str
+    movie_title: str
+    movie_poster: Optional[str] = None
+    watched_at: datetime
+    watch_percent: int
+    completed: bool
+    duration_seconds: int
 
+    class Config:
+        populate_by_name = True
+
+class WatchHistoryResponse(BaseModel):
+    items: List[WatchHistoryItem]
+    total: int
+    page: int
+    limit: int
+    has_next: bool = False
+    has_prev: bool = False
+
+    def __init__(self, **data):
+        super().__init__(**data)
+        self.has_next = self.page * self.limit < self.total
+        self.has_prev = self.page > 1
 
 class WatchStatsResponse(BaseModel):
     """Schema for watch statistics response"""

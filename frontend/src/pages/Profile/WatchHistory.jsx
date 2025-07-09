@@ -18,6 +18,7 @@ const WatchHistory = () => {
       try {
         setLoading(true);
         const data = await getWatchHistory(page);
+        console.log("hello",data)
         if (data.length === 0) {
           setHasMore(false);
         } else {

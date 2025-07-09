@@ -28,22 +28,8 @@ Xử lý các endpoints liên quan đến xác thực:
 - Refresh token
 """
 
-router = APIRouter(tags=["authentication"])
+router = APIRouter(tags=["auth"])
 
-# @router.post("/login", response_model=Token)
-# async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-#     """
-#     Đăng nhập và nhận JWT token
-#     """
-#     user = await authenticate_user(form_data.username, form_data.password)
-#     if not user:
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Email hoặc mật khẩu không đúng",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-    
-#     return await create_tokens_for_user(user)
 
 @router.post("/login", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
